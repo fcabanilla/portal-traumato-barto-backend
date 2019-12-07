@@ -1,0 +1,269 @@
+{
+    "name": "womac Score",
+    "type": "Score",
+    "group": [
+        {
+            "id": "",
+            "name": "",
+            "description": "Piense en el dolor en su rodilla en la última semana.",
+            "sub-group": [
+                {
+                    "id": "",
+                    "name": "",
+                    "description": "¿Qué grado de dolor tienes?",
+                    "typeOfAnswer": {
+                        "id": "",
+                        "name": "",
+                        "description": "Ninguno, Leve, Moderado, Severo, Extremo",
+                        "values": [
+                            {
+                                "id": "",
+                                "value": "NINGUNO",
+                                "score": 0
+                            },
+                            {
+                                "id": "",
+                                "value": "LEVE",
+                                "score": 1
+                            },
+                            {
+                                "id": "",
+                                "value": "MODERADO",
+                                "score": 2
+                            },
+                            {
+                                "id": "",
+                                "value": "SEVERO",
+                                "score": 3
+                            },
+                            {
+                                "id": "",
+                                "value": "EXTREMO",
+                                "score": 4
+                            }
+                        ]
+                    },
+                    "questions": [
+                        {
+                            "id": "",
+                            "question": "Caminando sobre una superficie plana"
+                        },
+                        {
+                            "id": "",
+                            "question": "Subiendo y bajando escaleras"
+                        },
+                        {
+                            "id": "",
+                            "question": "Durante la noche mientras descansa"
+                        },
+                        {
+                            "id": "",
+                            "question": "Sentado o reposando"
+                        },
+                        {
+                            "id": "",
+                            "question": "Estando parado"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "",
+            "name": "",
+            "description": "Piensa sobre tu RIGIDEZ (no dolor) que sentiste en tu rodilla durante las últimas 48 hs. La rigidez es una sensación de disminución de la facilidad para mover la articulación.",
+            "sub-group": [
+                {
+                    "id": "",
+                    "name": "",
+                    "description": "",
+                    "typeOfAnswer": {
+                        "id": "",
+                        "name": "",
+                        "description": "Ninguno, Leve, Moderado, Severo, Extremo",
+                        "values": [
+                            {
+                                "id": "",
+                                "value": "NINGUNO",
+                                "score": 0
+                            },
+                            {
+                                "id": "",
+                                "value": "LEVE",
+                                "score": 1
+                            },
+                            {
+                                "id": "",
+                                "value": "MODERADO",
+                                "score": 2
+                            },
+                            {
+                                "id": "",
+                                "value": "SEVERO",
+                                "score": 3
+                            },
+                            {
+                                "id": "",
+                                "value": "EXTREMO",
+                                "score": 4
+                            }
+                        ]
+                    },
+                    "questions": [
+                        {
+                            "id": "",
+                            "question": "Caminando sobre una superficie plana"
+                        },
+                        {
+                            "id": "",
+                            "question": "Subiendo y bajando escaleras"
+                        },
+                        {
+                            "id": "",
+                            "question": "Durante la noche mientras descansa"
+                        },
+                        {
+                            "id": "",
+                            "question": "Sentado o reposando"
+                        },
+                        {
+                            "id": "",
+                            "question": "Estando parado"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "",
+            "name": "",
+            "description": "Piense en la dificultad que tiene para realizar las siguientes actividades físicas diarias debido a su rodilla durante las últimas 48 hs. Con esto nos referimos a su capacidad para moverse y cuidarse.",
+            "sub-group": [
+                {
+                    "id": "",
+                    "name": "",
+                    "description": "¿Qué grado de dificultad tienes?",
+                    "typeOfAnswer": {
+                        "id": "",
+                        "name": "",
+                        "description": "Ninguno, Leve, Moderado, Severo, Extremo",
+                        "values": [
+                            {
+                                "id": "",
+                                "value": "NINGUNO",
+                                "score": 0
+                            },
+                            {
+                                "id": "",
+                                "value": "LEVE",
+                                "score": 1
+                            },
+                            {
+                                "id": "",
+                                "value": "MODERADO",
+                                "score": 2
+                            },
+                            {
+                                "id": "",
+                                "value": "SEVERO",
+                                "score": 3
+                            },
+                            {
+                                "id": "",
+                                "value": "EXTREMO",
+                                "score": 4
+                            }
+                        ]
+                    },
+                    "questions": [
+                        {
+                            "id": "",
+                            "order": 1,
+                            "question": "Descender escaleras"
+                        },
+                        {
+                            "id": "",
+                            "order": 2,
+                            "question": "Ascender escaleras"
+                        },
+                        {
+                            "id": "",
+                            "order": 3,
+                            "question": "Levantarse de estar sentado"
+                        },
+                        {
+                            "id": "",
+                            "order": 4,
+                            "question": "Estando parado por largo tiempo"
+                        },
+                        {
+                            "id": "",
+                            "order": 5,
+                            "question": "Doblado al piso"
+                        },
+                        {
+                            "id": "",
+                            "order": 6,
+                            "question": "Caminando sobre una superficie plana"
+                        },
+                        {
+                            "id": "",
+                            "order": 7,
+                            "question": "Entrando o saliendo del auto o colectivo"
+                        },
+                        {
+                            "id": "",
+                            "order": 8,
+                            "question": "Yendo al shopping"
+                        },
+                        {
+                            "id": "",
+                            "order": 9,
+                            "question": "Poniendose las medias o calcetines"
+                        },
+                        {
+                            "id": "",
+                            "order": 10,
+                            "question": "Levantandose de la cama"
+                        },
+                        {
+                            "id": "",
+                            "order": 11,
+                            "question": "Sacandose las medias o calcetines"
+                        },
+                        {
+                            "id": "",
+                            "order": 12,
+                            "question": "Acostado en la cama"
+                        },
+                        {
+                            "id": "",
+                            "order": 13,
+                            "question": "Saliendo del baño"
+                        },
+                        {
+                            "id": "",
+                            "order": 14,
+                            "question": "Sentado"
+                        },
+                        {
+                            "id": "",
+                            "order": 15,
+                            "question": "Subiendo o bajando del inodoro"
+                        },
+                        {
+                            "id": "",
+                            "order": 16,
+                            "question": "Realizando tareas domésticas pesadas"
+                        },
+                        {
+                            "id": "",
+                            "order": 17,
+                            "question": "Realizando tareas domésticas livianas"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

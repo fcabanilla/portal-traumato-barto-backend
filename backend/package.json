@@ -1,0 +1,32 @@
+{
+  "name": "swagger-jwt-example",
+  "version": "0.0.1",
+  "author": "Miguel Duarte",
+  "contributors": [
+    "Miguel Duarte <miguelduarte42@gmail.com>"
+  ],
+  "description": "Swagger JWT example",
+  "keywords": [],
+  "license": "",
+  "main": "app",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "bcrypt-nodejs": "0.0.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "7.3.0",
+    "moment-timezone": "^0.5.26",
+    "mongoose": "^5.6.4",
+    "mongoose-history": "^0.8.0",
+    "swagger-tools": "^0.10.4",
+    "validator": "7.0.0",
+    "winston": "^3.2.1",
+    "yamljs": "0.2.9"
+  },
+  "engines": {
+    "node": "7.7.0"
+  },
+  "scripts": {
+    "start": "node app"
+  }
+}
