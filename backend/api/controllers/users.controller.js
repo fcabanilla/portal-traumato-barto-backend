@@ -13,15 +13,19 @@ module.exports = {
 
 
 function create(req, res) {
-	let user =  new User(req.body);
-
+	console.log(req.body);
+    /*
+    let user =  new User(req.body);
+    console.log('user: ', user);
 	user.save()
 	.then( user => {
     
         let client = new Client({user: user})
+
         return client.save()
     })
     .then( () => {
+        console.log('client: ', client);
         return res.status(201).send()
     })
 	.catch( err => {
@@ -30,6 +34,7 @@ function create(req, res) {
         else
             return res.status(500).send('Error' + err)
     })
+    */
 }
 
 function loginPost(req, res, next) {

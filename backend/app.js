@@ -5,13 +5,15 @@ var swaggerTools = require("swagger-tools");
 var YAML = require("yamljs");
 var auth = require("./api/helpers/auth");
 var swaggerConfig = YAML.load("./api/swagger/swagger.yaml");
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const cors = require('cors');
-
-const getAllTopics = require("./api/controllers/clients.controller").getAllTopics
-
-//console.log(getAllTopics())
-
+var mysql = require('mysql');
+var connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'roku',
+  password: 'roku',
+  database: 'my_db'
+});
 
 swaggerTools.initializeMiddleware(swaggerConfig, function (middleware) {
   //Serves the Swagger UI on /docs

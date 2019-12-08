@@ -2,11 +2,11 @@ swagger: "2.0"
 info:
   version: "1.0.0"
   title: Backend
-# host: localhost:3000
-# basePath: /api
-# schemes:
-#   - http
-#   - https
+host: localhost:4000
+basePath: /api
+schemes:
+  - http
+  - https
 securityDefinitions:
   Bearer:
     type: apiKey
@@ -621,7 +621,41 @@ paths:
           description: "Access Denied"
           schema:
             $ref: "#/definitions/Error"
-          
+  /test:
+    x-swagger-router-controller: test.controller
+    get:
+      tags:
+        - Test
+      description: "is a test endpoint"
+      operationId: testsControllerGet
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Resource"
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: "#/definitions/Error"
+    post:
+      tags:
+        - Test
+      operationId: testsControllerPost
+      summary: "Create Institution"
+      description: "Create a new Institution"
+      parameters:
+        - name: institution
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Institution'
+      responses:
+        "200":
+          description: "Success"
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
 
 definitions:
   Authentication:
@@ -647,10 +681,7 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/Role'
-      role:
-        type: string
-        example: "role"
-  
+
   Role:
     type: object
     properties:
@@ -943,10 +974,3 @@ definitions:
     properties:
       message:
         type: string
-
-# Added by API Auto Mocking Plugin
-host: virtserver.swaggerhub.com
-basePath: /fcabanilla/test-solange/1.0.0
-schemes:
- - https
- - http
