@@ -5,7 +5,7 @@ var swaggerTools = require("swagger-tools");
 var YAML = require("yamljs");
 var auth = require("./api/helpers/auth");
 var swaggerConfig = YAML.load("./api/swagger/swagger.yaml");
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const cors = require('cors');
 
 const getAllTopics = require("./api/controllers/clients.controller").getAllTopics
@@ -32,8 +32,12 @@ swaggerTools.initializeMiddleware(swaggerConfig, function (middleware) {
   app.use(middleware.swaggerRouter(routerConfig));
 
   app.use(middleware.swaggerUi());
-
-
+  app.set('port', process.env.PORT || 4000);
+  // Starting the Server
+  app.listen(app.get('port'), () => {
+    console.log('Server on port', app.get('port'));
+  });
+/*
   mongoose.connect('mongodb://localhost/iot', { useNewUrlParser: true })
     .then(() => {
       app.listen(3000, () => {
@@ -43,6 +47,6 @@ swaggerTools.initializeMiddleware(swaggerConfig, function (middleware) {
     .catch(err => {
       console.log('ERROR: connecting to Database. ' + err);
     })
-
+*/
 });
 

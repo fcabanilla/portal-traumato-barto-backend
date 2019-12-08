@@ -1,0 +1,81 @@
+/resources:
+    x-swagger-router-controller: resources.controller
+    post:
+      tags:
+        - Resource
+      operationId: resourcesControllerPost
+      summary: "Create Resource"
+      description: "Create a new Resource"
+      parameters:
+        - name: resource
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Resource'
+      responses:
+        "200":
+          description: "Success"
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+    get:
+      tags:
+        - Resource
+      operationId: resourcesControllerGet
+      summary: "Get Resource"
+      description: "Get all the Resource"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: '#/definitions/Resource'
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+
+  /resources/{idResource}:
+    x-swagger-router-controller: resources.controller
+    parameters:
+      - name: idResource
+        in: path
+        description: "ID of the Resource"
+        required: true
+        type: string
+    get:
+      tags:
+        - Resource
+      operationId: resourcesControllerGetId
+      summary: "Get Resource"
+      description: "Get only one Resource"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: '#/definitions/Resource'
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+
+    put:
+      tags:
+        - Resource
+      operationId: resourcesControllerPutId
+      summary: "Update a Resource"
+      description: "Update only one Resource"
+      responses:
+        200:
+          description: "Success"
+          
+    delete:
+      tags:
+        - Resource
+      operationId: resourcesControllerDeleteId
+      summary: "Delete a Resource"
+      description: "Delete only one Resource"
+      responses:
+        200:
+          description: "Success"
+ 

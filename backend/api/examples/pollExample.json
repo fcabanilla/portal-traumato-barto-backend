@@ -1,6 +1,7 @@
 {
     "name": "womac Score",
     "type": "Score",
+    "detail": "Pre Quirurgico",
     "group": [
         {
             "id": "",
