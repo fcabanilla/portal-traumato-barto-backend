@@ -689,9 +689,7 @@ definitions:
         type: string
         example: "resident"
       resources:
-        type: array
-        items:
-          $ref: '#/definitions/Resource'
+        $ref: '#/definitions/Resource'
       specialPermission:
         type: string
         enum: ["Full Access", "No Access", "Null"]
@@ -704,53 +702,34 @@ definitions:
     type: object
     properties:
       'question':
-        type: array
-        items:
-          $ref: '#/definitions/Permission'
+        $ref: '#/definitions/Permission'
       'answer':
-        type: array
-        items:
-          $ref: '#/definitions/Permission'
+        $ref: '#/definitions/Permission'
       'answer type':
-        type: array
-        items:
-          $ref: '#/definitions/Permission'
+        $ref: '#/definitions/Permission'
       'question group':
-        type: array
-        items:
-          $ref: '#/definitions/Permission'
+        $ref: '#/definitions/Permission'
       'service':
-        type: array
-        items:
-          $ref: '#/definitions/Permission'
+        $ref: '#/definitions/Permission'
       'institution':
-        type: array
-        items:
-          $ref: '#/definitions/Permission'
+        $ref: '#/definitions/Permission'
       'poll':
-        type: array
-        items:
-          $ref: '#/definitions/Permission'
+        $ref: '#/definitions/Permission'
       'user':
-        type: array
-        items:
-          $ref: '#/definitions/Permission'
+        $ref: '#/definitions/Permission'
       'role':
-        type: array
-        items:
-          $ref: '#/definitions/Permission'
+        $ref: '#/definitions/Permission'
       'procedure':
-        type: array
-        items:
-          $ref: '#/definitions/Permission'
+        $ref: '#/definitions/Permission'
       'patient':
-        type: array
-        items:
-          $ref: '#/definitions/Permission'
+        $ref: '#/definitions/Permission'
   
   Permission:
     type: object
     properties:
+      view:
+        type: boolean
+        example: true
       create:
         type: boolean
         example: true
@@ -937,7 +916,7 @@ definitions:
       birthdate:
         type: string
         example: "09/01/1993"
-      name:
+      firstname:
         type: string
         example: "Federico Martin"
       lastname:

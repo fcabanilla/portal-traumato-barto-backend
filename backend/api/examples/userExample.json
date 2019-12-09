@@ -1,0 +1,81 @@
+{
+    "id": 1,
+    "username": "",
+    "password": "",
+    "roles":[
+        {
+            "name": "",
+            "type": "",
+            "resources":{
+                "question": {
+                    "view": true,
+                    "create": true,
+                    "delete": true,
+                    "modify": true
+                },
+                "answer": {
+                    "view": true,
+                    "create": true,
+                    "delete": true,
+                    "modify": true
+                },
+                "answer type": {
+                    "view": true,
+                    "create": true,
+                    "delete": true,
+                    "modify": true
+                },
+                "question group": {
+                    "view": true,
+                    "create": true,
+                    "delete": true,
+                    "modify": true
+                },
+                "service": {
+                    "view": true,
+                    "create": true,
+                    "delete": true,
+                    "modify": true
+                },
+                "institution": {
+                    "view": true,
+                    "create": true,
+                    "delete": true,
+                    "modify": true
+                },
+                "poll": {
+                    "view": true,
+                    "create": true,
+                    "delete": true,
+                    "modify": true
+                },
+                "user": {
+                    "view": true,
+                    "create": true,
+                    "delete": true,
+                    "modify": true
+                },
+                "role": {
+                    "view": true,
+                    "create": true,
+                    "delete": true,
+                    "modify": true
+                },
+                "procedure": {
+                    "view": true,
+                    "create": true,
+                    "delete": true,
+                    "modify": true
+                },
+                "patient": {
+                    "view": true,
+                    "create": true,
+                    "delete": true,
+                    "modify": true
+                }
+            },
+            "specialPermission": "",
+            "description": ""
+        }
+    ]
+}

@@ -5,6 +5,118 @@
     "group": [
         {
             "id": "",
+            "name": "Cabecera",
+            "description": "datos sobre la intervencion de rodilla",
+            "sub-group": [
+                {
+                    "id": "",
+                    "name": "",
+                    "description": "¿En qué instancia de la intervencion de rodilla esta?",
+                    "typeOfAnswer": {
+                        "id": "",
+                        "name": "Momento  en que se hace el cuestionario",
+                        "description": "PRIMARIA, PRE OPERATORIO, 3 MESES, 1 AÑOS, 5 AÑOS, 10 AÑOS, 15 AÑOS, OTRO",
+                        "values": [
+                            {
+                                "id": "",
+                                "value": "PRIMARIA",
+                                "score": 0
+                            },
+                            {
+                                "id": "",
+                                "value": "PRE OPERATORIO",
+                                "score": 0
+                            },
+                            {
+                                "id": "",
+                                "value": "3 MESES",
+                                "score": 0
+                            },
+                            {
+                                "id": "",
+                                "value": "1 AÑOS",
+                                "score": 0
+                            },
+                            {
+                                "id": "",
+                                "value": "5 AÑOS",
+                                "score": 0
+                            },
+                            {
+                                "id": "",
+                                "value": "10 AÑOS",
+                                "score": 0
+                            },
+                            {
+                                "id": "",
+                                "value": "15 AÑOS",
+                                "score": 0
+                            },
+                            {
+                                "id": "",
+                                "value": "OTRO",
+                                "score": 0
+                            }
+                        ]
+                    },
+                    "questions": [
+                        {
+                            "id": "",
+                            "question": "Intervencion a rodilla izquierda"
+                        },
+                        {
+                            "id": "",
+                            "question": "Intervencion a rodilla derecha"
+                        }
+                    ]
+                },
+                {
+                    "id": "",
+                    "name": "",
+                    "description": "Cirujano responsable y a cargo de la intervencion",
+                    "typeOfAnswer": {
+                        "id": "",
+                        "name": "Cirujano a cargo del paciente",
+                        "description": "Bartolome L. Allende, Jose Gomez, Ignacio Pioli, Mangupli Martin, Santiago L. Iglesias",
+                        "values": [
+                            {
+                                "id": "",
+                                "value": "Bartolome L. Allende",
+                                "score": 0
+                            },
+                            {
+                                "id": "",
+                                "value": "Jose Gomez",
+                                "score": 0
+                            },
+                            {
+                                "id": "",
+                                "value": "Ignacio Pioli",
+                                "score": 0
+                            },
+                            {
+                                "id": "",
+                                "value": "Mangupli Martin",
+                                "score": 0
+                            },
+                            {
+                                "id": "",
+                                "value": "Santiago L. Iglesias",
+                                "score": 0
+                            }
+                        ],
+                        "questions": [
+                            {
+                                "id": "",
+                                "question": "Cirujano a cargo del paciente"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "id": "",
             "name": "",
             "description": "Piense en el dolor en su rodilla en la última semana.",
             "sub-group": [
