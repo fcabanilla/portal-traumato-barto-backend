@@ -671,6 +671,18 @@ definitions:
   User:
     type: object
     properties:
+      dni:
+        type: string
+        example: "dni"
+      firstname:
+        type: string
+        example: "firstname"
+      lastname:
+        type: string
+        example: "lastname"
+      birthdate:
+        type: string
+        example: "birthdate"
       username:
         type: string
         example: "username"

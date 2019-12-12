@@ -1,7 +1,13 @@
 {
     "id": 1,
+    "dni": "",
+    "firstname": "",
+    "lastname": "",
+    "birthdate": "",
+    "sex": "",
     "username": "",
     "password": "",
+
     "roles":[
         {
             "name": "",
