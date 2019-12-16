@@ -1,17 +1,18 @@
 {
     "id": 1,
-    "dni": "",
-    "firstname": "",
-    "lastname": "",
-    "birthdate": "",
-    "sex": "",
-    "username": "",
-    "password": "",
+    "dni": "37195387",
+    "firstname": "federico",
+    "lastname": "cabanilla",
+    "birthdate": "09/01/1993",
+    "sex": "MASCULINO",
+    "username": "fcabanilla",
+    "password": "123456789",
+    "email": "federico.cabanilla@gmail.com",
 
     "roles":[
         {
-            "name": "",
-            "type": "",
+            "name": "fulladmin",
+            "type": "fulladmin",
             "resources":{
                 "question": {
                     "view": true,
@@ -80,8 +81,8 @@
                     "modify": true
                 }
             },
-            "specialPermission": "",
-            "description": ""
+            "specialPermission": "fulladmin",
+            "description": "Usuario con permisos de admin Full"
         }
     ]
 }

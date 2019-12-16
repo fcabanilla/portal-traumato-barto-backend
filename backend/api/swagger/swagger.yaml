@@ -593,6 +593,8 @@ paths:
       x-security-scopes:
         - admin
         - user
+        - fede
+        - RESIDENTE
       responses:
         "200":
           description: "Success"
@@ -612,6 +614,8 @@ paths:
         - Bearer: []
       x-security-scopes:
         - admin
+        - ALLENDE
+        - ASD
       responses:
         "200":
           description: "Success"
@@ -689,6 +693,9 @@ definitions:
       password:
         type: string
         example: "password"
+      email:
+        type: string
+        example: "example@exp.com"
       roles:
         type: array
         items:
