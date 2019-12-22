@@ -36,6 +36,7 @@
     "start": "nodemon app"
   },
   "devDependencies": {
+    "eslint": "^6.7.2",
     "nodemon": "^2.0.1"
   }
 }

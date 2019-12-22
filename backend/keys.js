@@ -3,8 +3,8 @@ module.exports = {
     database: {
         connectionLimit: 10,
         host: 'localhost',
-        user: 'roku',
-        password: 'roku',
+        user: 'root',
+        password: 'root',
         database: 'mydb'
     }
 
