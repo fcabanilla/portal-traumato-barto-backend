@@ -1,7 +1,41 @@
-{
-    "id": "",
-    "personId": "",
-    "erased": false,
-    "notes": "",
-    "socialSecurityId": ""
-}
+[
+    {
+        "id": 1,
+        "dni": "37195387",
+        "firstname": "federico",
+        "lastname": "cabanilla",
+        "birthdate": "09/01/1993",
+        "sex": "MASCULINO",
+        "username": "fcabanilla",
+        "password": "123456789",
+        "email": "federico.cabanilla@gmail.com",
+        "erased": false,
+        "notes": "El paciente tiene antecedentes cardiacos"
+    },
+    {
+        "id": 1,
+        "dni": "40385210",
+        "firstname": "Micaela",
+        "lastname": "cabanilla",
+        "birthdate": "14/11/1997",
+        "sex": "FEMENINO",
+        "username": "mcabanilla",
+        "password": "321654987",
+        "email": "micachuela_cvr@gmail.com",
+        "erased": false,
+        "notes": "El paciente tiene antecedentes de diabetes"
+    },
+    {
+        "id": 1,
+        "dni": "16906739",
+        "firstname": "Jose Luis",
+        "lastname": "Cabanilla",
+        "birthdate": "14/11/1997",
+        "sex": "MASCULINO",
+        "username": "jcabanilla",
+        "password": "qwerty123456",
+        "email": "pp.cabanilla@gmail.com",
+        "erased": false,
+        "notes": "Hipertension"
+    }
+]

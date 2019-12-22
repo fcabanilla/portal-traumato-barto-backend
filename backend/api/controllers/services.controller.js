@@ -1,35 +1,36 @@
 const core = require('./core.controller.js')
 
 module.exports = {
+    
+    // servicesControllerGetId: core.middleware([core.logRequest, get]),
+    // servicesControllerGet: core.middleware([core.logRequest, getAll]),
     servicesControllerPost: core.middleware([core.logRequest, create]),
+    // servicesControllerPutId: core.middleware([core.logRequest, update]),
+    // servicesControllerDelete: core.middleware([core.logRequest, deleteService])
 }
 
 function create(req, res) {
-    
     console.log(req.body);
-    /*
-    
-    
-    let idClient = req.swagger.params.idClient.value
-    let idPlace = req.swagger.params.idPlace.value
-
-    let area = new Area(req.body)
-    area.place = idPlace
-
-    Area.find()
-        .populate({ path: 'place', match: { _id: idPlace } })
-        .populate({ path: 'client', match: { _id: idClient } })
-        .then(() => {
-            return area.save()
-        })
-        .then(area => {
-            res.status(201).jsonp(area);
-        })
-        .catch(err => {
-            if (err.reason === undefined)
-                return res.status(404).send({ message: 'Not Found' })
-            else
-                return res.status(500).send({ message: err })
-        })
-    */
+    return res.send(200);
 }
+/*
+function getAll(req, res) {
+    console.log(req.body);
+    return res.send(200);    
+}
+
+function get(req, res) {
+    console.log(req.body);
+    return res.send(200);    
+}
+
+function update(req, res) {
+    console.log(req.body);
+    return res.send(200);    
+}
+
+function deleteService(req, res) {
+    console.log(req.body);
+    return res.send(200);    
+}
+*/
