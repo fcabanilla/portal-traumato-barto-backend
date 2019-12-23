@@ -6,7 +6,7 @@ module.exports = {
     institutionsControllerGet: core.middleware([core.logRequest, getAll]),
     institutionsControllerPost: core.middleware([core.logRequest, create]),
     institutionsControllerDelete: core.middleware([core.logRequest, deleteInstitution]),
-    institutionsControllerPutId: core.middleware([core.logRequest, update]),
+    institutionsControllerPut: core.middleware([core.logRequest, update]),
 }
 
 function create(req, res) {

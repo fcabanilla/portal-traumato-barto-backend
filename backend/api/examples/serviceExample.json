@@ -12,5 +12,12 @@
         "description": "Servicio de Cardiologia",
         "serviceCode": 35488,
         "owner": "Eddie Moreira"
+    },
+    {
+        "id": "",
+        "serviceName": "Cardiologia",
+        "description": "Servicio de Cardiologia",
+        "serviceCode": 35588,
+        "owner": "Melisa Quiroz"
     }
 ]

@@ -3,17 +3,15 @@ const pool = require('../../database');
 
 module.exports = {
     
-    // servicesControllerGetId: core.middleware([core.logRequest, get]),
+    servicesControllerGetId: core.middleware([core.logRequest, get]),
     servicesControllerGet: core.middleware([core.logRequest, getAll]),
     servicesControllerPost: core.middleware([core.logRequest, create]),
-    // servicesControllerPutId: core.middleware([core.logRequest, update]),
-    // servicesControllerDelete: core.middleware([core.logRequest, deleteService])
+    servicesControllerPut: core.middleware([core.logRequest, update]),
+    servicesControllerDelete: core.middleware([core.logRequest, deleteService])
 }
 
 function create(req, res) {
-    console.log(req.body);
     const idInstitution = req.swagger.params.idInstitution.value;
-
     const {owner, serviceName, description, serviceCode} = req.body;
     const newService = {
         owner,
@@ -77,36 +75,121 @@ function create(req, res) {
 
 function getAll(req, res) {
     const sql = `
-    SELECT *
-    FROM institution i 
-    INNER JOIN service_institution si ON si.idinstitution = i.idinstitution
-    INNER JOIN service s ON s.idservice = si.idservice 
-    WHERE p.erased = FALSE`;
-    pool.query(sql, function (err, services, fields) {
+        SELECT *
+        FROM institution i 
+        INNER JOIN service_institution si ON si.idinstitution = i.idinstitution
+        INNER JOIN service s ON s.idservice = si.idservice
+        WHERE s.erased = FALSE
+        AND i.erased = FALSE
+        AND i.idInstitution like ?
+    `;
+    const idInstitution = req.swagger.params.idInstitution.value;
+    pool.query(sql, [idInstitution], function (err, services, fields) {
         if (err) {
             res.status(500).send({ message: 'Error en la petición.' });
         } else {
             if (!services.length) {
-                res.status(404).send({ message: 'No hay Pacientes !!' });
+                res.status(404).send({ message: 'No hay Servicios para la institucion, o la institution no existe !!' });
             } else {
                 return res.status(200).send({ services });
             }
         }
     });
 }
-/*
+
 function get(req, res) {
-    console.log(req.body);
-    return res.send(200);    
+    const idService = req.swagger.params.idService.value;
+    const idInstitution = req.swagger.params.idInstitution.value;
+    const sql = `
+        SELECT *
+        FROM institution i 
+        INNER JOIN service_institution si ON si.idinstitution = i.idinstitution
+        INNER JOIN service s ON s.idservice = si.idservice 
+        WHERE s.erased = FALSE
+        AND i.erased = FALSE
+        AND si.idinstitution = ?
+        AND si.idservice = ?
+        
+        `;
+    pool.query(sql, [ idInstitution, idService ], function (err, service, fields) {
+        if (err) {
+            res.status(500).send({ message: 'Error en la petición.' });
+        } else {
+            if (!service.length) {
+                console.log(service);
+                res.status(404).send({ message: 'No se encuentra el Servicio o la Institucion !!' });
+            } else {
+                console.log({ service });
+                return res.status(200).send({ service });
+            }
+        }
+    });;    
 }
 
 function update(req, res) {
-    console.log(req.body);
-    return res.send(200);    
+    const idInstitution = req.swagger.params.idInstitution.value;
+    const idService = req.swagger.params.idService.value;
+    const { owner, serviceName, description, serviceCode } = req.body;
+    const newService = {
+        idService,
+        owner,
+        service_name: serviceName,
+        description,
+        service_code: serviceCode
+    };
+    const sqlUpdateService = `UPDATE service SET ? WHERE idService = ?`;
+    pool.query(sqlUpdateService, [newService, idService], function(err) {
+        if (err) {
+            console.log(`Err:`, { err });
+            res.status(500).send({ message: 'Error en la petición.', err });
+        } else {
+            const sqlUpdate = `UPDATE service_institution SET ? WHERE idService = ? AND idInstitution = ?`;
+            newServiceInstitution = {
+                idInstitution,
+                idService
+            };
+            // Actualizo la tabla intermedia
+            pool.query(sqlUpdate, [newServiceInstitution, idService, idInstitution], function (err) {
+                if (err) {
+                    console.log(`Err:`, { err });
+                    res.status(500).send({ message: 'Error en la petición.', err });
+                } else {
+
+                    res.status(200).send({ message: 'Se actualizo el Servicio' });
+                }
+            });
+        }
+    });
+
 }
 
 function deleteService(req, res) {
-    console.log(req.body);
-    return res.send(200);    
+    const idService = req.swagger.params.idService.value;
+    const idInstitution = req.swagger.params.idInstitution.value;
+    const sqlUpdate = `UPDATE service SET erased=TRUE WHERE idService = ?`;
+    const sqlSelect = `SELECT * FROM service WHERE idService = ? AND erased = FALSE`;
+    pool.query(sqlSelect, [idService], function(err, result) {
+        if (err) {
+            console.log("err:", { err });
+            res.status(500).send({ message: 'Error en la petición.', err });
+        } else {
+            if (!result.length) {
+                res.status(404).send({ message: 'No existe el Servicio' });
+            } else {
+                pool.query(sqlUpdate, [idService], function (err, result, fields) {
+                    if (err) {
+                        console.log(`Err:`, { err });
+
+                        res.status(500).send({ message: 'Error en la petición.', err });
+                    } else {
+                        // console.log('this.sql', this.sql); //command/query
+                        res.status(200).send({ message: 'El servicio se elimino.' });
+                    }
+                });                
+            }
+        }
+    })
+
 }
+/*
 */

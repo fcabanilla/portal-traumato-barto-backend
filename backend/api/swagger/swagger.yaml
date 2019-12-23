@@ -115,7 +115,7 @@ paths:
       tags:
         - Polls
       summary: "Update a poll"
-      operationId: pollsControllerPutId
+      operationId: pollsControllerPut
       description: "Update only one poll"
       responses:
         200:
@@ -195,7 +195,7 @@ paths:
   #   put:
   #     tags:
   #       - People
-  #     operationId: peopleControllerPutId
+  #     operationId: peopleControllerPut
   #     summary: "Update a person"
   #     description: "Update only one person"
   #     responses:
@@ -283,7 +283,7 @@ paths:
     put:
       tags:
         - Patients
-      operationId: patientsControllerPutId
+      operationId: patientsControllerPut
       summary: "Update a patient"
       description: "Update only one patient"
       parameters:
@@ -369,7 +369,7 @@ paths:
     put:
       tags:
         - Procedure
-      operationId: procedureControllerPutId
+      operationId: procedureControllerPut
       summary: "Update a procedure"
       description: "Update only one procedure"
       responses:
@@ -481,7 +481,7 @@ paths:
     put:
       tags:
         - Institution
-      operationId: institutionsControllerPutId
+      operationId: institutionsControllerPut
       summary: "Update a Institution"
       description: "Update only one Institution"
       parameters:
@@ -518,7 +518,6 @@ paths:
           description: "ID of the Institution"
           required: true
           type: string
-      parameters:
         - name: service
           in: body
           required: true
@@ -585,9 +584,15 @@ paths:
     put:
       tags:
         - Services
-      operationId: servicesControllerPutId
+      operationId: servicesControllerPut
       summary: "Update a Service"
       description: "Update only one Service"
+      parameters:
+        - name: service
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Service'
       responses:
         200:
           description: "Success"

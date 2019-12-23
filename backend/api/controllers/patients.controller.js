@@ -8,7 +8,7 @@ module.exports = {
     patientsControllerGet: core.middleware([core.logRequest, getAll]),
     patientsControllerPost: core.middleware([core.logRequest, create]),
     patientsControllerDelete: core.middleware([core.logRequest, deleteService]),
-    patientsControllerPutId: core.middleware([core.logRequest, update]),
+    patientsControllerPut: core.middleware([core.logRequest, update]),
 }
 
 function create(req, res) {
