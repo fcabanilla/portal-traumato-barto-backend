@@ -25,3 +25,24 @@ CREATE TRIGGER `patient_GUID` BEFORE INSERT ON `mydb`.`patient`
  SET new.idpatient = uuid();
 end//
 DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER `service_GUID` BEFORE INSERT ON `mydb`.`service`
+ FOR EACH ROW begin
+ SET new.idservice = uuid();
+end//
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER `institution_GUID` BEFORE INSERT ON `mydb`.`institution`
+ FOR EACH ROW begin
+ SET new.idinstitution = uuid();
+end//
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER `service_institution_GUID` BEFORE INSERT ON `mydb`.`service_institution`
+ FOR EACH ROW begin
+ SET new.idservice_institution = uuid();
+end//
+DELIMITER ;

@@ -49,87 +49,7 @@ paths:
         "403":
           description: "Access Denied"
 
-  /services:
-    x-swagger-router-controller: services.controller
-    post:
-      tags:
-        - Services
-      operationId: servicesControllerPost
-      summary: "Create Service"
-      description: "Create a new Service"
-      parameters:
-        - name: service
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/Service'
-      responses:
-        "200":
-          description: "Success"
-        "403":
-          description: "Access Denied"
-          schema:
-            $ref: '#/definitions/Error'
-    get:
-      tags:
-        - Services
-      operationId: servicesControllerGet
-      summary: "Get Services"
-      description: "Get all the Services"
-      responses:
-        "200":
-          description: "Success"
-          schema:
-            $ref: '#/definitions/Service'
-        "403":
-          description: "Access Denied"
-          schema:
-            $ref: '#/definitions/Error'
-
-  /services/{idService}:
-    x-swagger-router-controller: services.controller
-    parameters:
-      - name: idService
-        in: path
-        description: "ID of the Service"
-        required: true
-        type: string
-    get:
-      tags:
-        - Services
-      operationId: servicesControllerGetId
-      summary: "Get Service"
-      description: "Get only one Service"
-      responses:
-        "200":
-          description: "Success"
-          schema:
-            $ref: '#/definitions/Service'
-        "403":
-          description: "Access Denied"
-          schema:
-            $ref: '#/definitions/Error'
-
-    put:
-      tags:
-        - Services
-      operationId: servicesControllerPutId
-      summary: "Update a Service"
-      description: "Update only one Service"
-      responses:
-        200:
-          description: "Success"
-          
-    delete:
-      tags:
-        - Services
-      operationId: servicesControllerDeleteId
-      summary: "Delete a Service"
-      description: "Delete only one Service"
-      responses:
-        200:
-          description: "Success"
- 
+  
   /polls:
     x-swagger-router-controller: polls.controller
     post:
@@ -578,6 +498,98 @@ paths:
         200:
           description: "Success"
 
+  /institutions/{idInstitution}/services:
+    x-swagger-router-controller: services.controller
+    parameters:
+      - name: idInstitution
+        in: path
+        description: "ID of the Institution"
+        required: true
+        type: string
+    post:
+      tags:
+        - Services
+      operationId: servicesControllerPost
+      summary: "Create Service"
+      description: "Create a new Service"
+      parameters:
+        - name: service
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Service'
+      responses:
+        "200":
+          description: "Success"
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+    get:
+      tags:
+        - Services
+      operationId: servicesControllerGet
+      summary: "Get Services"
+      description: "Get all the Services"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: '#/definitions/Service'
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+
+  /institutions/{idInstitution}/services/{idService}:
+    x-swagger-router-controller: services.controller
+    parameters:
+      - name: idInstitution
+        in: path
+        description: "ID of the Institution"
+        required: true
+        type: string
+      - name: idService
+        in: path
+        description: "ID of the Service"
+        required: true
+        type: string
+    get:
+      tags:
+        - Services
+      operationId: servicesControllerGetId
+      summary: "Get Service"
+      description: "Get only one Service"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: '#/definitions/Service'
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+
+    put:
+      tags:
+        - Services
+      operationId: servicesControllerPutId
+      summary: "Update a Service"
+      description: "Update only one Service"
+      responses:
+        200:
+          description: "Success"
+          
+    delete:
+      tags:
+        - Services
+      operationId: servicesControllerDeleteId
+      summary: "Delete a Service"
+      description: "Delete only one Service"
+      responses:
+        200:
+          description: "Success"
+ 
   /protected:
     x-swagger-router-controller: main-controller
     get:
