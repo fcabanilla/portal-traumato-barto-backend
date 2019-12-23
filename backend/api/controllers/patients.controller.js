@@ -1,20 +1,13 @@
 const core = require('./core.controller.js')
-const UserSchema = require('../models/user.model')
-const User = UserSchema.user
-const ClientSchema = require('../models/client.model')
-const Client = ClientSchema.client
-var auth = require("../helpers/auth");
 const pool = require('../../database');
-const bcrypt = require('bcryptjs');
-const uuid = require('../helpers/uuid');
-const salt = bcrypt.genSaltSync(10);
+
 
 
 module.exports = {
     patientsControllerGetId: core.middleware([core.logRequest, get]),
     patientsControllerGet: core.middleware([core.logRequest, getAll]),
     patientsControllerPost: core.middleware([core.logRequest, create]),
-    patientsControllerDeleteId: core.middleware([core.logRequest, deleteService]),
+    patientsControllerDelete: core.middleware([core.logRequest, deleteService]),
     patientsControllerPutId: core.middleware([core.logRequest, update]),
 }
 

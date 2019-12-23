@@ -125,7 +125,7 @@ paths:
       tags:
         - Polls
       summary: "Delete a poll"
-      operationId: pollsControllerDeleteId
+      operationId: pollsControllerDelete
       description: "Delete only one poll"
       responses:
         200:
@@ -209,7 +209,7 @@ paths:
   #   delete:
   #     tags:
   #       - People
-  #     operationId: peopleControllerDeleteId
+  #     operationId: peopleControllerDelete
   #     summary: "Delete a person"
   #     description: "Delete only one person"
   #     responses:
@@ -299,7 +299,7 @@ paths:
       tags:
         - Patients
       summary: "Delete a patient"
-      operationId: patientsControllerDeleteId
+      operationId: patientsControllerDelete
       description: "Delete only one patient"
       responses:
         200:
@@ -383,7 +383,7 @@ paths:
     delete:
       tags:
         - Procedure
-      operationId: procedureControllerDeleteId
+      operationId: procedureControllerDelete
       summary: "Delete a procedure"
       description: "Delete only one procedure"
       responses:
@@ -484,6 +484,12 @@ paths:
       operationId: institutionsControllerPutId
       summary: "Update a Institution"
       description: "Update only one Institution"
+      parameters:
+        - name: institution
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Institution'
       responses:
         200:
           description: "Success"
@@ -491,7 +497,7 @@ paths:
     delete:
       tags:
         - Institution
-      operationId: institutionsControllerDeleteId
+      operationId: institutionsControllerDelete
       summary: "Delete a Institution"
       description: "Delete only one Institution"
       responses:
@@ -500,18 +506,18 @@ paths:
 
   /institutions/{idInstitution}/services:
     x-swagger-router-controller: services.controller
-    parameters:
-      - name: idInstitution
-        in: path
-        description: "ID of the Institution"
-        required: true
-        type: string
     post:
       tags:
         - Services
       operationId: servicesControllerPost
       summary: "Create Service"
       description: "Create a new Service"
+      parameters:
+        - name: idInstitution
+          in: path
+          description: "ID of the Institution"
+          required: true
+          type: string
       parameters:
         - name: service
           in: body
@@ -531,6 +537,12 @@ paths:
       operationId: servicesControllerGet
       summary: "Get Services"
       description: "Get all the Services"
+      parameters:
+        - name: idInstitution
+          in: path
+          description: "ID of the Institution"
+          required: true
+          type: string
       responses:
         "200":
           description: "Success"
@@ -583,7 +595,7 @@ paths:
     delete:
       tags:
         - Services
-      operationId: servicesControllerDeleteId
+      operationId: servicesControllerDelete
       summary: "Delete a Service"
       description: "Delete only one Service"
       responses:

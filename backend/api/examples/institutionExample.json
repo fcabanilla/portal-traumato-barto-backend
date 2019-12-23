@@ -1,4 +1,4 @@
-{
+[{
     "id": "",
     "institutionName": "Sanatorio Allende",
     "displayName": "Sanatorio Allende Nueva Córdoba",
@@ -8,4 +8,16 @@
     "direction": "Av. Hipólito Yrigoyen 384",
     "description": "",
     "typeOfEstablishment": ""
+},
+{
+    "id": "",
+    "institutionName": "Hospital Italiano",
+    "displayName": "Hospital Italiano Sociedad de Beneficencia",
+    "country": "Argentina",
+    "state": "Cordoba",
+    "city": "Cordoba",
+    "direction": "Roma 550",
+    "description": "",
+    "typeOfEstablishment": ""
 }
+]
