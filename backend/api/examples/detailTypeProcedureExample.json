@@ -1,0 +1,17 @@
+[
+    {
+        "id": "",
+        "detail": "Apendicectomía",
+        "description": "La apendicectomía es la técnica quirúrgica por medio de la cual se extrae el apéndice (apéndice cecal, vermiforme o vermicular), habitualmente en casos de apendicitis aguda"
+    },
+    {
+        "id": "",
+        "detail": "Swan Ganz",
+        "description": "procedimiento médico en el que se pasa una sonda delgada hasta el lado derecho del corazón con el fin de monitorizar el paso de sangre a través del corazón y vigilar la función cardíaca en pacientes muy enfermos."
+    },
+    {
+        "id": "",
+        "detail": "Coronariografía",
+        "description": "Proceso de diagnóstico por imagen cuya función es el estudio de los vasos que nutren al miocardio (músculo cardíaco) que no son visibles mediante la radiología convencional."
+    }
+]

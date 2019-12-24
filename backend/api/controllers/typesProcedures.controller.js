@@ -41,14 +41,14 @@ function getAll(req, res) {
             FROM mydb.type_of_procedure top 
             WHERE top.erased = FALSE
         `;  
-    pool.query(sql, (err, typesOfProcedures, ) => {
+    pool.query(sql, (err, typesProcedures) => {
         if (err) {
             res.status(500).send({ message: 'Error en la petición.', err });
         } else {
-            if (!typesOfProcedures.length) {
+            if (!typesProcedures.length) {
                 res.status(404).send({ message: 'No hay Tipos De Procedimientos !!' });
             } else {
-                return res.status(200).send({ typesOfProcedures });
+                return res.status(200).send({ typesProcedures });
             }
         }
     });
@@ -104,6 +104,7 @@ function update(req, res) {
 }
 
 function deleteTypeProcedure(req, res) {
+    // despues de eliminar un procedimiento, habria que borrar todos los detalles de procedimientos?
     const idTypeProcedure = req.swagger.params.idTypeProcedure.value;
     const sql = `UPDATE type_of_procedure SET ERASED = TRUE WHERE idtype_of_procedure = ?`;
     pool.query(sql, [idTypeProcedure], (err, results) => {

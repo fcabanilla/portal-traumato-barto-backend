@@ -400,6 +400,112 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
+  /typeProcedure/{idTypeProcedure}/detailProcedure:
+    x-swagger-router-controller: detailsTypesProcedures.controller
+    parameters:
+      - name: idTypeProcedure
+        in: path
+        description: "ID of the Type Procedure"
+        required: true
+        type: string
+    post:
+      tags:
+        - Detail of Type of Procedure
+      operationId: detailTypeProcedureControllerPost
+      summary: "Create Detail Type Procedure"
+      description: "Create a new Detail of Type of Procedure"
+      parameters:
+        - name: DetailTypeProcedure
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/DetailTypeProcedure'
+      responses:
+        200:
+          description: "Success"
+        403:
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+    get:
+      tags:
+        - Detail of Type of Procedure
+      operationId: detailTypeProcedureControllerGet
+      summary: "Get All Details of One Types of Procedures"
+      description: "Get all Details of one Type of Procedure"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: '#/definitions/DetailTypeProcedure'
+        403:
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+
+  /typeProcedure/{idTypeProcedure}/detailProcedure/{idDetailTypeProcedure}:
+    x-swagger-router-controller: detailsTypesProcedures.controller
+    parameters:
+      - name: idTypeProcedure
+        in: path
+        description: "ID of Type of Procedure"
+        required: true
+        type: string
+      - name: idDetailTypeProcedure
+        in: path
+        description: "ID of Detail of Type Of Procedure"
+        required: true
+        type: string
+    get:
+      tags:
+        - Detail of Type of Procedure
+      operationId: detailTypeProcedureControllerGetId
+      summary: "Get Detail of Type of Procedure"
+      description: "Get only one Detail of Type of Procedure"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: '#/definitions/DetailTypeProcedure'
+        403:
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+
+    put:
+      tags:
+        - Detail of Type of Procedure
+      operationId: detailTypeProcedureControllerPut
+      summary: "Update a Detail of Type of Procedure"
+      description: "Update only one Detail of Type of Procedure"
+      parameters:
+        - name: DetailTypeProcedure
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/DetailTypeProcedure'
+      responses:
+        200:
+          description: "Success"
+        403:
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+          
+    delete:
+      tags:
+        - Detail of Type of Procedure
+      operationId: detailTypeProcedureControllerDelete
+      summary: "Delete a Detail of Type of Procedure"
+      description: "Delete only one Detail of Type of Procedure"
+      responses:
+        200:
+          description: "Success"
+        403:
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+
 
   /procedure:
     x-swagger-router-controller: procedurecontroller
@@ -602,6 +708,12 @@ paths:
 
   /institutions/{idInstitution}/services:
     x-swagger-router-controller: services.controller
+    parameters:
+      - name: idInstitution
+        in: path
+        description: "ID of the Institution"
+        required: true
+        type: string
     post:
       tags:
         - Services
@@ -609,11 +721,6 @@ paths:
       summary: "Create Service"
       description: "Create a new Service"
       parameters:
-        - name: idInstitution
-          in: path
-          description: "ID of the Institution"
-          required: true
-          type: string
         - name: service
           in: body
           required: true
@@ -632,12 +739,6 @@ paths:
       operationId: servicesControllerGet
       summary: "Get Services"
       description: "Get all the Services"
-      parameters:
-        - name: idInstitution
-          in: path
-          description: "ID of the Institution"
-          required: true
-          type: string
       responses:
         "200":
           description: "Success"
@@ -948,6 +1049,20 @@ definitions:
       description:
         type: string
         example: "La apendicectomía es la técnica quirúrgica por medio de la cual se extrae el apéndice (apéndice cecal, vermiforme o vermicular), habitualmente en casos de apendicitis aguda"
+
+  DetailTypeProcedure:
+    type: object
+    properties:
+      id:
+        type: string
+      idTypeProcedure:
+        type: string
+      detail:
+        type: string
+        example: "Swan Ganz"
+      description:
+        type: string
+        example: "Procedimiento médico en el que se pasa una sonda delgada hasta el lado derecho del corazón con el fin de monitorizar el paso de sangre a través del corazón y vigilar la función cardíaca en pacientes muy enfermos."
 
   Procedure:
     type: object
