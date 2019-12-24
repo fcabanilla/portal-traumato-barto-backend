@@ -35,6 +35,7 @@ paths:
     post:
       tags:
         - Users
+        - Login
       operationId: usersControllerPost
       description: "Create User"
       parameters:
@@ -48,8 +49,104 @@ paths:
           description: "Created"
         "403":
           description: "Access Denied"
+    get:
+      tags:
+        - Users
+      operationId: usersControllerGet
+      summary: "Get All The Users"
+      description: "Get all the users"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: '#/definitions/User'
+        403:
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
 
+  /users/{idUser}:
+    x-swagger-router-controller: users.controller
+    parameters:
+      - name: idUser
+        in: path
+        description: "ID of the User"
+        required: true
+        type: string
+    get:
+      tags:
+        - Users
+      operationId: usersControllerGetId
+      summary: "Get an User"
+      description: "Get only one User"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: '#/definitions/User'
+        403:
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+    
+    put:
+      tags:
+        - Users
+      operationId: usersControllerPut
+      summary: "Update an User"
+      description: "Update only one User"
+      parameters:
+        - name: User
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        200:
+          description: "Success"
+        403:
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+    
+    delete:
+      tags:
+        - Users
+      operationId: usersControllerDelete
+      summary: "Delete an User"
+      description: "Delete only one User"
+      responses:
+        200:
+          description: "Success"
+        403:
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
   
+  /login:
+    x-swagger-router-controller: users.controller
+    post:
+      tags:
+        - Login
+      operationId: loginPost
+      description: "Login"
+      parameters:
+        - name: authentication
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/Authentication"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Login"
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: "#/definitions/Error"
+
+
   /polls:
     x-swagger-router-controller: polls.controller
     post:
@@ -86,7 +183,6 @@ paths:
           description: "Access Denied"
           schema:
             $ref: '#/definitions/Error'
-
   /polls/{idPoll}:
     x-swagger-router-controller: polls.controller
     parameters:
@@ -130,96 +226,6 @@ paths:
       responses:
         200:
           description: "Success"
- 
-  # /people:
-  #   x-swagger-router-controller: peoplecontroller
-  #   post:
-  #     tags:
-  #       - People
-  #     operationId: peopleControllerPost
-  #     summary: "Create Person"
-  #     description: "Create a new Person"
-  #     parameters:
-  #       - name: person
-  #         in: body
-  #         required: true
-  #         schema:
-  #           $ref: '#/definitions/Person'
-  #     responses:
-  #       200:
-  #         description: "Success"
-  #       403:
-  #         description: "Access Denied"
-  #         schema:
-  #           $ref: '#/definitions/Error'
-  #   get:
-  #     tags:
-  #       - People
-  #     operationId: peopleControllerGet
-  #     summary: "Get People"
-  #     description: "Get all the People"
-  #     responses:
-  #       200:
-  #         description: "Success"
-  #         schema:
-  #           $ref: '#/definitions/Person'
-  #       403:
-  #         description: "Access Denied"
-  #         schema:
-  #           $ref: '#/definitions/Error'
-
-  # /people/{idPerson}:
-  #   x-swagger-router-controller: people.controller
-  #   parameters:
-  #     - name: idPerson
-  #       in: path
-  #       description: "ID of the Person"
-  #       required: true
-  #       type: string
-  #   get:
-  #     tags:
-  #       - People
-  #     operationId: peopleControllerGetId
-  #     summary: "Get person"
-  #     description: "Get only one Person"
-  #     responses:
-  #       200:
-  #         description: "Success"
-  #         schema:
-  #           $ref: '#/definitions/Person'
-  #       403:
-  #         description: "Access Denied"
-  #         schema:
-  #           $ref: '#/definitions/Error'
-
-  #   put:
-  #     tags:
-  #       - People
-  #     operationId: peopleControllerPut
-  #     summary: "Update a person"
-  #     description: "Update only one person"
-  #     responses:
-  #       200:
-  #         description: "Success"
-  #       403:
-  #         description: "Access Denied"
-  #         schema:
-  #           $ref: '#/definitions/Error'
-          
-  #   delete:
-  #     tags:
-  #       - People
-  #     operationId: peopleControllerDelete
-  #     summary: "Delete a person"
-  #     description: "Delete only one person"
-  #     responses:
-  #       200:
-  #         description: "Success"
-  #       403:
-  #         description: "Access Denied"
-  #         schema:
-  #           $ref: '#/definitions/Error'
- 
   /patients:
     x-swagger-router-controller: patients.controller
     post:
@@ -256,7 +262,6 @@ paths:
           description: "Access Denied"
           schema:
             $ref: '#/definitions/Error'
-
   /patients/{idpatient}:
     x-swagger-router-controller: patients.controller
     parameters:
@@ -304,7 +309,6 @@ paths:
       responses:
         200:
           description: "Success"
-
   /typeProcedure:
     x-swagger-router-controller: typesProcedures.controller
     post:
@@ -341,7 +345,6 @@ paths:
           description: "Access Denied"
           schema:
             $ref: '#/definitions/Error'
-
   /typeProcedure/{idTypeProcedure}:
     x-swagger-router-controller: typesProcedures.controller
     parameters:
@@ -506,7 +509,6 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-
   /procedure:
     x-swagger-router-controller: procedurecontroller
     post:
@@ -595,29 +597,6 @@ paths:
           description: "Access Denied"
           schema:
             $ref: '#/definitions/Error'
-
-  /login:
-    x-swagger-router-controller: users.controller
-    post:
-      tags:
-        - Users
-      operationId: loginPost
-      description: "Login"
-      parameters:
-        - name: authentication
-          in: body
-          required: true
-          schema:
-            $ref: "#/definitions/Authentication"
-      responses:
-        "200":
-          description: "Success"
-          schema:
-            $ref: "#/definitions/Login"
-        "403":
-          description: "Access Denied"
-          schema:
-            $ref: "#/definitions/Error"
 
   /institutions:
     x-swagger-router-controller: institutions.controller

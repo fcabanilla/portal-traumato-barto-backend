@@ -3,9 +3,9 @@ const pool = require('../../database');
 
 module.exports = {
     
-    servicesControllerGetId: core.middleware([core.logRequest, get]),
-    servicesControllerGet: core.middleware([core.logRequest, getAll]),
     servicesControllerPost: core.middleware([core.logRequest, create]),
+    servicesControllerGet: core.middleware([core.logRequest, getAll]),
+    servicesControllerGetId: core.middleware([core.logRequest, get]),
     servicesControllerPut: core.middleware([core.logRequest, update]),
     servicesControllerDelete: core.middleware([core.logRequest, deleteService])
 }
