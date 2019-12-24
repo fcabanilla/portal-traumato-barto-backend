@@ -1,0 +1,20 @@
+[
+    {
+        "id": "",
+        "typeOfProcedure": "Cirugia",
+        "detail": "Apendicectomía",
+        "description": "La apendicectomía es la técnica quirúrgica por medio de la cual se extrae el apéndice (apéndice cecal, vermiforme o vermicular), habitualmente en casos de apendicitis aguda"
+    },
+    {
+        "id": "",
+        "typeOfProcedure": "Hemodinamia",
+        "detail": "Swan Ganz",
+        "description": "procedimiento médico en el que se pasa una sonda delgada hasta el lado derecho del corazón con el fin de monitorizar el paso de sangre a través del corazón y vigilar la función cardíaca en pacientes muy enfermos."
+    },
+    {
+        "id": "",
+        "typeOfProcedure": "Cirugia",
+        "detail": "De cadera",
+        "description": "La cirugia de cadera que hacen los changos de Bartolome"
+    }
+]

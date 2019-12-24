@@ -46,3 +46,17 @@ CREATE TRIGGER `service_institution_GUID` BEFORE INSERT ON `mydb`.`service_insti
  SET new.idservice_institution = uuid();
 end//
 DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER `type_of_procedure_GUID` BEFORE INSERT ON `mydb`.`type_of_procedure`
+ FOR EACH ROW begin
+ SET new.idtype_of_procedure = uuid();
+end//
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER `detail_type_of_procedure_GUID` BEFORE INSERT ON `mydb`.`detail_type_of_procedure`
+ FOR EACH ROW begin
+ SET new.iddetail_type_of_procedure = uuid();
+end//
+DELIMITER ;

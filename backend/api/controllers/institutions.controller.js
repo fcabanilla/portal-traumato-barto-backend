@@ -55,7 +55,6 @@ function getAll(req, res) {
 
 function get(req, res) {
     const idInstitution = req.swagger.params.idInstitution.value;
-    console.log("id Patient: ", { idInstitution });
     const sql = `SELECT * FROM institution i WHERE i.idInstitution = ? AND i.erased = FALSE`;
     pool.query(sql, [idInstitution], function (err, institution, fields) {
         if (err) {
@@ -109,5 +108,3 @@ function deleteInstitution(req, res) {
         }
     });
 }
-/*
-*/

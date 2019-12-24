@@ -1,10 +1,22 @@
-{
-    "id": "",
-    "typeOfProcedure": "Cirugia",
-    "detailProcedure": "AMIGDALECTOMIA",
-    "date": "09/09/2019",
-    "institutionId": "",
-    "serviceId": "",
-    "patientId": "",
-    "description": ""
-}
+[
+    {
+        "id": "",
+        "idTypeOfProcedure": "497024ee-2542-11ea-9214-ac220b26bfde",
+        "idDetailProcedure": "6b0749c7-25d7-11ea-9214-ac220b26bfde",
+        "date": "09/09/2019",
+        "institutionId": "e034cefc-25d7-11ea-9214-ac220b26bfde",
+        "serviceId": "dbb25569-25d7-11ea-9214-ac220b26bfde",
+        "patientId": "d7246687-25d7-11ea-9214-ac220b26bfde",
+        "description": "Operacion de rodilla realizada al senior bla bla en el sanatorio allende centro a cargo del servicio de cirugia."
+    },
+    {
+        "id": "",
+        "idTypeOfProcedure": "",
+        "idDetailProcedure": "",
+        "date": "",
+        "institutionId": "",
+        "serviceId": "",
+        "patientId": "",
+        "description": "",
+    }
+]

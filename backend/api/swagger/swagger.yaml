@@ -305,6 +305,102 @@ paths:
         200:
           description: "Success"
 
+  /typeProcedure:
+    x-swagger-router-controller: typesProcedures.controller
+    post:
+      tags:
+        - Type Of Procedure
+      operationId: typeProcedureControllerPost
+      summary: "Create Type Procedure"
+      description: "Create a new Type of Procedure"
+      parameters:
+        - name: TypeProcedure
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/TypeProcedure'
+      responses:
+        200:
+          description: "Success"
+        403:
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+    get:
+      tags:
+        - Type Of Procedure
+      operationId: typeProcedureControllerGet
+      summary: "Get Types of Procedures"
+      description: "Get all the Type of Procedure"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: '#/definitions/TypeProcedure'
+        403:
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+
+  /typeProcedure/{idTypeProcedure}:
+    x-swagger-router-controller: typesProcedures.controller
+    parameters:
+      - name: idTypeProcedure
+        in: path
+        description: "ID of Type of Type Of Procedure"
+        required: true
+        type: string
+    get:
+      tags:
+        - Type Of Procedure
+      operationId: typeProcedureControllerGetId
+      summary: "Get Type Of Procedure"
+      description: "Get only one Type Of Procedure"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: '#/definitions/TypeProcedure'
+        403:
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+
+    put:
+      tags:
+        - Type Of Procedure
+      operationId: typeProcedureControllerPut
+      summary: "Update a Type Of Procedure"
+      description: "Update only one Type Of Procedure"
+      parameters:
+        - name: TypeProcedure
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/TypeProcedure'
+      responses:
+        200:
+          description: "Success"
+        403:
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+          
+    delete:
+      tags:
+        - Type Of Procedure
+      operationId: typeProcedureControllerDelete
+      summary: "Delete a Type Of Procedure"
+      description: "Delete only one Type Of Procedure"
+      responses:
+        200:
+          description: "Success"
+        403:
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+
+
   /procedure:
     x-swagger-router-controller: procedurecontroller
     post:
@@ -838,7 +934,7 @@ definitions:
         description: ""
         example: ""
   
-  Procedure:
+  TypeProcedure:
     type: object
     properties:
       id:
@@ -846,20 +942,39 @@ definitions:
       typeOfProcedure:
         type: string
         example: "Cirugia"
-      detailProcedure:
+      detail:
         type: string
-        example: "AMIGDALECTOMIA"
+        example: "Apendicectomía"
+      description:
+        type: string
+        example: "La apendicectomía es la técnica quirúrgica por medio de la cual se extrae el apéndice (apéndice cecal, vermiforme o vermicular), habitualmente en casos de apendicitis aguda"
+
+  Procedure:
+    type: object
+    properties:
+      id:
+        type: string
+      idTypeOfProcedure:
+        type: string
+        example: "497024ee-2542-11ea-9214-ac220b26bfde"
+      idDetailProcedure:
+        type: string
+        example: "6b0749c7-25d7-11ea-9214-ac220b26bfde"
       date:
         type: string
         example: "09/09/2019"
       institutionId:
         type: string
+        example: "e034cefc-25d7-11ea-9214-ac220b26bfde"
       serviceId:
         type: string
+        example: "dbb25569-25d7-11ea-9214-ac220b26bfde"
       patientId:
         type: string
+        example: "d7246687-25d7-11ea-9214-ac220b26bfde"
       description:
         type: string
+        example: "Operacion de rodilla realizada al senior bla bla en el sanatorio allende centro a cargo del servicio de cirugia."
         
   Poll:
     type: object
