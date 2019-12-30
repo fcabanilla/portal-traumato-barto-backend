@@ -27,6 +27,28 @@ function getAll(req, res) {
     };
 }
 function create(req, res) {
+    const { idTypeProcedure, idPatient } = req.body;
+
+    const newTest = {
+        idtype_of_procedure: idTypeProcedure,
+        idPatient
+    };
+    const table_name = 'test_table';
+    const sql = `INSERT INTO ${table_name} SET ?`;
+    console.log(sql);
+    pool.query(sql, [newTest], (err, result) => {
+        if (err) {
+            res.status(500).send({ message: 'Error en la petición' });
+        } else {
+            if (!result.affectedRows) {
+                res.status(404).send({ message: 'El TEST no se ha guardado.' });
+            } else {
+                console.log('Affected ' + result.affectedRows + ' rows');
+                res.status(200).send({ message: 'Se creo el TEST' });
+            }
+        }
+    });
+
     console.log(req.body);
 }
 function get(req, res) {

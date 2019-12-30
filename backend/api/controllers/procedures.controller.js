@@ -13,21 +13,24 @@ module.exports = {
 };
 
 function create(req, res) {
-    const { idTypeProcedure, idPatient, idInstitution, description, idPoll } = req.body;
+    const { idDetailTypeProcedure, idPatient, idInstitution, description, idPoll, idUser, idService} = req.body;
 
     const newProcedure = {
-        idtype_of_procedure: idTypeProcedure,
+        iddetail_type_of_procedure: idDetailTypeProcedure,
         idPatient,
         idInstitution,
+        idService,
+        idUser,
         idPoll,
         description
     };
+    console.log(newProcedure);
     // const table_name = 'test_table';
     const table_name = "procedimiento";
     const sql = `
-        SELECT idtype_of_procedure AS id 
-        FROM type_of_procedure
-        WHERE idtype_of_procedure = ?
+        SELECT iddetail_type_of_procedure AS id 
+        FROM detail_type_of_procedure
+        WHERE iddetail_type_of_procedure = ?
         UNION
         SELECT idpatient AS id
         FROM patient
@@ -36,33 +39,47 @@ function create(req, res) {
         SELECT idinstitution AS id
         FROM institution
         WHERE idinstitution = ?
+        UNION
+        SELECT idservice AS id
+        FROM service
+        WHERE idservice = ?
+        UNION
+        SELECT iduser AS id
+        FROM user
+        WHERE iduser = ?
     `;
-    console.log(newProcedure.idtype_of_procedure,
+    console.log(newProcedure.iddetail_type_of_procedure,
         newProcedure.idPatient,
-        newProcedure.idInstitution)
+        newProcedure.idInstitution,
+        newProcedure.idService,
+        newProcedure.idUser)
     pool.query(sql, [
-        newProcedure.idtype_of_procedure,
+        newProcedure.iddetail_type_of_procedure,
         newProcedure.idPatient,
-        newProcedure.idInstitution
+        newProcedure.idInstitution,
+        newProcedure.idService,
+        newProcedure.idUser
     ])
         .then(
             rows => {
                 
-                console.log(rows);
-                if (rows.length != 3) throw "FOREIGN_KEYS_NOT_EXIST";
+                console.log(`Rows`, rows);
+                if (rows.length != 5) throw "FOREIGN_KEYS_NOT_EXIST";
                 checkResult = rows;
                 const sql = `INSERT INTO ${table_name} SET ?`;
                 const newProcedure = {
-                    idtype_of_procedure: checkResult[0].id,
+                    iddetail_type_of_procedure: checkResult[0].id,
                     idPatient: checkResult[1].id,
-                    idInstitution: checkResult[2].id
+                    idInstitution: checkResult[2].id,
+                    idService: checkResult[3].id,
+                    idUser: checkResult[4].id,
+                    idPoll,
+                    description
                 };
                 return pool.query(sql, [newProcedure]);
             },
             err => {
-                return database.close().then(() => {
-                    throw err;
-                });
+                throw err;
             }
         )
         .then(result => {
@@ -90,7 +107,7 @@ async function getAll(req, res) {
     // PENDIENTE FORMATEAR EL OBJETO DE SALIDA
     const sql = `
         SELECT DISTINCT
-          p.idprocedure AS "procedureID"
+        p.idprocedure AS "procedureID"
         , p.description AS "procedureDescription"
         , p.date AS "procedureDate"
         , i.name AS "institutionName"
@@ -117,12 +134,11 @@ async function getAll(req, res) {
         , dtop.detail AS "detailTypeOfProcedureDetail"
         FROM procedimiento p
         INNER JOIN institution i ON i.idinstitution = p.idinstitution
-        INNER JOIN service_institution si ON si.idinstitution = i.idinstitution
-        INNER JOIN service s ON s.idservice = si.idservice
+        INNER JOIN service s ON s.idservice = p.idservice
         INNER JOIN patient pa ON pa.idpatient = p.idpatient
         INNER JOIN person per ON per.idperson = pa.idperson
-        INNER JOIN type_of_procedure top ON top.idtype_of_procedure = p.idtype_of_procedure
-        INNER JOIN detail_type_of_procedure dtop ON dtop.idtype_of_procedure = top.idtype_of_procedure
+        INNER JOIN detail_type_of_procedure dtop ON dtop.iddetail_type_of_procedure = p.iddetail_type_of_procedure
+        INNER JOIN type_of_procedure top ON top.idtype_of_procedure = dtop.idtype_of_procedure
         WHERE pa.erased = FALSE 
             AND top.erased = FALSE 
             AND dtop.erased = FALSE 
@@ -134,7 +150,7 @@ async function getAll(req, res) {
     try {
         results = await pool.query(sql);
         if (!results.length) {
-            res.status(404).send({ message: "No hay Detalles del Tipos De Procedimientos !!" });
+            res.status(404).send({ message: "No hay Procedimientos !!" });
         } else {
             return res.status(200).send({ results });
         }
@@ -148,7 +164,7 @@ async function get(req, res) {
     const idProcedure = req.swagger.params.idProcedure.value;
     const sql = `
         SELECT DISTINCT
-          p.idprocedure AS "procedureID"
+        p.idprocedure AS "procedureID"
         , p.description AS "procedureDescription"
         , p.date AS "procedureDate"
         , i.name AS "institutionName"
@@ -175,12 +191,11 @@ async function get(req, res) {
         , dtop.detail AS "detailTypeOfProcedureDetail"
         FROM procedimiento p
         INNER JOIN institution i ON i.idinstitution = p.idinstitution
-        INNER JOIN service_institution si ON si.idinstitution = i.idinstitution
-        INNER JOIN service s ON s.idservice = si.idservice
+        INNER JOIN service s ON s.idservice = p.idservice
         INNER JOIN patient pa ON pa.idpatient = p.idpatient
         INNER JOIN person per ON per.idperson = pa.idperson
-        INNER JOIN type_of_procedure top ON top.idtype_of_procedure = p.idtype_of_procedure
-        INNER JOIN detail_type_of_procedure dtop ON dtop.idtype_of_procedure = top.idtype_of_procedure
+        INNER JOIN detail_type_of_procedure dtop ON dtop.iddetail_type_of_procedure = p.iddetail_type_of_procedure
+        INNER JOIN type_of_procedure top ON top.idtype_of_procedure = dtop.idtype_of_procedure
         WHERE pa.erased = FALSE 
             AND top.erased = FALSE 
             AND dtop.erased = FALSE 
@@ -193,7 +208,7 @@ async function get(req, res) {
         results = await pool.query(sql, idProcedure);
         const procedure = results[0];
         if (!results.length) {
-            res.status(404).send({ message: "No hay Detalles del Tipos De Procedimientos !!" });
+            res.status(404).send({ message: "No se encontro el procedimiento." });
         } else {
             return res.status(200).send({ procedure });
         }
@@ -208,11 +223,14 @@ async function update(req, res) {
     // Corroborar si existe el tipo de procedimiento antes de asignarlo
     // const idTypeProcedure = req.swagger.params.idTypeProcedure.value;
     const idProcedure = req.swagger.params.idProcedure.value;
-    const { idTypeProcedure, idPatient, idInstitution, description, idPoll } = req.body;
+    const { idDetailTypeProcedure, idPatient, idInstitution, description, idPoll, idUser, idService } = req.body;
+
     const newProcedure = {
-        idtype_of_procedure: idTypeProcedure,
+        iddetail_type_of_procedure: idDetailTypeProcedure,
         idPatient,
         idInstitution,
+        idService,
+        idUser,
         idPoll,
         description
     };
@@ -239,11 +257,9 @@ async function deleteProcedure(req, res) {
     // Corroborar si existe el tipo de procedimiento antes de asignarlo
     // const idTypeProcedure = req.swagger.params.idTypeProcedure.value;
     const idProcedure = req.swagger.params.idProcedure.value;
-
-    console.log(newProcedure);
-    const sql = `UPDATE procedimiento SET ERASED ? WHERE idprocedure = ?`;
+    const sql = `UPDATE procedimiento SET ERASED = TRUE WHERE idprocedure = ?`;
     try {
-        result = await pool.query(sql, [newProcedure, idProcedure]);
+        result = await pool.query(sql, [idProcedure]);
         if (!result.changedRows) {
             res.status(404).send({ message: 'No se encontro el procedimiento.' });
         } else {

@@ -1,22 +1,28 @@
 [
     {
-        "idTypeProcedure": "30ecf446-2a96-11ea-92fa-f8da0c66fd91",
+        "idDetailTypeProcedure": "643c1f00-2a96-11ea-92fa-f8da0c66fd91",
         "idPatient": "1955a386-2a96-11ea-92fa-f8da0c66fd91",
         "idInstitution": "b3323550-2a96-11ea-92fa-f8da0c66fd91",
+        "idService": "da1db157-2a96-11ea-92fa-f8da0c66fd91",
+        "idUser": "c7c3aab2-2ac2-11ea-92fa-f8da0c66fd91",
         "description": "",
         "idPoll": ""
     },
     {
-        "idTypeProcedure": "36683235-2a96-11ea-92fa-f8da0c66fd91",
-        "idPatient": "20790f0e-2a96-11ea-92fa-f8da0c66fd91",
+        "idDetailTypeProcedure": "7583dd48-2a96-11ea-92fa-f8da0c66fd91",
+        "idPatient": "1955a386-2a96-11ea-92fa-f8da0c66fd91",
         "idInstitution": "b3323550-2a96-11ea-92fa-f8da0c66fd91",
+        "idService": "d31274a6-2a96-11ea-92fa-f8da0c66fd91",
+        "idUser": "c7c3aab2-2ac2-11ea-92fa-f8da0c66fd91",
         "description": "",
         "idPoll": ""
     },
     {
-        "idTypeProcedure": "36683235-2a96-11ea-92fa-f8da0c66fd91",
+        "idDetailTypeProcedure": "7a68bc01-2a96-11ea-92fa-f8da0c66fd91",
         "idPatient": "f061414e-2a95-11ea-92fa-f8da0c66fd91",
         "idInstitution": "b7d7a556-2a96-11ea-92fa-f8da0c66fd91",
+        "idService": "dfe4fd86-2a96-11ea-92fa-f8da0c66fd91",
+        "idUser": "c7c3aab2-2ac2-11ea-92fa-f8da0c66fd91",
         "description": "",
         "idPoll": ""
     }
