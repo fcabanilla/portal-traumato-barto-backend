@@ -510,11 +510,11 @@ paths:
             $ref: '#/definitions/Error'
 
   /procedure:
-    x-swagger-router-controller: procedurecontroller
+    x-swagger-router-controller: procedures.controller
     post:
       tags:
         - Procedure
-      operationId: procedureControllerPost
+      operationId: proceduresControllerPost
       summary: "Create Procedure"
       description: "Create a new Procedure"
       parameters:
@@ -533,7 +533,7 @@ paths:
     get:
       tags:
         - Procedure
-      operationId: procedureControllerGet
+      operationId: proceduresControllerGet
       summary: "Get Procedure"
       description: "Get all the Procedure"
       responses:
@@ -547,7 +547,7 @@ paths:
             $ref: '#/definitions/Error'
 
   /procedure/{idProcedure}:
-    x-swagger-router-controller: procedure.controller
+    x-swagger-router-controller: procedures.controller
     parameters:
       - name: idProcedure
         in: path
@@ -557,7 +557,7 @@ paths:
     get:
       tags:
         - Procedure
-      operationId: procedureControllerGetId
+      operationId: proceduresControllerGetId
       summary: "Get procedure"
       description: "Get only one Person"
       responses:
@@ -573,9 +573,15 @@ paths:
     put:
       tags:
         - Procedure
-      operationId: procedureControllerPut
+      operationId: proceduresControllerPut
       summary: "Update a procedure"
       description: "Update only one procedure"
+      parameters:
+        - name: Procedure
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Procedure'
       responses:
         200:
           description: "Success"
@@ -587,7 +593,7 @@ paths:
     delete:
       tags:
         - Procedure
-      operationId: procedureControllerDelete
+      operationId: proceduresControllerDelete
       summary: "Delete a procedure"
       description: "Delete only one procedure"
       responses:

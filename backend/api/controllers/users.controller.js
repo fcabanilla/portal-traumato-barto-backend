@@ -167,6 +167,7 @@ function get(req, res) {
 function update(req, res) {
     const idUser = req.swagger.params.idUser.value;
     const { dni, firstname, lastname, birthdate, sex, username, password, email } = req.body;
+    
     const newPerson = {
         dni,
         first_name: firstname,
@@ -174,6 +175,8 @@ function update(req, res) {
         birth_date: birthdate,
         sex
     };
+
+
     const newUser = {
         username,
         password: bcrypt.hashSync(password, salt),

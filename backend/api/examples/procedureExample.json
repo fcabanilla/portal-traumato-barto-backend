@@ -1,22 +1,23 @@
 [
     {
-        "id": "",
-        "idTypeOfProcedure": "497024ee-2542-11ea-9214-ac220b26bfde",
-        "idDetailProcedure": "6b0749c7-25d7-11ea-9214-ac220b26bfde",
-        "date": "09/09/2019",
-        "institutionId": "e034cefc-25d7-11ea-9214-ac220b26bfde",
-        "serviceId": "dbb25569-25d7-11ea-9214-ac220b26bfde",
-        "patientId": "d7246687-25d7-11ea-9214-ac220b26bfde",
-        "description": "Operacion de rodilla realizada al senior bla bla en el sanatorio allende centro a cargo del servicio de cirugia."
+        "idTypeProcedure": "30ecf446-2a96-11ea-92fa-f8da0c66fd91",
+        "idPatient": "1955a386-2a96-11ea-92fa-f8da0c66fd91",
+        "idInstitution": "b3323550-2a96-11ea-92fa-f8da0c66fd91",
+        "description": "",
+        "idPoll": ""
     },
     {
-        "id": "",
-        "idTypeOfProcedure": "",
-        "idDetailProcedure": "",
-        "date": "",
-        "institutionId": "",
-        "serviceId": "",
-        "patientId": "",
+        "idTypeProcedure": "36683235-2a96-11ea-92fa-f8da0c66fd91",
+        "idPatient": "20790f0e-2a96-11ea-92fa-f8da0c66fd91",
+        "idInstitution": "b3323550-2a96-11ea-92fa-f8da0c66fd91",
         "description": "",
+        "idPoll": ""
+    },
+    {
+        "idTypeProcedure": "36683235-2a96-11ea-92fa-f8da0c66fd91",
+        "idPatient": "f061414e-2a95-11ea-92fa-f8da0c66fd91",
+        "idInstitution": "b7d7a556-2a96-11ea-92fa-f8da0c66fd91",
+        "description": "",
+        "idPoll": ""
     }
 ]

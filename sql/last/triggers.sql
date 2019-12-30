@@ -6,6 +6,13 @@ end//
 DELIMITER ;
 
 DELIMITER //
+CREATE TRIGGER `procedure_GUID` BEFORE INSERT ON `mydb`.`procedimiento`
+ FOR EACH ROW begin
+ SET new.idprocedure= uuid();
+end//
+DELIMITER ;
+
+DELIMITER //
 CREATE TRIGGER `user_GUID` BEFORE INSERT ON `mydb`.`user`
  FOR EACH ROW begin
  SET new.iduser = uuid();
