@@ -237,6 +237,8 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
+  
+
   /polls:
     x-swagger-router-controller: polls.controller
     post:
@@ -273,6 +275,191 @@ paths:
           description: "Access Denied"
           schema:
             $ref: '#/definitions/Error'
+
+  /groups:
+    x-swagger-router-controller: groups.controller
+    post:
+      tags:
+        - "Groups"
+      operationId: groupsControllerPost
+      summary: "Create a Group"
+      description: "Create a Group"
+      parameters:
+        - name: group
+          in: body
+          required: true
+          schema: 
+            $ref: '#/definitions/PollGroup'
+      responses:
+        "200":
+          description: "Success"
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+    get:
+      tags:
+        - "Groups"
+      operationId: groupsControllerGet
+      summary: "Get All The Groups"
+      description: "Get All The Groups"
+      responses:
+        "200":
+          description: "Success"
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+
+  /groups/{idGroup}:
+    x-swagger-router-controller: groups.controller
+    parameters:
+      - name: idGroup
+        in: path
+        description: "ID of the Group"
+        required: true
+        type: string
+    get:
+      tags:
+        - "Groups"
+      operationId: groupsControllerGetId
+      summary: "Get Only One Group"
+      description: "Get Only One Group sending the ID of Group"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: '#/definitions/PollGroup'
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      tags:
+        - "Groups"
+      operationId: groupsControllerPut
+      summary: "Update Only One Group"
+      description: "Update Only One Group sending the ID of Group"
+      parameters:
+        - name: group
+          in: body
+          required: true
+          schema: 
+            $ref: '#/definitions/PollGroup'
+      responses:
+        200:
+          description: "Success"
+        403:
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      tags:
+        - "Groups"
+      operationId: groupsControllerDelete
+      summary: "Delete One Group"
+      description: "Delete One Group sending the ID of Group"
+      responses:
+        "200":
+          description: "Success"
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+
+
+  /subgroups:
+    x-swagger-router-controller: subgroups.controller
+    post:
+      tags:
+        - "Sub-Groups"
+      operationId: subgroupsControllerPost
+      summary: "Create a Sub-Group"
+      description: "Create a Sub-Group"
+      parameters:
+        - name: subgroup
+          in: body
+          required: true
+          schema: 
+            $ref: '#/definitions/PollSubGroup'
+      responses:
+        "200":
+          description: "Success"
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+    get:
+      tags:
+        - "Sub-Groups"
+      operationId: subgroupsControllerGet
+      summary: "Get All The Sub-Groups"
+      description: "Get All The Sub-Groups"
+      responses:
+        "200":
+          description: "Success"
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+
+  /subgroups/{idSubgroup}:
+    x-swagger-router-controller: subgroups.controller
+    parameters:
+      - name: idSubgroup
+        in: path
+        description: "ID of the Sub-Group"
+        required: true
+        type: string
+    get:
+      tags:
+        - "Sub-Groups"
+      operationId: subgroupsControllerGetId
+      summary: "Get Only One Sub-Group"
+      description: "Get Only One Sub-Group sending the ID of Sub-Group"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: '#/definitions/PollSubGroup'
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      tags:
+        - "Sub-Groups"
+      operationId: subgroupsControllerPut
+      summary: "Update Only One Sub-Group"
+      description: "Update Only One Sub-Group sending the ID of Sub-Group"
+      parameters:
+        - name: subgroup
+          in: body
+          required: true
+          schema: 
+            $ref: '#/definitions/PollSubGroup'
+      responses:
+        200:
+          description: "Success"
+        403:
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      tags:
+        - "Sub-Groups"
+      operationId: subgroupsControllerDelete
+      summary: "Delete One Sub-Group"
+      description: "Delete One Sub-Group sending the ID of Sub-Group"
+      responses:
+        "200":
+          description: "Success"
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+
+
   /polls/{idPoll}:
     x-swagger-router-controller: polls.controller
     parameters:
