@@ -216,18 +216,31 @@ async function update(req, res) {
     try {
         const rows = await pool.query(query[0], idTypeOfAnswer);
         await setAnswersErased(rows, true);
-        let result = await pool.query(query[1], [newTypeOfAnswer, idTypeOfAnswer])
-        if (!result.changedRows) {
-            res.status(404).send({ message: 'No se encontro el Tipo de Respuesta.' });
-        } else {
-            console.log('changed ' + result.changedRows + ' rows');
-            res.status(200).send({ message: 'Se actualizo el Tipo de Respuesta' });
+        let typeOfAnswerDB = await pool.query(query[1], [newTypeOfAnswer, idTypeOfAnswer]);
+        console.log('changed ' + typeOfAnswerDB.changedRows + ' rows');
+        for (const answer of answers) {
+            answer.idType_Of_Answer = idTypeOfAnswer;
+            const answerInserted = await pool.query(query[2], ['answer', answer]);
+            if (!answerInserted.affectedRows) {
+                res
+                    .status(404)
+                    .send({ message: "La Respuesta no se ha guardado." });
+            } else {
+                console.log("Affected " + answerInserted.affectedRows + " rows");
+            }
         }
+
+        // if (!result.changedRows) {
+        //     res.status(404).send({ message: 'No se encontro el Tipo de Respuesta.' });
+        // } else {
+            
+        // }
         
     } catch (err) {
         console.log(err);
         res.status(500).send({ message: "Error en la petición.", err });
     }
+    res.status(200).send({ message: 'Se actualizo el Tipo de Respuesta' });
 
 
 }

@@ -16,7 +16,8 @@
         ],
         "put": [
             "SELECT distinct idanswer FROM type_of_answer toa INNER JOIN answer a ON a.idtype_of_answer = toa.idtype_of_answer WHERE a.erased = FALSE AND toa.erased = FALSE",
-            "UPDATE type_of_answer SET ? WHERE idtype_of_answer = ?"
+            "UPDATE type_of_answer SET ? WHERE idtype_of_answer = ?",
+            "INSERT INTO ?? SET ?"
         ],
         "delete": [
             "SELECT distinct idanswer FROM type_of_answer toa INNER JOIN answer a ON a.idtype_of_answer = toa.idtype_of_answer WHERE a.erased = FALSE AND toa.erased = FALSE",
