@@ -1221,7 +1221,7 @@ definitions:
   typeOfAnswer:
     type: object
     properties:
-      id:
+      idTypeOfAnswer:
         type: string
       typeOfAnswer:
         type: string
@@ -1229,7 +1229,6 @@ definitions:
       description:
         type: string
         example: "En que instancia se encuentra para dicha revision."
-
       sampleValues:
         type: string
         example: "Ninguno, Leve, Moderado, Severo, Extremo"

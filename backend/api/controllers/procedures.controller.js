@@ -234,7 +234,6 @@ async function update(req, res) {
         idPoll,
         description
     };
-    console.log(newProcedure);
     // const table_name = "procedimiento";
     const sql = `UPDATE procedimiento SET ? WHERE idprocedure = ?`;
     try {
@@ -243,7 +242,6 @@ async function update(req, res) {
             res.status(404).send({ message: 'No se encontro el procedimiento.' });
         } else {
             console.log('changed ' + result.changedRows + ' rows');
-            console.log(result.sql);
             res.status(200).send({ message: 'Se actualizo el Procedimiento' });
         }
     } catch (err) {
@@ -264,7 +262,6 @@ async function deleteProcedure(req, res) {
             res.status(404).send({ message: 'No se encontro el procedimiento.' });
         } else {
             console.log('changed ' + result.changedRows + ' rows');
-            console.log(result.sql);
             res.status(200).send({ message: 'Se elimino el Procedimiento' });
         }
     } catch (err) {
