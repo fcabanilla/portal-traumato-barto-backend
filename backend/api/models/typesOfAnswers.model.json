@@ -1,8 +1,8 @@
 {
     "query": {
         "post": [
-            "SELECT * FROM type_of_answer WHERE type_of_answer = ? AND description = ? AND addable = ?",
-            "SELECT * FROM answer WHERE answer = ?  AND  score = ?",
+            "SELECT * FROM type_of_answer WHERE type_of_answer = ? AND description = ? AND addable = ? erased = FALSE",
+            "SELECT * FROM answer WHERE answer = ?  AND  score = ? AND erased = FALSE",
             "INSERT INTO ?? SET ?"
         ],
         "get": [

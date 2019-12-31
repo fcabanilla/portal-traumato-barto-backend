@@ -1,9 +1,8 @@
 {
     "query": {
         "post": [
-            "",
-            "",
-            ""
+            "SELECT * FROM question_group WHERE name = ? AND description = ? AND erased = FALSE",
+            "INSERT INTO question_group SET ?"
         ],
         "get": [
             "",

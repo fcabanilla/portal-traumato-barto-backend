@@ -102,7 +102,7 @@ async function create(req, res) {
             res.status(500).send({ message: `Foreign Key doesn't exist` });
         } if (err === "DUPLICATE_ENTRY") {
             console.log(`El objeto ya existe`);
-            res.status(500).send({ message: `Foreign Key doesn't exist` });
+            res.status(500).send({ message: `El objeto ya existe` });
         } else {
             res.status(500).send({ message: "Error en la petición" });
         }

@@ -368,8 +368,14 @@ paths:
             $ref: '#/definitions/Error'
 
 
-  /subgroups:
+  /groups/{idGroup}/subgroups:
     x-swagger-router-controller: subgroups.controller
+    parameters:
+      - name: idGroup
+        in: path
+        description: "ID of th Group"
+        required: true
+        type: string
     post:
       tags:
         - "Sub-Groups"
@@ -403,12 +409,17 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  /subgroups/{idSubgroup}:
+  /groups/{idGroup}/subgroups/{idSubgroup}:
     x-swagger-router-controller: subgroups.controller
     parameters:
       - name: idSubgroup
         in: path
         description: "ID of the Sub-Group"
+        required: true
+        type: string
+      - name: idGroup
+        in: path
+        description: "ID of th Group"
         required: true
         type: string
     get:
