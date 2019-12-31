@@ -11,6 +11,25 @@ module.exports = {
 };
 
 
+function formatTypeOfAnswer(rows) {
+    // const { idtype_of_answer: idTypeOfAnswer, type_of_answer: typeOfAnswer, description, addable } = rows;
+    const typeOfAnswer = {};
+    const answers = [];
+    for (const row of rows) {
+        let answer = {};
+        answer.answer = row.answer;
+        answer.score = row.score;
+        answers.push(answer);
+    }
+    typeOfAnswer.typeOfAnswer = rows[0].type_of_answer;
+    typeOfAnswer.description = rows[0].description;
+    typeOfAnswer.addable = rows[0].addable;
+    typeOfAnswer.answers = answers;   
+
+    return typeOfAnswer;
+}
+
+
 async function create(req, res) {
     const { typeOfAnswer, description, answers, addable } = req.body;
     const newTypeOfAnswer = {
@@ -66,18 +85,27 @@ async function create(req, res) {
         }
     }
     res.status(200).send({ message: "Se creo la Pregunta" });
-
 }
 async function getAll(req, res) {
     const query = sql.get;
+    const typeOfAnswer = [];
     try {
-        typesOfAnswersDB = await pool.query(query);
-        if (!typesOfAnswersDB.length) {
+        const typesOfAnswersIDsDB = await pool.query(query[0]);
+        if (!typesOfAnswersIDsDB.length) {
             res.status(404).send({ message: "No hay Tipos de Pregunta !!" });
         } else {
-            return res.status(200).send({ typesOfAnswersDB });
+
+            for (let typeOfAnswerIDDB of typesOfAnswersIDsDB) {
+                typeOfAnswerIDDB = typeOfAnswerIDDB.idtype_of_answer;
+                const typeOfAnswerDB = await pool.query(query[1], typeOfAnswerIDDB);
+                typeOfAnswer.push(formatTypeOfAnswer(typeOfAnswerDB));
+            }
+            console.log(typeOfAnswer);
+            return res.status(200).send({ typeOfAnswer });
+
         }
     } catch (err) {
+        console.log(err);
         res.status(500).send({ message: "Error en la petición.", err });
     }
 }

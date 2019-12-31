@@ -5,7 +5,10 @@
             "SELECT * FROM answer WHERE answer = ?  AND  score = ?",
             "INSERT INTO ?? SET ?"
         ],
-        "get": "SELECT * FROM type_of_answer toa INNER JOIN answer a ON a.idtype_of_answer = toa.idtype_of_answer WHERE a.erased = FALSE AND toa.erased = FALSE",
+        "get": [
+            "SELECT DISTINCT idtype_of_answer FROM type_of_answer",
+            "SELECT * FROM type_of_answer toa INNER JOIN answer a ON a.idtype_of_answer = toa.idtype_of_answer WHERE a.erased = FALSE AND toa.erased = FALSE AND toa.idtype_of_answer = ?"
+        ],
         "getId": "SELECT * FROM type_of_answer toa INNER JOIN answer a ON a.idtype_of_answer = toa.idtype_of_answer WHERE a.erased = FALSE AND toa.erased = FALSE AND toa.idtype_of_answer = ?",
         "put": "",
         "delete": ""
