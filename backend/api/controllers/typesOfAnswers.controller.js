@@ -101,7 +101,7 @@ async function getAll(req, res) {
                 typeOfAnswer.push(formatTypeOfAnswer(typeOfAnswerDB));
             }
             console.log(typeOfAnswer);
-            return res.status(200).send({ typeOfAnswer });
+            return res.status(200).send( typeOfAnswer );
 
         }
     } catch (err) {
@@ -117,7 +117,10 @@ async function get(req, res) {
         if (!typeOfAnswerDB.length) {
             res.status(404).send({ message: "No se encontro el Tipo de Pregunta." });
         } else {
-            return res.status(200).send({ typeOfAnswerDB });
+
+            typeOfAnswerDB = formatTypeOfAnswer(typeOfAnswerDB);
+
+            return res.status(200).send( typeOfAnswerDB );
         }
     } catch (err) {
         console.log(err);        
