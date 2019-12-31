@@ -146,6 +146,96 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
+  /typesOfAnswers:
+    x-swagger-router-controller: typesOfAnswers.controller
+    post:
+      tags:
+        - "Types of Answers"
+      operationId: typesOfAnswersControllerPost
+      summary: "Create a Type of Answer"
+      description: "Create a type of Answer"
+      parameters:
+        - name: typeOfAnswer
+          in: body
+          required: true
+          schema: 
+            $ref: '#/definitions/typeOfAnswer'
+      responses:
+        "200":
+          description: "Success"
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+    get:
+      tags:
+        - "Types of Answers"
+      operationId: typesOfAnswersControllerGet
+      summary: "Get All The Types Of Answers"
+      description: "Get All The Types Of Answers"
+      responses:
+        "200":
+          description: "Success"
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+
+  /typesOfAnswers/{idTypeOfAnswer}:
+    x-swagger-router-controller: typesOfAnswers.controller
+    parameters:
+      - name: idTypeOfAnswer
+        in: path
+        description: "ID of the Type of Answer"
+        required: true
+        type: string
+    get:
+      tags:
+        - "Types of Answers"
+      operationId: typesOfAnswersControllerGetId
+      summary: "Get Only One Type of Answer"
+      description: "Get Only One Type of Answer sending the ID of Type of Answer"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: '#/definitions/typeOfAnswer'
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      tags:
+        - "Types of Answers"
+      operationId: typesOfAnswersControllerPut
+      summary: "Update Only One Type of Answer"
+      description: "Update Only One Type of Answer sending the ID of Type of Answer"
+      parameters:
+        - name: typeOfAnswer
+          in: body
+          required: true
+          schema: 
+            $ref: '#/definitions/typeOfAnswer'
+      responses:
+        200:
+          description: "Success"
+        403:
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      tags:
+        - "Types of Answers"
+      operationId: typesOfAnswersControllerDelete
+      summary: "Delete One Type of Answer"
+      description: "Delete One Type of Answer sending the ID of Type of Answer"
+      responses:
+        "200":
+          description: "Success"
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
 
   /polls:
     x-swagger-router-controller: polls.controller
@@ -1126,24 +1216,33 @@ definitions:
         items:
           $ref: '#/definitions/Question'
       typeOfAnswer:
-        $ref: '#/definitions/TypeOfAnswer'
+        $ref: '#/definitions/typeOfAnswer'
       
-  TypeOfAnswer:
+  typeOfAnswer:
     type: object
     properties:
       id:
         type: string
-      name:
+      typeOfAnswer:
         type: string
+        example: "TIPO DE REVISION, TIEMPO DE REVISION"
       description:
         type: string
+        example: "En que instancia se encuentra para dicha revision."
+
+      sampleValues:
+        type: string
         example: "Ninguno, Leve, Moderado, Severo, Extremo"
-      values:
+      answers:
         type: array
         items:
-          $ref: '#/definitions/Values'
+          $ref: '#/definitions/answer'
+      addable:
+        type: boolean
+        example: true
+        type: string
 
-  Values:
+  answer:
     type: object
     properties:
       id:
@@ -1153,7 +1252,7 @@ definitions:
         example: "MODERADO"
       score:
         type: integer
-        example: "2"
+        example: 2
 
   Question:
     type: object

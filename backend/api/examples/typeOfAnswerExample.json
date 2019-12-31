@@ -1,0 +1,70 @@
+[
+    {
+        "typeOfAnswer": "TIPO DE REVISION, TIEMPO DE REVISION",
+        "description": "En que instancia se encuentra para dicha revision.",
+        "answers": "PRIMARIA, PRE OPERATORIO, 3 MESES, 1 AÑOS, 5 AÑOS, 10 AÑOS, 15 AÑOS, OTRO",
+        "answers": [
+            {
+                "answer": "PRIMARIA",
+                "score": 0
+            },
+            {
+                "answer": "PRE OPERATORIO",
+                "score": 0
+            },
+            {
+                "answer": "3 MESES",
+                "score": 0
+            },
+            {
+                "answer": "1 AÑOS",
+                "score": 0
+            },
+            {
+                "answer": "5 AÑOS",
+                "score": 0
+            },
+            {
+                "answer": "10 AÑOS",
+                "score": 0
+            },
+            {
+                "answer": "15 AÑOS",
+                "score": 0
+            },
+            {
+                "answer": "OTRO",
+                "score": 0
+            }
+        ],
+        "addable": false
+    },
+    {
+        "typeOfAnswer": "",
+        "description": "",
+        "answers": "",
+        "answers": [
+            {
+                "answer": "",
+                "score": 0
+            },
+            {
+                "answer": "",
+                "score": 0
+            },
+            {
+                "answer": "",
+                "score": 0
+            },
+            {
+                "answer": "",
+                "score": 0
+            },
+            {
+                "answer": "",
+                "score": 0
+            }
+        ],
+        "addable": true
+    }
+]

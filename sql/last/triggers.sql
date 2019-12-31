@@ -1,4 +1,18 @@
 DELIMITER //
+CREATE TRIGGER `type_of_answer_GUID` BEFORE INSERT ON `mydb`.`type_of_answer`
+ FOR EACH ROW begin
+ SET new.idtype_of_answer = uuid();
+end//
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER `answer_GUID` BEFORE INSERT ON `mydb`.`answer`
+ FOR EACH ROW begin
+ SET new.idanswer = uuid();
+end//
+DELIMITER ;
+
+DELIMITER //
 CREATE TRIGGER `person_GUID` BEFORE INSERT ON `mydb`.`person`
  FOR EACH ROW begin
  SET new.idperson = uuid();
