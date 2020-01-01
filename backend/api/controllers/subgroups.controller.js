@@ -52,6 +52,7 @@ async function create(req, res) {
             description: "El Sub-Grupo no se ha guardado",
             code: 409
         };
+        // const tmp = await pool.query('SELECT * FROM ') 
         res.status(201).send({ message: "Se creo el Sub-Grupo" });
     } catch (err) {
         errorHandler(err, res);
@@ -59,8 +60,19 @@ async function create(req, res) {
 }
 async function getAll(req, res) {
     const idGroup = req.swagger.params.idGroup.value;
+    const query = sql.get;
     try {
-
+        console.log("SSSSSSS",idGroup);
+        const subgroupsDB = await pool.query(query[0], idGroup);
+        console.log("SSSSSSS",subgroupsDB);
+        
+        if (!subgroupsDB.length) throw {
+            status: "NOT_FOUND",
+            description: "No hay Sub-Grupos !!",
+            code: 404
+        };
+        console.log(subgroupsDB);
+        return res.status(200).send(subgroupsDB);
     } catch (err) {
         errorHandler(err, res);
     }

@@ -50,17 +50,12 @@ async function create(req, res) {
 }
 async function getAll(req, res) {
     const query = sql.get;
-    console.log("****", query);
-    
-    const groups = [];
-    let tmp;
     try {
         const groupsDB = await pool.query(query[0]);
-        console.log("111",groupsDB);
         
         if (!groupsDB.length) throw {
             status: "NOT_FOUND",
-            description: "No hay Tipos de Respuesta !!",
+            description: "No hay Grupos !!",
             code: 404
         };
         console.log(groupsDB);
