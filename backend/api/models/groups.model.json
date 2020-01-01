@@ -5,7 +5,7 @@
             "INSERT INTO question_group SET ?"
         ],
         "get": [
-            "",
+            "SELECT DISTINCT * FROM question_group WHERE erased = FALSE",
             "",
             ""
         ],

@@ -49,11 +49,26 @@ async function create(req, res) {
     }
 }
 async function getAll(req, res) {
+    const query = sql.get;
+    console.log("****", query);
+    
+    const groups = [];
+    let tmp;
     try {
-
+        const groupsDB = await pool.query(query[0]);
+        console.log("111",groupsDB);
+        
+        if (!groupsDB.length) throw {
+            status: "NOT_FOUND",
+            description: "No hay Tipos de Respuesta !!",
+            code: 404
+        };
+        console.log(groupsDB);
+        return res.status(200).send(groupsDB);
     } catch (err) {
         errorHandler(err, res);
     }
+
 }
 async function get(req, res) {
     const idGroup = req.swagger.params.idGroup.value;

@@ -119,9 +119,7 @@ async function getAll(req, res) {
             res.status(404).send({ message: "No hay Tipos de Respuesta !!" });
         } else {
 
-            for (let typeOfAnswerIDDB of typesOfAnswersIDsDB) {
-                console.log("wwwwwwwwww", typeOfAnswerIDDB);
-                
+            for (let typeOfAnswerIDDB of typesOfAnswersIDsDB) {                
                 typeOfAnswerIDDB = typeOfAnswerIDDB.idtype_of_answer;
                 const typeOfAnswerDB = await pool.query(query[1], typeOfAnswerIDDB);
                 if (!typeOfAnswerDB.length) {
