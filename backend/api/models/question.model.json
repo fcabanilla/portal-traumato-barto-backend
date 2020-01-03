@@ -1,0 +1,30 @@
+{
+    "query": {
+        "post": [
+            "SELECT * FROM question_group qg INNER JOIN question_subgroup qsg ON qsg.idquestion_group = qg.idquestion_group WHERE qg.erased = FALSE AND qsg.erased = FALSE AND qsg.idquestion_group = ? AND qsg.idquestion_subgroup = ?",
+            "SELECT * FROM type_of_answer WHERE idtype_of_answer = ? AND erased = FALSE",
+            "SELECT * FROM question WHERE name = ? AND question = ? AND idtype_of_answer = ? AND erased = FALSE",
+            "INSERT INTO question SET ?"
+        ],
+        "get": [
+            "SELECT DISTINCT q.idquestion, q.idtype_of_answer, q.idquestion_subgroup, q.name, q.question FROM question q INNER JOIN type_of_answer toa ON toa.idType_of_answer = q.idType_of_answer  JOIN question_subgroup qsg ON q.idquestion_subgroup = qsg.idquestion_subgroup INNER JOIN question_group qg ON qsg.idquestion_group = qg.idquestion_group WHERE q.erased = FALSE AND qsg.erased = FALSE AND qg.erased = FALSE AND qsg.idquestion_group = ? AND q.idquestion_subgroup = ?",
+            "",
+            ""
+        ],
+        "getId": [
+            "SELECT DISTINCT q.idquestion, q.idtype_of_answer, q.idquestion_subgroup, q.name, q.question FROM question q INNER JOIN type_of_answer toa ON toa.idType_of_answer = q.idType_of_answer  JOIN question_subgroup qsg ON q.idquestion_subgroup = qsg.idquestion_subgroup INNER JOIN question_group qg ON qsg.idquestion_group = qg.idquestion_group WHERE q.erased = FALSE AND qsg.erased = FALSE AND qg.erased = FALSE AND qsg.idquestion_group = ? AND q.idquestion_subgroup = ? AND q.idquestion = ?",
+            "",
+            ""
+        ],
+        "put": [
+            "",
+            "",
+            ""
+        ],
+        "delete": [
+            "",
+            "",
+            ""
+        ]
+    }
+}

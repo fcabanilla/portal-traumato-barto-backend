@@ -470,7 +470,108 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
+  /groups/{idGroup}/subgroups/{idSubgroup}/questions:
+    x-swagger-router-controller: questions.controller
+    parameters:
+      - name: idGroup
+        in: path
+        description: "Id of the Group"
+        required: true
+        type: string
+      - name: idSubgroup
+        in: path
+        description: "Id of the Subgroup"
+        required: true
+        type: string
+    post:
+      tags:
+        - Questions
+      operationId: questionsControllerPost
+      summary: "Create Question"
+      description: "Create a new Question"
+      parameters:
+        - name: Question
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Question'
+      responses:
+        "200":
+          description: "Success"
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+    get:
+      tags:
+        - Questions
+      operationId: questionsControllerGet
+      summary: "Get Question"
+      description: "Get all the Question"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: '#/definitions/Question'
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
 
+  /groups/{idGroup}/subgroups/{idSubgroup}/questions/{idQuestion}:
+    x-swagger-router-controller: questions.controller
+    parameters:
+      - name: idGroup
+        in: path
+        description: "Id of the Group"
+        required: true
+        type: string
+      - name: idSubgroup
+        in: path
+        description: "Id of the Subgroup"
+        required: true
+        type: string
+      - name: idQuestion
+        in: path
+        description: "ID of the Question"
+        required: true
+        type: string
+    get:
+      tags:
+        - Questions
+      operationId: questionsControllerGetId
+      summary: "Get Question"
+      description: "Get only one Question"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: '#/definitions/Question'
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+
+    put:
+      tags:
+        - Questions
+      operationId: questionsControllerPutId
+      summary: "Update a Question"
+      description: "Update only one Question"
+      responses:
+        200:
+          description: "Success"
+          
+    delete:
+      tags:
+        - Questions
+      operationId: questionsControllerDeleteId
+      summary: "Delete a Question"
+      description: "Delete only one Question"
+      responses:
+        200:
+          description: "Success"
+ 
   /polls/{idPoll}:
     x-swagger-router-controller: polls.controller
     parameters:

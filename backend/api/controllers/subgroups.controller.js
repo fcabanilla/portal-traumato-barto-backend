@@ -46,14 +46,13 @@ async function create(req, res) {
             code: 409
         };
         
-        const groupInserted = await pool.query(query[2], newSubgroup);
-        if (!groupInserted.affectedRows) throw {
+        const groupSaved = await pool.query(query[2], newSubgroup);
+        if (!groupSaved.affectedRows) throw {
             status: "NOT_SAVED",
-            description: "El Sub-Grupo no se ha guardado",
+            description: "El Sub-Grupo no se ha guardadó",
             code: 409
         };
-        // const tmp = await pool.query('SELECT * FROM ') 
-        res.status(201).send({ message: "Se creo el Sub-Grupo" });
+        res.status(201).send({ message: "Se creó el Sub-Grupo" });
     } catch (err) {
         errorHandler(err, res);
     }
@@ -62,16 +61,12 @@ async function getAll(req, res) {
     const idGroup = req.swagger.params.idGroup.value;
     const query = sql.get;
     try {
-        console.log("SSSSSSS",idGroup);
-        const subgroupsDB = await pool.query(query[0], idGroup);
-        console.log("SSSSSSS",subgroupsDB);
-        
+        const subgroupsDB = await pool.query(query[0], idGroup);        
         if (!subgroupsDB.length) throw {
             status: "NOT_FOUND",
             description: "No hay Sub-Grupos !!",
             code: 404
         };
-        console.log(subgroupsDB);
         return res.status(200).send(subgroupsDB);
     } catch (err) {
         errorHandler(err, res);
@@ -82,10 +77,6 @@ async function get(req, res) {
     const idSubgroup = req.swagger.params.idSubgroup.value;
     const query = sql.getId;
     try {
-        // console.log("SQL: ", query[0]);
-        // console.log("idSubgroup: ", idSubgroup);
-        // console.log("idGroup: ", idGroup);
-        
         subgroupBD = await pool.query(query[0], [idSubgroup, idGroup]);
         if(!subgroupBD.length) throw {
             status: "NOT_FOUND",

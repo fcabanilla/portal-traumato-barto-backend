@@ -6,6 +6,13 @@ end//
 DELIMITER ;
 
 DELIMITER //
+CREATE TRIGGER `question_GUID` BEFORE INSERT ON `mydb`.`question`
+ FOR EACH ROW begin
+ SET new.idquestion = uuid();
+end//
+DELIMITER ;
+
+DELIMITER //
 CREATE TRIGGER `question_group_GUID` BEFORE INSERT ON `mydb`.`question_group`
  FOR EACH ROW begin
  SET new.idquestion_group = uuid();
