@@ -555,9 +555,15 @@ paths:
     put:
       tags:
         - Questions
-      operationId: questionsControllerPutId
+      operationId: questionsControllerPut
       summary: "Update a Question"
       description: "Update only one Question"
+      parameters:
+        - name: Question
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Question'
       responses:
         200:
           description: "Success"
@@ -565,7 +571,7 @@ paths:
     delete:
       tags:
         - Questions
-      operationId: questionsControllerDeleteId
+      operationId: questionsControllerDelete
       summary: "Delete a Question"
       description: "Delete only one Question"
       responses:

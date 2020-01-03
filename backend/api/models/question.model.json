@@ -17,12 +17,12 @@
             ""
         ],
         "put": [
-            "",
+            "UPDATE question SET ? WHERE idquestion_subgroup = ? AND idquestion = ? AND question.erased = FALSE",
             "",
             ""
         ],
         "delete": [
-            "",
+            "UPDATE question SET erased = TRUE WHERE idquestion = ? AND idquestion_subgroup = ?",
             "",
             ""
         ]

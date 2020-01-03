@@ -85,6 +85,7 @@ async function get(req, res) {
     const idGroup = req.swagger.params.idGroup.value;
     const idSubgroup = req.swagger.params.idSubgroup.value;
     const idQuestion = req.swagger.params.idQuestion.value;
+
     try {
         const questionDB = await pool.query(query[0], [idGroup, idSubgroup, idQuestion]);
         if (!questionDB.length) throw {
@@ -98,21 +99,49 @@ async function get(req, res) {
     }
 }
 async function update(req, res) {
+    /*
+        DEBERIA CORROBORARSE QUE LA FILA (ROW DEL GET ANTERIOR) EXISTA EN LA BASE ANTES DE INSERTARLA
+    */
     const query = sql.put;
-    const idGroup = req.swagger.params.idGroup.value;
-    const idSubgroup = req.swagger.params.idSubgroup.value;
+    // const idGroup = req.swagger.params.idGroup.value;
+    const idSubgroupOld = req.swagger.params.idSubgroup.value;
+    const idQuestion = req.swagger.params.idQuestion.value;
+    const { name, question, idTypeOfAnswer, idSubgroup } = req.body;
+
+    const updateQuestion = {
+        name,
+        question,
+        idtype_of_answer: idTypeOfAnswer,
+        idquestion_subgroup: idSubgroup
+    };
     try {
-        
+        const questionUpdated = await pool.query(query[0], [updateQuestion, idSubgroupOld, idQuestion]);
+        if (!questionUpdated.changedRows) throw {
+            status: "NOT_FOUND",
+            description: "No se encontró la Pregunta",
+            code: 404
+        };
+        res.status(200).send({ message: 'Se actualizó la Pregunta' });
     } catch (err) {
         errorHandler(err, res);
     }
 }
 async function deleteQuestion(req, res) {
+    /*
+        DEBERIA CORROBORARSE QUE LA FILA (ROW DEL GET ANTERIOR) EXISTA EN LA BASE ANTES DE INSERTARLA
+    */
     const query = sql.delete;
-    const idGroup = req.swagger.params.idGroup.value;
+    // const idGroup = req.swagger.params.idGroup.value;
     const idSubgroup = req.swagger.params.idSubgroup.value;
+    const idQuestion = req.swagger.params.idQuestion.value;
     try {
-        
+        const questionUpdated = await pool.query(query[0], [idQuestion, idSubgroup]);
+        if (!questionUpdated.changedRows) throw {
+            status: "NOT_FOUND",
+            description: "No se encontró la Pregunta",
+            code: 404
+        };
+        res.status(200).send({ message: 'Se eliminó la Pregunta' });
     } catch (err) {
         errorHandler(err, res);
     }

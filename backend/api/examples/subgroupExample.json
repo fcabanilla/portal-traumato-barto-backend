@@ -10,5 +10,11 @@
     {
         "name": "",
         "description": "Cree usted que esta es una pregunta de prueba?"
+    },
+    {
+        "name": "TEST PUT",
+        "question": "¿En qué instancia de la intervención de rodilla esta?",
+        "idTypeOfAnswer": "54ccd507-2e45-11ea-a43f-f8da0c66fd91",
+        "idSubgroup": "c5838a70-2e42-11ea-a43f-f8da0c66fd91"
     }
 ]
