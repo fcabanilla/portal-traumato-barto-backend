@@ -99,15 +99,23 @@ async function get(req, res) {
     }
 }
 async function update(req, res) {
-    const idGroup = req.swagger.params.idGroup.value;
+    const idGroupOld = req.swagger.params.idGroup.value;
     const idSubgroup = req.swagger.params.idSubgroup.value;
-    const { name, description } = req.body;
-    const newSubgroup = {
+    const { name, description, idGroup } = req.body;
+    const query = sql.put;
+    const updateSubgroup = {
+        idquestion_group: idGroup,
         name,
         description
     };
     try {
-
+        const subgroupUpdated = await pool.query(query[0], [updateSubgroup, idSubgroup, idGroupOld]);
+        if (!subgroupUpdated.changedRows) throw {
+            status: "NOT_FOUND",
+            description: "No se encontró el Sub-Grupo",
+            code: 404
+        };
+        res.status(200).send({ message: 'Se actualizó el Sub-Grupo' });
     } catch (err) {
         errorHandler(err, res);
     }
@@ -115,8 +123,15 @@ async function update(req, res) {
 async function deleteSubgroup(req, res) {
     const idGroup = req.swagger.params.idGroup.value;
     const idSubgroup = req.swagger.params.idSubgroup.value;
+    const query = sql.delete;
     try {
-
+        const subgroupDeleted = await pool.query(query[0], [idGroup, idSubgroup])
+        if (!subgroupDeleted.changedRows) throw {
+            status: "NOT_FOUND",
+            description: "No se encontró el Sub-Grupo",
+            code: 404
+        };
+        res.status(200).send({ message: 'Se eliminó el Sub-Grupo' });
     } catch (err) {
         errorHandler(err, res);
     }
