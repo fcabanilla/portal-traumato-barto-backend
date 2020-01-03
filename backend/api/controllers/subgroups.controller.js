@@ -93,7 +93,7 @@ async function get(req, res) {
             code: 404
         };
         console.log(subgroupBD);
-        return res.status(200).send(subgroupBD);
+        return res.status(200).send(subgroupBD[0]);
     } catch (err) {
         errorHandler(err, res);
     }

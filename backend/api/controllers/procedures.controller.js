@@ -239,7 +239,7 @@ async function update(req, res) {
     try {
         result = await pool.query(sql, [newProcedure, idProcedure]);
         if (!result.changedRows) {
-            res.status(404).send({ message: 'No se encontro el procedimiento.' });
+            res.status(404).send({ message: 'No se encontro el Procedimiento.' });
         } else {
             console.log('changed ' + result.changedRows + ' rows');
             res.status(200).send({ message: 'Se actualizo el Procedimiento' });

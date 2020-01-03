@@ -43,7 +43,7 @@ async function create(req, res) {
             description: "El Grupo no se ha guardado",
             code: 409
         };
-        res.status(201).send({ message: "Se creo el Grupo"});
+        res.status(201).send({ message: "Se creó el Grupo"});
     } catch (err) {
         errorHandler(err, res);
     }
@@ -55,7 +55,7 @@ async function getAll(req, res) {
         
         if (!groupsDB.length) throw {
             status: "NOT_FOUND",
-            description: "No hay Grupos !!",
+            description: "No se encontró el Grupo",
             code: 404
         };
         console.log(groupsDB);
@@ -72,11 +72,11 @@ async function get(req, res) {
         groupDB = await pool.query(query[0], idGroup);
         if(!groupDB.length) throw{
             status: "NOT_FOUND",
-            description: "No hay Grupos !!",
+            description: "No se encontró el Grupo",
             code: 404
         };
         console.log(groupDB);
-        return res.status(200).send(groupDB);
+        return res.status(200).send(groupDB[0]);
 
     } catch (err) {
         errorHandler(err, res);
@@ -85,20 +85,34 @@ async function get(req, res) {
 async function update(req, res) {
     const idGroup = req.swagger.params.idGroup.value;
     const { name, description } = req.body;
-    const newGroup ={
+    const query = sql.put;
+    const updateGroup ={
         name,
         description
     };
     try {
-
+        const groupUpdated = await pool.query(query[0], [updateGroup, idGroup]);
+        if (!groupUpdated.changedRows) throw {
+            status: "NOT_FOUND",
+            description: "No se encontró el Grupo",
+            code: 404
+        };
+        res.status(200).send({ message: 'Se actualizó el Grupo' });
     } catch (err) {
         errorHandler(err, res);
     }
 }
 async function deleteGroup(req, res) {
     const idGroup = req.swagger.params.idGroup.value;
+    const query = sql.delete;
     try {
-
+        const groupDeleted = await pool.query(query[0], idGroup);
+        if (!groupUpdated.changedRows) throw {
+            status: "NOT_FOUND",
+            description: "No se encontró el Grupo",
+            code: 404
+        };
+        res.status(200).send({ message: 'Se eliminó el Grupo' });
     } catch (err) {
         errorHandler(err, res);
     }
