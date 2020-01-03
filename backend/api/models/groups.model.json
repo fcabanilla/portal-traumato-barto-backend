@@ -10,7 +10,7 @@
             ""
         ],
         "getId": [
-            "",
+            "SELECT DISTINCT * FROM question_group WHERE idquestion_group = ? AND erased = FALSE",
             ""
         ],
         "put": [

@@ -67,7 +67,16 @@ async function getAll(req, res) {
 }
 async function get(req, res) {
     const idGroup = req.swagger.params.idGroup.value;
+    const query = sql.getId;
     try {
+        groupDB = await pool.query(query[0], idGroup);
+        if(!groupDB.length) throw{
+            status: "NOT_FOUND",
+            description: "No hay Grupos !!",
+            code: 404
+        };
+        console.log(groupDB);
+        return res.status(200).send(groupDB);
 
     } catch (err) {
         errorHandler(err, res);

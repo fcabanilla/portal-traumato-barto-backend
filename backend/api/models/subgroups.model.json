@@ -11,7 +11,7 @@
             ""
         ],
         "getId": [
-            "",
+            "SELECT DISTINCT * FROM question_subgroup WHERE idquestion_subgroup = ? AND idquestion_group = ? AND erased = FALSE",
             ""
         ],
         "put": [

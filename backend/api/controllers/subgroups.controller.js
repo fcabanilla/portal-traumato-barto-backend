@@ -80,8 +80,20 @@ async function getAll(req, res) {
 async function get(req, res) {
     const idGroup = req.swagger.params.idGroup.value;
     const idSubgroup = req.swagger.params.idSubgroup.value;
+    const query = sql.getId;
     try {
-
+        // console.log("SQL: ", query[0]);
+        // console.log("idSubgroup: ", idSubgroup);
+        // console.log("idGroup: ", idGroup);
+        
+        subgroupBD = await pool.query(query[0], [idSubgroup, idGroup]);
+        if(!subgroupBD.length) throw {
+            status: "NOT_FOUND",
+            description: "No hay Sub-Grupos !!",
+            code: 404
+        };
+        console.log(subgroupBD);
+        return res.status(200).send(subgroupBD);
     } catch (err) {
         errorHandler(err, res);
     }
