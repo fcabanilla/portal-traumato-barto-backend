@@ -1,7 +1,7 @@
 const core = require("./core.controller.js");
 const pool = require("../../database");
 const { query: sql } = require("../models/emptyPolls.model.json");
-const { DUPLICATE_ENTRY, NOT_SAVED, NOT_FOUND } = require("../models/emptyPolls.error.model.json");
+const { DUPLICATE_ENTRY, NOT_SAVED, NOT_FOUND, DETAIL_TYPE_PROCEDURE_NOT_FOUND } = require("../models/emptyPolls.error.model.json");
 
 
 module.exports = {
@@ -24,17 +24,21 @@ function errorHandler(err, res) {
 
 async function create(req, res) {
     const query = sql.post;
-    const { name, description, type } = req.body;
+    const { name, description, type, idDetailTypeProcedure = 'f' } = req.body;
     const newEmptyPoll = {
         name,
         description,
-        type
+        type,
+        iddetail_type_of_procedure:idDetailTypeProcedure
     };
     try {
-        const emptyPollDB = await pool.query(query[0], [ name, description, type ]);
+        const detailTypeProcedureDB = await pool.query(query[0], idDetailTypeProcedure);
+        if(!detailTypeProcedureDB.length) throw DETAIL_TYPE_PROCEDURE_NOT_FOUND;
+
+        const emptyPollDB = await pool.query(query[1], [ name, description, type ]);
         if(emptyPollDB.length) throw DUPLICATE_ENTRY;
 
-        const emptyPollSaved = await pool.query(query[1], newEmptyPoll);
+        const emptyPollSaved = await pool.query(query[2], newEmptyPoll);
         if(!emptyPollSaved.affectedRows) throw NOT_SAVED;
 
         res.status(201).send({message: "Se creó la Encuesta en Blanco"})

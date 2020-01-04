@@ -1,6 +1,7 @@
 {
     "query": {
         "post": [
+            "SELECT * FROM detail_type_of_procedure WHERE iddetail_type_of_procedure = ? AND erased = FALSE",
             "SELECT * FROM empty_poll WHERE name = ? AND description = ? AND type = ? AND erased = FALSE",
             "INSERT INTO empty_poll SET ?",
             ""
