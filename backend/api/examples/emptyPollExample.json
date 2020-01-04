@@ -1,0 +1,17 @@
+[
+    {
+        "name": "WOMAC SCORE",
+        "description": "REEMPLAZO ARTICULAR DE RODILLA",
+        "type": "Score"
+    },
+    {
+        "name": "KNEE SOCIETY SCORE – PACIENTE",
+        "description": "(PARA SER COMPLETADO POR EL PACIENTE)",
+        "type": "Score"
+    },
+    {
+        "name": "KNEE SOCIETY SCORE – POSTQUIRÚRGICO",
+        "description": "(PARA SER COMPLETADO POR EL MÉDICO)",
+        "type": "Score"
+    }
+]

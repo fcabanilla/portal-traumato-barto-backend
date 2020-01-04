@@ -1,0 +1,17 @@
+{
+    "DUPLICATE_ENTRY": {
+        "status": "DUPLICATE_ENTRY",
+        "description": "El Grupo ya existe",
+        "code": 409
+    },
+    "NOT_SAVED": {
+        "status": "NOT_SAVED",
+        "description": "El Grupo no se ha guardado",
+        "code": 409
+    },
+    "NOT_FOUND": {
+        "status": "NOT_FOUND",
+        "description": "No se encontró el Grupo",
+        "code": 404
+    }
+}

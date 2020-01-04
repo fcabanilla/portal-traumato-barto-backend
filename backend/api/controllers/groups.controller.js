@@ -1,6 +1,7 @@
 const core = require("./core.controller.js");
 const pool = require("../../database");
 const { query: sql } = require("../models/groups.model.json");
+const { DUPLICATE_ENTRY, NOT_SAVED, NOT_FOUND } = require("../models/groups.error.model.json");
 
 module.exports = {
     groupsControllerPost: core.middleware([core.logRequest, create]),
@@ -30,19 +31,12 @@ async function create(req, res) {
     
     try {
         let groupDB = await pool.query(query[0], [name, description]);
-        if (groupDB.length) throw {
-            status: "DUPLICATE_ENTRY",
-            description: "El Grupo ya existe",
-            code: 409
-        };
+        if (groupDB.length) throw DUPLICATE_ENTRY;
 
         const groupInserted = await pool.query(query[1], newGroup);
 
-        if (!groupInserted.affectedRows) throw {
-            status: "NOT_SAVED",
-            description: "El Grupo no se ha guardado",
-            code: 409
-        };
+        if (!groupInserted.affectedRows) throw NOT_SAVED;
+        
         res.status(201).send({ message: "Se creó el Grupo"});
     } catch (err) {
         errorHandler(err, res);

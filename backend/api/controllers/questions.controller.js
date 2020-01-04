@@ -135,8 +135,8 @@ async function deleteQuestion(req, res) {
     const idSubgroup = req.swagger.params.idSubgroup.value;
     const idQuestion = req.swagger.params.idQuestion.value;
     try {
-        const questionUpdated = await pool.query(query[0], [idQuestion, idSubgroup]);
-        if (!questionUpdated.changedRows) throw {
+        const questionDeleted = await pool.query(query[0], [idQuestion, idSubgroup]);
+        if (!questionDeleted.changedRows) throw {
             status: "NOT_FOUND",
             description: "No se encontró la Pregunta",
             code: 404

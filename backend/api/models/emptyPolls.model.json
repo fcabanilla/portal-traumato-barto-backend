@@ -1,0 +1,29 @@
+{
+    "query": {
+        "post": [
+            "SELECT * FROM empty_poll WHERE name = ? AND description = ? AND type = ? AND erased = FALSE",
+            "INSERT INTO empty_poll SET ?",
+            ""
+        ],
+        "get": [
+            "SELECT * FROM empty_poll WHERE erased = FALSE",
+            "",
+            ""
+        ],
+        "getId": [
+            "SELECT * FROM empty_poll WHERE idempty_poll = ? AND erased = FALSE",
+            "",
+            ""
+        ],
+        "put": [
+            "UPDATE empty_poll SET ? WHERE idempty_poll = ? AND erased = FALSE",
+            "",
+            ""
+        ],
+        "delete": [
+            "UPDATE empty_poll SET erased = TRUE WHERE idempty_poll = ? AND erased = FALSE",
+            "",
+            ""
+        ]
+    }
+}

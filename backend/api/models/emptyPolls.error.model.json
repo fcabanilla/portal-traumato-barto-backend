@@ -1,0 +1,17 @@
+{
+    "DUPLICATE_ENTRY": {
+        "status": "DUPLICATE_ENTRY",
+        "description": "El Encuesta en Blanco ya existe",
+        "code": 409
+    },
+    "NOT_SAVED": {
+        "status": "NOT_SAVED",
+        "description": "El Encuesta en Blanco no se ha guardado",
+        "code": 409
+    },
+    "NOT_FOUND": {
+        "status": "NOT_FOUND",
+        "description": "No se encontró el Encuesta en Blanco",
+        "code": 404
+    }
+}

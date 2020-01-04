@@ -1,4 +1,16 @@
 DELIMITER //
+CREATE TRIGGER `empty_poll_GUID` BEFORE INSERT ON `mydb`.`empty_poll`
+ FOR EACH ROW begin
+ SET new.idempty_poll = uuid();
+end//
+DELIMITER ;
+DELIMITER //
+CREATE TRIGGER `poll_GUID` BEFORE INSERT ON `mydb`.`poll`
+ FOR EACH ROW begin
+ SET new.idpoll = uuid();
+end//
+DELIMITER ;
+DELIMITER //
 CREATE TRIGGER `type_of_answer_GUID` BEFORE INSERT ON `mydb`.`type_of_answer`
  FOR EACH ROW begin
  SET new.idtype_of_answer = uuid();

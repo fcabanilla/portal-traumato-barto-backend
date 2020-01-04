@@ -237,7 +237,93 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  
+  /emptyPolls:
+    x-swagger-router-controller: emptyPolls.controller
+    post:
+      tags:
+        - Empty Polls
+      operationId: emptyPollsControllerPost
+      summary: "Create Empty Poll"
+      description: "Create a new Empty Poll"
+      parameters:
+        - name: emptyPoll
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/EmptyPoll'
+      responses:
+        "200":
+          description: "Success"
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+    get:
+      tags:
+        - Empty Polls
+      operationId: emptyPollsControllerGet
+      summary: "Get Empty Poll"
+      description: "Get all the Empty Poll"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: '#/definitions/EmptyPoll'
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+
+  /emptyPolls/{idEmptyPoll}:
+    x-swagger-router-controller: emptyPolls.controller
+    parameters:
+      - name: idEmptyPoll
+        in: path
+        description: "ID of the Empty Poll"
+        required: true
+        type: string
+    get:
+      tags:
+        - Empty Polls
+      operationId: emptyPollsControllerGetId
+      summary: "Get Empty Poll"
+      description: "Get only one Empty Poll"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: '#/definitions/EmptyPoll'
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+
+    put:
+      tags:
+        - Empty Polls
+      summary: "Update a Empty Poll"
+      operationId: emptyPollsControllerPut
+      description: "Update only one Empty Poll"
+      parameters:
+        - name: emptyPoll
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/EmptyPoll'
+      responses:
+        200:
+          description: "Success"
+          
+    delete:
+      tags:
+        - Empty Polls
+      summary: "Delete a poll"
+      operationId: emptyPollsControllerDelete
+      description: "Delete only one Empty Poll"
+      responses:
+        200:
+          description: "Success"
+
 
   /polls:
     x-swagger-router-controller: polls.controller
@@ -275,6 +361,50 @@ paths:
           description: "Access Denied"
           schema:
             $ref: '#/definitions/Error'
+
+  /polls/{idPoll}:
+    x-swagger-router-controller: polls.controller
+    parameters:
+      - name: idPoll
+        in: path
+        description: "ID of the poll"
+        required: true
+        type: string
+    get:
+      tags:
+        - Polls
+      operationId: pollsControllerGetId
+      summary: "Get poll"
+      description: "Get only one polls"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: '#/definitions/Poll'
+        "403":
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+
+    put:
+      tags:
+        - Polls
+      summary: "Update a poll"
+      operationId: pollsControllerPut
+      description: "Update only one poll"
+      responses:
+        200:
+          description: "Success"
+          
+    delete:
+      tags:
+        - Polls
+      summary: "Delete a poll"
+      operationId: pollsControllerDelete
+      description: "Delete only one poll"
+      responses:
+        200:
+          description: "Success"
 
   /groups:
     x-swagger-router-controller: groups.controller
@@ -578,49 +708,7 @@ paths:
         200:
           description: "Success"
  
-  /polls/{idPoll}:
-    x-swagger-router-controller: polls.controller
-    parameters:
-      - name: idPoll
-        in: path
-        description: "ID of the poll"
-        required: true
-        type: string
-    get:
-      tags:
-        - Polls
-      operationId: pollsControllerGetId
-      summary: "Get poll"
-      description: "Get only one polls"
-      responses:
-        "200":
-          description: "Success"
-          schema:
-            $ref: '#/definitions/Poll'
-        "403":
-          description: "Access Denied"
-          schema:
-            $ref: '#/definitions/Error'
-
-    put:
-      tags:
-        - Polls
-      summary: "Update a poll"
-      operationId: pollsControllerPut
-      description: "Update only one poll"
-      responses:
-        200:
-          description: "Success"
-          
-    delete:
-      tags:
-        - Polls
-      summary: "Delete a poll"
-      operationId: pollsControllerDelete
-      description: "Delete only one poll"
-      responses:
-        200:
-          description: "Success"
+  
   /patients:
     x-swagger-router-controller: patients.controller
     post:
@@ -1490,6 +1578,14 @@ definitions:
         items:
           $ref: '#/definitions/PollGroup'
   
+  EmptyPoll:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+
   PollGroup:
     type: object
     properties:
