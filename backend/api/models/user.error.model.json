@@ -1,0 +1,22 @@
+{
+    "DUPLICATE_ENTRY": {
+        "status": "DUPLICATE_ENTRY",
+        "description": "El Usuario ya existe",
+        "code": 409
+    },
+    "NOT_SAVED": {
+        "status": "NOT_SAVED",
+        "description": "El Usuario no se ha guardado",
+        "code": 409
+    },
+    "NOT_FOUND": {
+        "status": "NOT_FOUND",
+        "description": "No se encontró el Usuario",
+        "code": 404
+    },
+    "PERSON_NOT_FOUND": {
+        "status": "PERSON_NOT_FOUND",
+        "description": "No se encontró la Persona, para la Usuario",
+        "code": 404
+    }
+}

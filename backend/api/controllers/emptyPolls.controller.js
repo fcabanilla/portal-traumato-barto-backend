@@ -12,6 +12,14 @@ module.exports = {
     emptyPollsControllerDelete: core.middleware([core.logRequest, deleteEmptyPoll])
 };
 
+function onlyNotUndefined(tmp) {
+    const notUndefinedObj = {};
+    Object.keys(tmp).forEach(function (key) {
+        if (!(tmp[key] === undefined)) notUndefinedObj[key] = tmp[key];
+    });
+    return notUndefinedObj;
+}
+
 function errorHandler(err, res) {
     if (err.status != undefined) {
         console.log(err.description);
@@ -24,7 +32,7 @@ function errorHandler(err, res) {
 
 async function create(req, res) {
     const query = sql.post;
-    const { name, description, type, idDetailTypeProcedure = 'f' } = req.body;
+    const { name, description, type, idDetailTypeProcedure = false } = req.body;
     const newEmptyPoll = {
         name,
         description,
@@ -74,14 +82,22 @@ async function get(req, res) {
 async function update(req, res) {
     const query = sql.put;
     const idEmptyPoll = req.swagger.params.idEmptyPoll.value;
-    const { name, description, type } = req.body;
-    const updateEmptyPoll = {
+    const { name, description, type, idDetailTypeProcedure } = req.body;
+    console.log('req.body', req.body);
+    
+    const tmp = {
         name,
         description,
-        type
+        type,
+        iddetail_type_of_procedure: idDetailTypeProcedure
     };
+    const updateEmptyPoll = onlyNotUndefined(tmp);
+
     try {
-        const emptyPollUpdated = await pool.query(query[0], [updateEmptyPoll, idEmptyPoll]);
+        const detailTypeProcedureDB = await pool.query(query[0], idDetailTypeProcedure);
+        if (!detailTypeProcedureDB.length) throw DETAIL_TYPE_PROCEDURE_NOT_FOUND;
+        
+        const emptyPollUpdated = await pool.query(query[1], [updateEmptyPoll, idEmptyPoll]);
         if(!emptyPollUpdated.changedRows) throw NOT_FOUND;
         
         return res.status(200).send({ message: 'Se Actualizó la Encuesta en Blanco' });

@@ -3,6 +3,9 @@ var auth = require("../helpers/auth");
 const pool = require('../../database');
 const bcrypt = require('bcryptjs');
 const salt = bcrypt.genSaltSync(10);
+const { query: sql } = require("../models/user.model.json");
+const { DUPLICATE_ENTRY, NOT_SAVED, NOT_FOUND, PERSON_NOT_FOUND } = require("../models/user.error.model.json");
+
 
 module.exports = {
     loginPost: core.middleware([core.logRequest, loginPost]),
@@ -12,6 +15,25 @@ module.exports = {
     usersControllerGetId: core.middleware([core.logRequest, get]),
     usersControllerPut: core.middleware([core.logRequest, update]),
     usersControllerDelete: core.middleware([core.logRequest, deleteUser])
+}
+
+
+function onlyNotUndefined(tmp) {
+    const notUndefinedObj = {};
+    Object.keys(tmp).forEach(function (key) {
+        if (!(tmp[key] === undefined)) notUndefinedObj[key] = tmp[key];
+    });
+    return notUndefinedObj;
+}
+
+function errorHandler(err, res) {
+    if (err.status != undefined) {
+        console.log(err.description);
+        res.status(err.code).send({ message: err.description });
+    } else {
+        console.log(err);
+        res.status(500).send({ message: "Error en la petición.", err });
+    }
 }
 
 async function loginPost(req, res, next) {
@@ -88,7 +110,7 @@ function create(req, res) {
         password: bcrypt.hashSync(password, salt),
         email,
         erased: false  
-    };  
+    };
     console.log(newUser);  
     
     pool.query('INSERT INTO person set ?', [newPerson], function(err, result, fields) {
@@ -137,7 +159,7 @@ function getAll(req, res) {
             if (!users.length) {
                 res.status(404).send({ message: 'No hay Usuarios !!' });
             } else {
-                return res.status(200).send({ users });
+                return res.status(200).send( users );
             }
         }
     });
@@ -168,21 +190,26 @@ function update(req, res) {
     const idUser = req.swagger.params.idUser.value;
     const { dni, firstname, lastname, birthdate, sex, username, password, email } = req.body;
     
-    const newPerson = {
+    const tmpPerson = {
         dni,
         first_name: firstname,
         last_name: lastname,
         birth_date: birthdate,
         sex
     };
-
-
-    const newUser = {
+    const tmpUser = {
         username,
-        password: bcrypt.hashSync(password, salt),
         email,
         erased: false
-    }; 
+    };
+    if (!(password === undefined)) tmpUser.password = bcrypt.hashSync(password, salt);
+
+    const newPerson = onlyNotUndefined(tmpPerson);
+    const newUser = onlyNotUndefined(tmpUser);
+
+    console.log("newPerson", newPerson);
+    console.log("newUser", newUser);
+
     const sql = `
         SELECT * FROM user 
         WHERE erased = FALSE AND idUser = ?
@@ -223,8 +250,31 @@ function update(req, res) {
     });
 }
 
-function deleteUser(req, res) {
+async function deleteUser(req, res) {
     const idUser = req.swagger.params.idUser.value;
+    const query = sql.delete;
+    
+    try {
+        const userDB = await pool.query(query[0], idUser);
+        console.log('userDB', userDB);
+        if (!userDB.length) throw NOT_FOUND;
+
+        const idPerson = userDB[0].idperson;
+        const personErased = await pool.query(query[1], idPerson);
+        if (!personErased.changedRows) throw PERSON_NOT_FOUND;
+
+        const userErased = await pool.query(query[2], idUser)
+        if (!userErased.changedRows) throw NOT_FOUND;
+
+        return res.status(200).send({ message: 'Se eliminó el Usuario' });
+
+    } catch (err) {
+        errorHandler(err, res);
+    }
+
+
+    
+    /*
     const sql = `
         SELECT * FROM user 
         WHERE idUser = ? AND erased = FALSE
@@ -251,4 +301,6 @@ function deleteUser(req, res) {
             }
         }
     });
+    */
+
 }

@@ -7,18 +7,18 @@
             ""
         ],
         "get": [
-            "SELECT * FROM empty_poll WHERE erased = FALSE",
+            "SELECT ep.idempty_poll, ep.iddetail_type_of_procedure, ep.name, ep.description, ep.type, ep.create_date, ep.erased FROM empty_poll ep INNER JOIN detail_type_of_procedure dtop ON dtop.iddetail_type_of_procedure = ep.iddetail_type_of_procedure WHERE ep.erased = FALSE AND dtop.erased = FALSE",
             "",
             ""
         ],
         "getId": [
-            "SELECT * FROM empty_poll WHERE idempty_poll = ? AND erased = FALSE",
+            "SELECT ep.idempty_poll, ep.iddetail_type_of_procedure, ep.name, ep.description, ep.type, ep.create_date, ep.erased FROM empty_poll ep INNER JOIN detail_type_of_procedure dtop ON dtop.iddetail_type_of_procedure = ep.iddetail_type_of_procedure WHERE ep.erased = FALSE AND dtop.erased = FALSE AND  ep.idempty_poll = ?",
             "",
             ""
         ],
         "put": [
+            "SELECT * FROM detail_type_of_procedure WHERE iddetail_type_of_procedure = ? AND erased = FALSE",
             "UPDATE empty_poll SET ? WHERE idempty_poll = ? AND erased = FALSE",
-            "",
             ""
         ],
         "delete": [

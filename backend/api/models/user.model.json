@@ -1,0 +1,29 @@
+{
+    "query": {
+        "post": [
+            "",
+            "",
+            ""
+        ],
+        "get": [
+            "",
+            "",
+            ""
+        ],
+        "getId": [
+            "",
+            "",
+            ""
+        ],
+        "put": [
+            "",
+            "",
+            ""
+        ],
+        "delete": [
+            "SELECT idperson FROM user WHERE iduser = ? AND erased = FALSE",
+            "UPDATE person SET erased = TRUE WHERE idperson = ? AND erased = FALSE",
+            "UPDATE user SET erased = TRUE WHERE iduser = ? AND erased = FALSE"
+        ]
+    }
+}
