@@ -1,0 +1,14 @@
+[
+    {
+        "name": "A - DOLOR SEMANAL",
+        "description": "Piense en el dolor en su rodilla en la última semana."
+    },
+    {
+        "name": "B - RIGIDEZ",
+        "description": "Piensa sobre tu RIGIDEZ (no dolor) que sentiste en tu rodilla durante las últimas 48 hs. La rigidez es una sensación de disminución de la facilidad para mover la articulación."
+    },
+    {
+        "name": "C - DIFICULTAD",
+        "description": "Piense en la dificultad que tiene para realizar las siguientes actividades físicas diarias debido a su rodilla durante las últimas 48 hs. Con esto nos referimos a su capacidad para moverse y cuidarse."
+    }
+]

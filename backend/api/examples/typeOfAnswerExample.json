@@ -2,7 +2,6 @@
     {
         "typeOfAnswer": "TIPO DE REVISION, TIEMPO DE REVISION",
         "description": "En que instancia se encuentra para dicha revision.",
-        "answers": "PRIMARIA, PRE OPERATORIO, 3 MESES, 1 AÑOS, 5 AÑOS, 10 AÑOS, 15 AÑOS, OTRO",
         "answers": [
             {
                 "answer": "PRIMARIA",
@@ -42,7 +41,6 @@
     {
         "typeOfAnswer": "",
         "description": "",
-        "answers": "",
         "answers": [
             {
                 "answer": "",
@@ -63,6 +61,33 @@
             {
                 "answer": "",
                 "score": 0
+            }
+        ],
+        "addable": true
+    },
+    {
+        "typeOfAnswer": "Escala de 0 a 4",
+        "description": "Es una escala que va desde NINGUNO hasta EXTREMO con puntuacion del 0 al 4 respectivamente",
+        "answers": [
+            {
+                "answer": "NINGUNO",
+                "score": 0
+            },
+            {
+                "answer": "LEVE",
+                "score": 1
+            },
+            {
+                "answer": "MODERADO",
+                "score": 2
+            },
+            {
+                "answer": "SEVERO",
+                "score": 3
+            },
+            {
+                "answer": "EXTREMO",
+                "score": 4
             }
         ],
         "addable": true

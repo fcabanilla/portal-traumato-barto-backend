@@ -52,7 +52,7 @@ function getAll(req, res) {
             if (!detailsTypesProcedures.length) {
                 res.status(404).send({ message: 'No hay Detalles del Tipos De Procedimientos !!' });
             } else {
-                return res.status(200).send({ detailsTypesProcedures });
+                return res.status(200).send( detailsTypesProcedures );
             }
         }
     });

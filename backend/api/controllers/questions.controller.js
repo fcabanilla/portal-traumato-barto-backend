@@ -9,6 +9,13 @@ module.exports = {
     questionsControllerPut: core.middleware([core.logRequest, update]),
     questionsControllerDelete: core.middleware([core.logRequest, deleteQuestion])
 };
+function onlyNotUndefined(tmp) {
+    const notUndefinedObj = {};
+    Object.keys(tmp).forEach(function (key) {
+        if (!(tmp[key] === undefined)) notUndefinedObj[key] = tmp[key];
+    });
+    return notUndefinedObj;
+}
 
 function errorHandler(err, res) {
     if (err.status != undefined) {
@@ -108,12 +115,14 @@ async function update(req, res) {
     const idQuestion = req.swagger.params.idQuestion.value;
     const { name, question, idTypeOfAnswer, idSubgroup } = req.body;
 
-    const updateQuestion = {
+    const tmp = {
         name,
         question,
         idtype_of_answer: idTypeOfAnswer,
         idquestion_subgroup: idSubgroup
     };
+
+    const updateQuestion = onlyNotUndefined(tmp);
     try {
         const questionUpdated = await pool.query(query[0], [updateQuestion, idSubgroupOld, idQuestion]);
         if (!questionUpdated.changedRows) throw {

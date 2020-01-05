@@ -1,7 +1,7 @@
 const core = require("./core.controller.js");
 const pool = require("../../database");
 const { query: sql } = require("../models/groups.model.json");
-const { DUPLICATE_ENTRY, NOT_SAVED, NOT_FOUND } = require("../models/groups.error.model.json");
+const { DUPLICATE_ENTRY, NOT_SAVED, NOT_FOUND, EMPTY_POLL_NOT_FOUND } = require("../models/groups.error.model.json");
 
 module.exports = {
     groupsControllerPost: core.middleware([core.logRequest, create]),
@@ -10,6 +10,13 @@ module.exports = {
     groupsControllerPut: core.middleware([core.logRequest, update]),
     groupsControllerDelete: core.middleware([core.logRequest, deleteGroup])
 };
+function onlyNotUndefined(tmp) {
+    const notUndefinedObj = {};
+    Object.keys(tmp).forEach(function (key) {
+        if (!(tmp[key] === undefined)) notUndefinedObj[key] = tmp[key];
+    });
+    return notUndefinedObj;
+}
 
 function errorHandler(err, res) {
     if (err.status != undefined) {
@@ -22,18 +29,25 @@ function errorHandler(err, res) {
 }
 
 async function create(req, res) {
+    const idEmptyPoll = req.swagger.params.idEmptyPoll.value;
+
     const { name, description } = req.body;
     const newGroup ={
         name,
-        description
+        description,
+        idempty_poll: idEmptyPoll
     };
     const query = sql.post;
     
     try {
-        let groupDB = await pool.query(query[0], [name, description]);
+
+        const emptyPollDB = await pool.query(query[0], idEmptyPoll);
+        if (!emptyPollDB.length) throw EMPTY_POLL_NOT_FOUND;
+
+        const groupDB = await pool.query(query[1], [name, description]);
         if (groupDB.length) throw DUPLICATE_ENTRY;
 
-        const groupInserted = await pool.query(query[1], newGroup);
+        const groupInserted = await pool.query(query[2], newGroup);
 
         if (!groupInserted.affectedRows) throw NOT_SAVED;
         
@@ -43,15 +57,14 @@ async function create(req, res) {
     }
 }
 async function getAll(req, res) {
+    const idEmptyPoll = req.swagger.params.idEmptyPoll.value;
+
     const query = sql.get;
     try {
-        const groupsDB = await pool.query(query[0]);
+        const groupsDB = await pool.query(query[0], idEmptyPoll);
         
-        if (!groupsDB.length) throw {
-            status: "NOT_FOUND",
-            description: "No se encontró el Grupo",
-            code: 404
-        };
+        if (!groupsDB.length) throw NOT_FOUND;
+
         console.log(groupsDB);
         return res.status(200).send(groupsDB);
     } catch (err) {
@@ -60,6 +73,8 @@ async function getAll(req, res) {
 
 }
 async function get(req, res) {
+    const idEmptyPoll = req.swagger.params.idEmptyPoll.value;
+
     const idGroup = req.swagger.params.idGroup.value;
     const query = sql.getId;
     try {
@@ -77,6 +92,8 @@ async function get(req, res) {
     }
 }
 async function update(req, res) {
+    const idEmptyPoll = req.swagger.params.idEmptyPoll.value;
+
     const idGroup = req.swagger.params.idGroup.value;
     const { name, description } = req.body;
     const query = sql.put;
@@ -97,6 +114,8 @@ async function update(req, res) {
     }
 }
 async function deleteGroup(req, res) {
+    const idEmptyPoll = req.swagger.params.idEmptyPoll.value;
+
     const idGroup = req.swagger.params.idGroup.value;
     const query = sql.delete;
     try {

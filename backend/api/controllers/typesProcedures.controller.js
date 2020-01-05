@@ -48,7 +48,7 @@ function getAll(req, res) {
             if (!typesProcedures.length) {
                 res.status(404).send({ message: 'No hay Tipos De Procedimientos !!' });
             } else {
-                return res.status(200).send({ typesProcedures });
+                return res.status(200).send( typesProcedures );
             }
         }
     });

@@ -7,12 +7,12 @@
             "INSERT INTO question SET ?"
         ],
         "get": [
-            "SELECT DISTINCT q.idquestion, q.idtype_of_answer, q.idquestion_subgroup, q.name, q.question FROM question q INNER JOIN type_of_answer toa ON toa.idType_of_answer = q.idType_of_answer  JOIN question_subgroup qsg ON q.idquestion_subgroup = qsg.idquestion_subgroup INNER JOIN question_group qg ON qsg.idquestion_group = qg.idquestion_group WHERE q.erased = FALSE AND qsg.erased = FALSE AND qg.erased = FALSE AND qsg.idquestion_group = ? AND q.idquestion_subgroup = ?",
+            "SELECT DISTINCT q.idquestion, q.idtype_of_answer, q.idquestion_subgroup, q.name, q.question FROM question q INNER JOIN type_of_answer toa ON toa.idType_of_answer = q.idType_of_answer  JOIN question_subgroup qsg ON q.idquestion_subgroup = qsg.idquestion_subgroup INNER JOIN question_group qg ON qsg.idquestion_group = qg.idquestion_group WHERE q.erased = FALSE AND qsg.erased = FALSE AND qg.erased = FALSE AND qsg.idquestion_group = ? AND q.idquestion_subgroup = ? ORDER BY question",
             "",
             ""
         ],
         "getId": [
-            "SELECT DISTINCT q.idquestion, q.idtype_of_answer, q.idquestion_subgroup, q.name, q.question FROM question q INNER JOIN type_of_answer toa ON toa.idType_of_answer = q.idType_of_answer  JOIN question_subgroup qsg ON q.idquestion_subgroup = qsg.idquestion_subgroup INNER JOIN question_group qg ON qsg.idquestion_group = qg.idquestion_group WHERE q.erased = FALSE AND qsg.erased = FALSE AND qg.erased = FALSE AND qsg.idquestion_group = ? AND q.idquestion_subgroup = ? AND q.idquestion = ?",
+            "SELECT DISTINCT q.idquestion, q.idtype_of_answer, q.idquestion_subgroup, q.name, q.question FROM question q INNER JOIN type_of_answer toa ON toa.idType_of_answer = q.idType_of_answer  JOIN question_subgroup qsg ON q.idquestion_subgroup = qsg.idquestion_subgroup INNER JOIN question_group qg ON qsg.idquestion_group = qg.idquestion_group WHERE q.erased = FALSE AND qsg.erased = FALSE AND qg.erased = FALSE AND qsg.idquestion_group = ? AND q.idquestion_subgroup = ? AND q.idquestion = ? ORDER BY question",
             "",
             ""
         ],

@@ -1,11 +1,12 @@
 {
     "query": {
         "post": [
+            "SELECT * FROM empty_poll WHERE idempty_poll = ? AND erased = FALSE",
             "SELECT * FROM question_group WHERE name = ? AND description = ? AND erased = FALSE",
             "INSERT INTO question_group SET ?"
         ],
         "get": [
-            "SELECT DISTINCT * FROM question_group WHERE erased = FALSE",
+            "SELECT DISTINCT   qg.idquestion_group AS 'idQuestionGroup', qg.idempty_poll AS 'idEmptyPoll', qg.name AS 'group', qg.description AS 'groupDescription' FROM question_group qg INNER JOIN empty_poll ep ON ep.idempty_poll = qg.idempty_poll WHERE qg.idempty_poll = ? AND qg.erased = FALSE;",
             "",
             ""
         ],
