@@ -37,5 +37,17 @@
         "email": "pp.cabanilla@gmail.com",
         "erased": false,
         "notes": "Hipertension"
+    },
+    {
+        "id": 1,
+        "dni": "18015888",
+        "firstname": "Edith",
+        "lastname": "Cabanilla",
+        "birthdate": "11/11/1997",
+        "sex": "FEMENINO",
+        "username": "ecabanilla",
+        "password": "321654987",
+        "email": "ecabanilla@gmail.com",
+        "notes": "El paciente tiene antecedentes de artrosis"
     }
 ]

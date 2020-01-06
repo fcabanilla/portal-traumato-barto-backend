@@ -1,6 +1,7 @@
 const core = require("./core.controller.js");
 const pool = require("../../database");
 const { query: sql } = require("../models/example.model.json");
+// const { DUPLICATE_ENTRY, NOT_SAVED, NOT_FOUND } = require("../models/example.error.model.json");
 
 module.exports = {
     AAAAAAAAAAControllerPost: core.middleware([core.logRequest, create]),
@@ -9,6 +10,14 @@ module.exports = {
     AAAAAAAAAAControllerPut: core.middleware([core.logRequest, update]),
     AAAAAAAAAAControllerDelete: core.middleware([core.logRequest, deleteZZZZZZZZZZ])
 };
+
+function onlyNotUndefined(tmp) {
+    const notUndefinedObj = {};
+    Object.keys(tmp).forEach(function (key) {
+        if (!(tmp[key] === undefined)) notUndefinedObj[key] = tmp[key];
+    });
+    return notUndefinedObj;
+}
 
 function errorHandler(err, res) {
     if (err.status != undefined) {

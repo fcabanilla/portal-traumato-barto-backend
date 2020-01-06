@@ -13,7 +13,7 @@ module.exports = {
 };
 
 function create(req, res) {
-    const { idDetailTypeProcedure, idPatient, idInstitution, description, idPoll, idUser, idService} = req.body;
+    const { idDetailTypeProcedure, idPatient, idInstitution, description, idUser, idService} = req.body;
 
     const newProcedure = {
         iddetail_type_of_procedure: idDetailTypeProcedure,
@@ -21,7 +21,6 @@ function create(req, res) {
         idInstitution,
         idService,
         idUser,
-        idPoll,
         description
     };
     console.log(newProcedure);
@@ -73,7 +72,6 @@ function create(req, res) {
                     idInstitution: checkResult[2].id,
                     idService: checkResult[3].id,
                     idUser: checkResult[4].id,
-                    idPoll,
                     description
                 };
                 return pool.query(sql, [newProcedure]);
@@ -152,7 +150,7 @@ async function getAll(req, res) {
         if (!results.length) {
             res.status(404).send({ message: "No hay Procedimientos !!" });
         } else {
-            return res.status(200).send({ results });
+            return res.status(200).send( results );
         }
     } catch (err) {
         res.status(500).send({ message: "Error en la petición.", err });

@@ -1,0 +1,32 @@
+{
+    "DUPLICATE_ENTRY": {
+        "status": "DUPLICATE_ENTRY",
+        "description": "La Encuesta ya existe",
+        "code": 409
+    },
+    "NOT_SAVED": {
+        "status": "NOT_SAVED",
+        "description": "La Encuesta no se ha guardado",
+        "code": 409
+    },
+    "PROCEDURE_NOT_FOUND": {
+        "status": "PROCEDURE_NOT_FOUND",
+        "description": "No se encontró el Procedimiento",
+        "code": 404
+    },
+    "QUESTION_ANSWER_NOT_FOUND": {
+        "status": "QUESTION_ANSWER_NOT_FOUND",
+        "description": "No se encontró la combinacion, Pregunta-Respuesta",
+        "code": 404
+    },
+    "EMPTY_POLL_NOT_FOUND": {
+        "status": "EMPTY_POLL_NOT_FOUND",
+        "description": "No se encontró la Encuesta en Blanco",
+        "code": 404
+    },
+    "NOT_FOUND": {
+        "status": "NOT_FOUND",
+        "description": "No se encontró la Encuesta",
+        "code": 404
+    }
+}

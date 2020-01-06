@@ -126,6 +126,7 @@ CREATE TABLE `institution` (
 
 LOCK TABLES `institution` WRITE;
 /*!40000 ALTER TABLE `institution` DISABLE KEYS */;
+INSERT INTO `institution` VALUES ('3ee639e3-3030-11ea-9402-ac220b26bfde','Sanatorio Allende','Sanatorio Allende Nueva Córdoba','Argentina','Cordoba','Cordoba','Av. Hipólito Yrigoyen 384','','',0),('4137ec07-3030-11ea-9402-ac220b26bfde','Sanatorio Allende','Sanatorio Allende Nueva Córdoba','Argentina','Cordoba','Cordoba','Av. Hipólito Yrigoyen 384','','',1),('52659f9a-3030-11ea-9402-ac220b26bfde','Hospital Italiano','Hospital Italiano Sociedad de Beneficencia','Argentina','Cordoba','Cordoba','Roma 550','','',0);
 /*!40000 ALTER TABLE `institution` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -152,6 +153,7 @@ CREATE TABLE `patient` (
 
 LOCK TABLES `patient` WRITE;
 /*!40000 ALTER TABLE `patient` DISABLE KEYS */;
+INSERT INTO `patient` VALUES ('15a22b80-3034-11ea-9402-ac220b26bfde','15842920-3034-11ea-9402-ac220b26bfde','El paciente tiene antecedentes de diabetes','micachuela_cvr@gmail.com',0),('7982f0bd-3034-11ea-9402-ac220b26bfde','7975368c-3034-11ea-9402-ac220b26bfde','El paciente tiene antecedentes de artrosis','ecabanilla@gmail.com',0),('84e07329-3033-11ea-9402-ac220b26bfde','84c4be20-3033-11ea-9402-ac220b26bfde','Hipertension','pp.cabanilla@gmail.com',0);
 /*!40000 ALTER TABLE `patient` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -204,7 +206,7 @@ CREATE TABLE `person` (
 
 LOCK TABLES `person` WRITE;
 /*!40000 ALTER TABLE `person` DISABLE KEYS */;
-INSERT INTO `person` VALUES ('6701483e-2f9f-11ea-9402-ac220b26bfde','371958752','09-01-1993','MASCULINO','federico','Cabanilla',1);
+INSERT INTO `person` VALUES ('15842920-3034-11ea-9402-ac220b26bfde','40385210','14/11/1997','FEMENINO','Micaela','cabanilla',0),('6701483e-2f9f-11ea-9402-ac220b26bfde','371958752','09-01-1993','MASCULINO','federico','Cabanilla',1),('7975368c-3034-11ea-9402-ac220b26bfde','18015888','11/11/1997','FEMENINO','Edith','Cabanilla',0),('84c4be20-3033-11ea-9402-ac220b26bfde','16906739','14/11/1997','MASCULINO','Jose Luis','Cabanilla',0),('aa1fa286-3031-11ea-9402-ac220b26bfde','40385210','14/11/1997','FEMENINO','Micaela','cabanilla',0),('aeb64603-3031-11ea-9402-ac220b26bfde','40385210','14/11/1997','FEMENINO','Micaela','cabanilla',0),('cd7663ab-3035-11ea-9402-ac220b26bfde','37195387','09/01/1993','MASCULINO','federico','cabanilla',0);
 /*!40000 ALTER TABLE `person` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -220,6 +222,7 @@ CREATE TABLE `poll` (
   `iduser_author` varchar(60) NOT NULL,
   `idtype_of_poll` varchar(60) NOT NULL,
   `idempty_poll` varchar(60) NOT NULL,
+  `idprocedure` varchar(60) DEFAULT NULL,
   `description` varchar(60) NOT NULL,
   `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `erased` tinyint(1) DEFAULT '0',
@@ -233,6 +236,7 @@ CREATE TABLE `poll` (
 
 LOCK TABLES `poll` WRITE;
 /*!40000 ALTER TABLE `poll` DISABLE KEYS */;
+INSERT INTO `poll` VALUES ('98b9ffa2-3079-11ea-9402-ac220b26bfde','pendiente','4b838099-306a-11ea-9402-ac220b26bfde','05b01568-2fa7-11ea-9402-ac220b26bfde','ba9f80a2-305e-11ea-9402-ac220b26bfde','Descripcion de una Poll de prueba del POST','2020-01-06 11:42:19',0),('a13b9d59-3079-11ea-9402-ac220b26bfde','pendiente','4b838099-306a-11ea-9402-ac220b26bfde','05b01568-2fa7-11ea-9402-ac220b26bfde','ba9f80a2-305e-11ea-9402-ac220b26bfde','Descripcion de una Poll de prueba del POST','2020-01-06 11:42:34',0),('a498a6ab-3079-11ea-9402-ac220b26bfde','pendiente','4b838099-306a-11ea-9402-ac220b26bfde','05b01568-2fa7-11ea-9402-ac220b26bfde','ba9f80a2-305e-11ea-9402-ac220b26bfde','Descripcion de una Poll de prueba del POST','2020-01-06 11:42:39',0);
 /*!40000 ALTER TABLE `poll` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -248,6 +252,7 @@ CREATE TABLE `poll_detail` (
   `idquestion` varchar(60) NOT NULL,
   `idanswer` varchar(60) NOT NULL,
   `idpoll` varchar(60) NOT NULL,
+  `erased` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`idpoll_detail`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -258,6 +263,7 @@ CREATE TABLE `poll_detail` (
 
 LOCK TABLES `poll_detail` WRITE;
 /*!40000 ALTER TABLE `poll_detail` DISABLE KEYS */;
+INSERT INTO `poll_detail` VALUES ('98c04c3b-3079-11ea-9402-ac220b26bfde','f1ca5029-2faa-11ea-9402-ac220b26bfde','cfa01f07-2faa-11ea-9402-ac220b26bfde','98b9ffa2-3079-11ea-9402-ac220b26bfde',0),('98c3d993-3079-11ea-9402-ac220b26bfde','0354809a-2fab-11ea-9402-ac220b26bfde','cfa7c196-2faa-11ea-9402-ac220b26bfde','98b9ffa2-3079-11ea-9402-ac220b26bfde',0),('98c7c31d-3079-11ea-9402-ac220b26bfde','0ccf69e2-2fab-11ea-9402-ac220b26bfde','cfa7c196-2faa-11ea-9402-ac220b26bfde','98b9ffa2-3079-11ea-9402-ac220b26bfde',0),('98cf3fa2-3079-11ea-9402-ac220b26bfde','1b168aaa-2fab-11ea-9402-ac220b26bfde','cfafabbe-2faa-11ea-9402-ac220b26bfde','98b9ffa2-3079-11ea-9402-ac220b26bfde',0),('98d6d862-3079-11ea-9402-ac220b26bfde','2450a948-2fab-11ea-9402-ac220b26bfde','cfa01f07-2faa-11ea-9402-ac220b26bfde','98b9ffa2-3079-11ea-9402-ac220b26bfde',0),('98dadd7c-3079-11ea-9402-ac220b26bfde','add2dc51-2fac-11ea-9402-ac220b26bfde','cfa7c196-2faa-11ea-9402-ac220b26bfde','98b9ffa2-3079-11ea-9402-ac220b26bfde',0),('98de8e42-3079-11ea-9402-ac220b26bfde','c0f6873e-2fac-11ea-9402-ac220b26bfde','cfa01f07-2faa-11ea-9402-ac220b26bfde','98b9ffa2-3079-11ea-9402-ac220b26bfde',0),('98e27cd8-3079-11ea-9402-ac220b26bfde','e18bc2ae-2fac-11ea-9402-ac220b26bfde','cfa01f07-2faa-11ea-9402-ac220b26bfde','98b9ffa2-3079-11ea-9402-ac220b26bfde',0),('98e62d3a-3079-11ea-9402-ac220b26bfde','ee8bf938-2fac-11ea-9402-ac220b26bfde','cfa7c196-2faa-11ea-9402-ac220b26bfde','98b9ffa2-3079-11ea-9402-ac220b26bfde',0),('98ea26d4-3079-11ea-9402-ac220b26bfde','5b63c66f-2fad-11ea-9402-ac220b26bfde','cfa7c196-2faa-11ea-9402-ac220b26bfde','98b9ffa2-3079-11ea-9402-ac220b26bfde',0),('98edd0eb-3079-11ea-9402-ac220b26bfde','665a61a2-2fad-11ea-9402-ac220b26bfde','cfafabbe-2faa-11ea-9402-ac220b26bfde','98b9ffa2-3079-11ea-9402-ac220b26bfde',0),('98f1c0b3-3079-11ea-9402-ac220b26bfde','6e259dd2-2fad-11ea-9402-ac220b26bfde','cfa01f07-2faa-11ea-9402-ac220b26bfde','98b9ffa2-3079-11ea-9402-ac220b26bfde',0),('98f57b2c-3079-11ea-9402-ac220b26bfde','778a61e9-2fad-11ea-9402-ac220b26bfde','cfa7c196-2faa-11ea-9402-ac220b26bfde','98b9ffa2-3079-11ea-9402-ac220b26bfde',0),('98f96a60-3079-11ea-9402-ac220b26bfde','7fedfe37-2fad-11ea-9402-ac220b26bfde','cfafabbe-2faa-11ea-9402-ac220b26bfde','98b9ffa2-3079-11ea-9402-ac220b26bfde',0),('98fd0c7d-3079-11ea-9402-ac220b26bfde','85db2e39-2fad-11ea-9402-ac220b26bfde','cfafabbe-2faa-11ea-9402-ac220b26bfde','98b9ffa2-3079-11ea-9402-ac220b26bfde',0),('9901166c-3079-11ea-9402-ac220b26bfde','8c599616-2fad-11ea-9402-ac220b26bfde','cfa01f07-2faa-11ea-9402-ac220b26bfde','98b9ffa2-3079-11ea-9402-ac220b26bfde',0),('9904c98c-3079-11ea-9402-ac220b26bfde','92264838-2fad-11ea-9402-ac220b26bfde','cfa7c196-2faa-11ea-9402-ac220b26bfde','98b9ffa2-3079-11ea-9402-ac220b26bfde',0),('9908c160-3079-11ea-9402-ac220b26bfde','9894ca0f-2fad-11ea-9402-ac220b26bfde','cfa01f07-2faa-11ea-9402-ac220b26bfde','98b9ffa2-3079-11ea-9402-ac220b26bfde',0),('990c587c-3079-11ea-9402-ac220b26bfde','9d89d324-2fad-11ea-9402-ac220b26bfde','cfafabbe-2faa-11ea-9402-ac220b26bfde','98b9ffa2-3079-11ea-9402-ac220b26bfde',0),('9910462e-3079-11ea-9402-ac220b26bfde','a5840b21-2fad-11ea-9402-ac220b26bfde','cfa7c196-2faa-11ea-9402-ac220b26bfde','98b9ffa2-3079-11ea-9402-ac220b26bfde',0),('99144aa0-3079-11ea-9402-ac220b26bfde','aabdd8e2-2fad-11ea-9402-ac220b26bfde','cfa7c196-2faa-11ea-9402-ac220b26bfde','98b9ffa2-3079-11ea-9402-ac220b26bfde',0),('9917f7a2-3079-11ea-9402-ac220b26bfde','b3bb6ef6-2fad-11ea-9402-ac220b26bfde','cfa01f07-2faa-11ea-9402-ac220b26bfde','98b9ffa2-3079-11ea-9402-ac220b26bfde',0),('991bb1ad-3079-11ea-9402-ac220b26bfde','bb06b968-2fad-11ea-9402-ac220b26bfde','cfa01f07-2faa-11ea-9402-ac220b26bfde','98b9ffa2-3079-11ea-9402-ac220b26bfde',0),('991f9dc0-3079-11ea-9402-ac220b26bfde','c19aa900-2fad-11ea-9402-ac220b26bfde','cfa01f07-2faa-11ea-9402-ac220b26bfde','98b9ffa2-3079-11ea-9402-ac220b26bfde',0);
 /*!40000 ALTER TABLE `poll_detail` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -275,7 +281,6 @@ CREATE TABLE `procedimiento` (
   `iddetail_type_of_procedure` varchar(60) NOT NULL,
   `idpatient` varchar(60) NOT NULL,
   `iduser` varchar(60) NOT NULL,
-  `idpoll` varchar(60) DEFAULT NULL,
   `description` varchar(145) DEFAULT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `erased` tinyint(1) DEFAULT '0',
@@ -289,6 +294,7 @@ CREATE TABLE `procedimiento` (
 
 LOCK TABLES `procedimiento` WRITE;
 /*!40000 ALTER TABLE `procedimiento` DISABLE KEYS */;
+INSERT INTO `procedimiento` VALUES ('ba9f80a2-305e-11ea-9402-ac220b26bfde','3ee639e3-3030-11ea-9402-ac220b26bfde','607c0304-3031-11ea-9402-ac220b26bfde','6ffd254b-2fa6-11ea-9402-ac220b26bfde','15a22b80-3034-11ea-9402-ac220b26bfde','cd7d0f66-3035-11ea-9402-ac220b26bfde','Poll de prueba del POST','2020-01-06 08:30:00',0);
 /*!40000 ALTER TABLE `procedimiento` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -423,6 +429,7 @@ CREATE TABLE `service` (
 
 LOCK TABLES `service` WRITE;
 /*!40000 ALTER TABLE `service` DISABLE KEYS */;
+INSERT INTO `service` VALUES ('607c0304-3031-11ea-9402-ac220b26bfde','Traumatologia','Servicio de traumatologia','35489','Bartolome Allende',0),('90ea572c-3030-11ea-9402-ac220b26bfde','Traumatologia','Servicio de traumatologia','35489','Bartolome Allende',1),('9565019b-3030-11ea-9402-ac220b26bfde','Traumatologia','Servicio de traumatologia','35489','Bartolome Allende',0),('a10ae542-3030-11ea-9402-ac220b26bfde','Cardiologia','Servicio de Cardiologia','35488','Eddie Moreira',0),('aeefdca5-3030-11ea-9402-ac220b26bfde','Cardiologia','Servicio de Cardiologia','35588','Melisa Quiroz',0);
 /*!40000 ALTER TABLE `service` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -447,6 +454,7 @@ CREATE TABLE `service_institution` (
 
 LOCK TABLES `service_institution` WRITE;
 /*!40000 ALTER TABLE `service_institution` DISABLE KEYS */;
+INSERT INTO `service_institution` VALUES ('6082a1d5-3031-11ea-9402-ac220b26bfde','607c0304-3031-11ea-9402-ac220b26bfde','3ee639e3-3030-11ea-9402-ac220b26bfde'),('90f0e3ed-3030-11ea-9402-ac220b26bfde','90ea572c-3030-11ea-9402-ac220b26bfde','3ee639e3-3030-11ea-9402-ac220b26bfde'),('956ac657-3030-11ea-9402-ac220b26bfde','90ea572c-3030-11ea-9402-ac220b26bfde','3ee639e3-3030-11ea-9402-ac220b26bfde'),('a1119980-3030-11ea-9402-ac220b26bfde','a10ae542-3030-11ea-9402-ac220b26bfde','3ee639e3-3030-11ea-9402-ac220b26bfde'),('aef6b781-3030-11ea-9402-ac220b26bfde','aeefdca5-3030-11ea-9402-ac220b26bfde','52659f9a-3030-11ea-9402-ac220b26bfde');
 /*!40000 ALTER TABLE `service_institution` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -487,6 +495,7 @@ DROP TABLE IF EXISTS `type_of_poll`;
 CREATE TABLE `type_of_poll` (
   `idtype_of_poll` varchar(60) NOT NULL,
   `description` varchar(45) DEFAULT NULL,
+  `erased` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`idtype_of_poll`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -497,6 +506,7 @@ CREATE TABLE `type_of_poll` (
 
 LOCK TABLES `type_of_poll` WRITE;
 /*!40000 ALTER TABLE `type_of_poll` DISABLE KEYS */;
+INSERT INTO `type_of_poll` VALUES ('4b838099-306a-11ea-9402-ac220b26bfde','Pre-Quirurgico',0);
 /*!40000 ALTER TABLE `type_of_poll` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -552,7 +562,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('67089e2b-2f9f-11ea-9402-ac220b26bfde','6701483e-2f9f-11ea-9402-ac220b26bfde',NULL,'fcabanilla','$2a$10$DWs3pv7o8yPlMwjqj87kauYXwg5RLYxKCdaHyJQemuDO3.sPbBeVm','fcabnailla@gmail.com',NULL,1,NULL);
+INSERT INTO `user` VALUES ('67089e2b-2f9f-11ea-9402-ac220b26bfde','6701483e-2f9f-11ea-9402-ac220b26bfde',NULL,'fcabanilla','$2a$10$DWs3pv7o8yPlMwjqj87kauYXwg5RLYxKCdaHyJQemuDO3.sPbBeVm','fcabnailla@gmail.com',NULL,1,NULL),('cd7d0f66-3035-11ea-9402-ac220b26bfde','cd7663ab-3035-11ea-9402-ac220b26bfde',NULL,'fcabanilla','$2a$10$dXIz1cUKgi91ZnuJ440eT.InoXBogX6nVSk1RGwKft2uG0pw1ZXle','federico.cabanilla@gmail.com',NULL,0,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -565,4 +575,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-01-05 20:28:21
+-- Dump completed on 2020-01-06  8:43:52

@@ -47,7 +47,7 @@ function getAll(req, res) {
             if (!institutions.length) {
                 res.status(404).send({ message: 'No hay Instituciones !!' });
             } else {
-                return res.status(200).send({ institutions });
+                return res.status(200).send( institutions );
             }
         }
     });   

@@ -237,8 +237,14 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  /polls:
+  /procedure/{idProcedure}/polls:
     x-swagger-router-controller: polls.controller
+    parameters:
+      - name: idProcedure
+        in: path
+        description: "ID of the Person"
+        required: true
+        type: string
     post:
       tags:
         - Polls
@@ -274,12 +280,17 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  /polls/{idPoll}:
+  /procedure/{idProcedure}/polls/{idPoll}:
     x-swagger-router-controller: polls.controller
     parameters:
       - name: idPoll
         in: path
         description: "ID of the poll"
+        required: true
+        type: string
+      - name: idProcedure
+        in: path
+        description: "ID of the Person"
         required: true
         type: string
     get:
@@ -304,6 +315,12 @@ paths:
       summary: "Update a poll"
       operationId: pollsControllerPut
       description: "Update only one poll"
+      parameters:
+        - name: poll
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Poll'
       responses:
         200:
           description: "Success"

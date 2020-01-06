@@ -91,7 +91,7 @@ function getAll(req, res) {
             if (!services.length) {
                 res.status(404).send({ message: 'No hay Servicios para la institucion, o la institution no existe !!' });
             } else {
-                return res.status(200).send({ services });
+                return res.status(200).send( services );
             }
         }
     });

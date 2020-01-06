@@ -73,7 +73,7 @@ function getAll(req, res) {
             if (!patients.length) {
                 res.status(404).send({ message: 'No hay Pacientes !!' });
             } else {
-                return res.status(200).send({ patients });
+                return res.status(200).send( patients );
             }
         }
     });
