@@ -8,7 +8,12 @@
         ],
         "get": [
             "SELECT ep.idempty_poll, ep.iddetail_type_of_procedure, ep.name, ep.description, ep.type, ep.create_date, ep.erased FROM empty_poll ep INNER JOIN detail_type_of_procedure dtop ON dtop.iddetail_type_of_procedure = ep.iddetail_type_of_procedure WHERE ep.erased = FALSE AND dtop.erased = FALSE",
-            "",
+            "SELECT * FROM question_group WHERE idempty_poll = ? AND erased = FALSE",
+            "SELECT * FROM question_subgroup WHERE idquestion_group = ? AND erased = FALSE",
+            "SELECT * FROM question WHERE idquestion_subgroup = ? AND erased = FALSE ORDER BY question",
+            "SELECT DISTINCT idtype_of_answer FROM question WHERE idquestion in (?)",
+            "SELECT DISTINCT * FROM type_of_answer WHERE idtype_of_answer = ? AND erased = FALSE",
+            "SELECT DISTINCT * FROM answer WHERE idtype_of_answer = ? AND erased = FALSE",
             ""
         ],
         "getId": [

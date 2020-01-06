@@ -57,10 +57,97 @@ async function create(req, res) {
 }
 async function getAll(req, res) {
     const query = sql.get;
+    const emptyPollsDB = [];
+    const idQuestions = [];
     try {
-        const emptyPollsDB = await pool.query(query[0]);
-        if(!emptyPollsDB.length) throw NOT_FOUND;
+        const tmpEmptyPollsDB = await pool.query(query[0]);
+        if (!tmpEmptyPollsDB.length) throw NOT_FOUND;
 
+        for (const emptyPollDB of tmpEmptyPollsDB) {
+            
+            const tmpEmptyPollDB = {
+                idEmptyPoll: emptyPollDB.idempty_poll,
+                name: emptyPollDB.name,
+                type: emptyPollDB.type,
+                description: emptyPollDB.description,
+                group: []
+            };
+            const tmpGroupsDB = await pool.query(query[1], tmpEmptyPollDB.idEmptyPoll);
+            if (!tmpGroupsDB.length) console.log('mocaso') // throw NOT_FOUND;
+
+            for (const groupDB of tmpGroupsDB) {
+                const tmpGroupDB = {
+                    idGroup: groupDB.idquestion_group,
+                    name: groupDB.name,
+                    description: groupDB.description,
+                    subgroup: []
+                };
+
+                const tmpSubgroupsDB = await pool.query(query[2], tmpGroupDB.idGroup);
+                if (!tmpSubgroupsDB.length) console.log('mocaso subgrupo') // throw NOT_FOUND;
+
+                for (const subgroupDB of tmpSubgroupsDB) {
+                    const tmpSubgroupDB = {
+                        idSubgroup: subgroupDB.idquestion_subgroup,
+                        name: subgroupDB.name,
+                        description: subgroupDB.description,
+                        maxScore: subgroupDB.max_score,
+                        typeOfAnswer: {},
+                        questions: []
+                    };
+
+                    const tmpQuestionsDB = await pool.query(query[3], tmpSubgroupDB.idSubgroup);
+                    if (!tmpQuestionsDB.length) console.log('mocaso QUESION') // throw NOT_FOUND;
+                    for (const questionDB of tmpQuestionsDB) {
+                        const tmpQuestionDB = {
+                            idQuestion: questionDB.idquestion,
+                            questionName: questionDB.name,
+                            question: questionDB.question
+                        };
+                        tmpSubgroupDB.questions.push(tmpQuestionDB);
+                        idQuestions.push(tmpQuestionDB.idQuestion);
+                    }
+
+                    const idTypeOfAnswerDB = await pool.query(query[4], idQuestions);
+                    if(!idTypeOfAnswerDB.length) console.log('Mocaso idTypeOfAnswer');                    
+                    
+                    let typeOfAnswerDB = await pool.query(query[5], idTypeOfAnswerDB[0].idtype_of_answer);
+                    if (!typeOfAnswerDB.length) console.log('Mocaso TypeOfAnswer');
+                    typeOfAnswerDB = typeOfAnswerDB[0];
+
+                    
+                    const tmpTypeOfAnswerDB = {
+                        idTypeOfAnswer: typeOfAnswerDB.idtype_of_answer,
+                        name: typeOfAnswerDB.type_of_answer,
+                        description: typeOfAnswerDB.description,
+                        addable: (typeOfAnswerDB.addable == 1),
+                        answers: []
+                    };
+
+
+                    const tmpAnswersDB = await pool.query(query[6], tmpTypeOfAnswerDB.idTypeOfAnswer);
+                    if(!tmpAnswersDB.length) console.log('Bardo con Answers');
+
+                    for (const answerDB of tmpAnswersDB) {
+                        const tmpAnswerDB = {
+                            answer: answerDB.answer,
+                            score: answerDB.score
+                        };
+                        tmpTypeOfAnswerDB.answers.push(tmpAnswerDB);
+                    }
+
+                    tmpSubgroupDB.typeOfAnswer = tmpTypeOfAnswerDB;
+
+                    // const tmpTypeOfAnswer = await pool.query(query[3], tmpSubgroupDB.idSubgroup)
+
+                    tmpGroupDB.subgroup.push(tmpSubgroupDB);
+                }
+
+                tmpEmptyPollDB.group.push(tmpGroupDB);
+            }
+            emptyPollsDB.push(tmpEmptyPollDB);
+        }
+        
         return res.status(200).send(emptyPollsDB);
         
     } catch (err) {

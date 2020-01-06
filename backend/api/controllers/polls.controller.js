@@ -52,22 +52,13 @@ async function create(req, res) {
     try {
 
         const procedureDB = await pool.query(query[0], idProcedure);
-        // console.log('procedureDB', procedureDB);
         if(!procedureDB.length) throw PROCEDURE_NOT_FOUND;
 
-        // const questionAnswerDB = await pool.query(query[1], [idQuestion, idAnswer]);
-        // console.log('questionAnswerDB', questionAnswerDB);
-        // if(!questionAnswerDB.length) throw QUESTION_ANSWER_NOT_FOUND;
-
         const emptyPollDB = await pool.query(query[2], idEmptyPoll);
-        // console.log('emptyPollDB', emptyPollDB);
         if (!emptyPollDB.length) throw EMPTY_POLL_NOT_FOUND;
 
-        /* PENDIENTE COMPROBAR SI EXISTE UNA POLL IDENTICA A LA QUE VAMOS A INSERTAR */
-
         const typeOfPollDB = await pool.query(query[3], newTypeOfPoll);
-        // console.log('****', typeOfPollDB);
-        
+
         if (!typeOfPollDB.length){
             const typeOfPollSaved = await pool.query(query[4], newTypeOfPoll);
             if (!typeOfPollSaved.affectedRows) throw NOT_SAVED;
@@ -77,14 +68,12 @@ async function create(req, res) {
         
         const { idtype_of_poll } = typeOfPollDB[0];
         newPoll.idtype_of_poll = idtype_of_poll;
-        // console.log(newPoll);
 
         const pollSaved = await pool.query(query[5], newPoll);
         if (!pollSaved.affectedRows) throw NOT_SAVED;
 
         const pollDB = await pool.query(query[6], [description, idEmptyPoll, idProcedure, newPoll.idUser_Author, idtype_of_poll]);
         if (!pollDB.length) throw NOT_SAVED;
-        // console.log({pollDB});
         
         const { idpoll } = pollDB[0];
         for (const pollDetail of pollDetails) {
@@ -94,7 +83,6 @@ async function create(req, res) {
             if (!pollDetailDB.length) {
                 const pollDetailSaved = await pool.query(query[8], pollDetail);
                 if (!pollDetailSaved.affectedRows) throw NOT_SAVED;
-                // console.log('creacion Nueva');
             }            
         }
         res.status(201).send({ message: "Se creo la Encuesta" });
