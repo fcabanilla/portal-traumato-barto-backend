@@ -191,7 +191,98 @@ async function getAll(req, res) {
 }
 async function get(req, res) {
     const query = sql.getId;
+    const idPoll = req.swagger.params.idPoll.value;
+    let tmpEmptyPollDB = {};
+
     try {
+
+        const tmpPollsDB = await pool.query(query[0], idPoll);
+        if (!tmpPollsDB.length) throw NOT_FOUND;
+
+        for (const pollDB of tmpPollsDB) {
+
+
+
+
+            const tmpEmptyPollsDB = await pool.query(query[1], pollDB.idempty_poll);
+            if (!tmpEmptyPollsDB.length) throw NOT_FOUND;
+
+
+            for (const emptyPollDB of tmpEmptyPollsDB) {
+
+                tmpEmptyPollDB = {
+                    idPoll: pollDB.idpoll,
+                    typeOfPoll: pollDB.type_of_poll_description,
+                    idEmptyPoll: emptyPollDB.idempty_poll,
+                    name: emptyPollDB.name,
+                    type: emptyPollDB.type,
+                    description: emptyPollDB.description,
+                    group: []
+                };
+                const tmpGroupsDB = await pool.query(query[2], tmpEmptyPollDB.idEmptyPoll);
+                if (!tmpGroupsDB.length) console.log('mocaso') // throw NOT_FOUND;
+
+                for (const groupDB of tmpGroupsDB) {
+                    const tmpGroupDB = {
+                        idGroup: groupDB.idquestion_group,
+                        name: groupDB.name,
+                        description: groupDB.description,
+                        subgroup: []
+                    };
+
+                    const tmpSubgroupsDB = await pool.query(query[3], tmpGroupDB.idGroup);
+                    if (!tmpSubgroupsDB.length) console.log('mocaso subgrupo') // throw NOT_FOUND;
+
+                    for (const subgroupDB of tmpSubgroupsDB) {
+                        const tmpSubgroupDB = {
+                            idSubgroup: subgroupDB.idquestion_subgroup,
+                            name: subgroupDB.name,
+                            description: subgroupDB.description,
+                            maxScore: subgroupDB.max_score,
+                            pollDetail: []
+                        };
+
+                        const tmpQuestionsDB = await pool.query(query[4], tmpSubgroupDB.idSubgroup);
+                        if (!tmpQuestionsDB.length) console.log('mocaso QUESION') // throw NOT_FOUND;
+                        for (const questionDB of tmpQuestionsDB) {
+                            const tmpPollDetailDB = {
+                                idQuestion: questionDB.idquestion,
+                                questionName: questionDB.name,
+                                question: questionDB.question
+                            };
+
+                            const tmpPollDetailsDB = await pool.query(query[5], [tmpPollDetailDB.idQuestion, tmpEmptyPollDB.idPoll]);
+                            if (!tmpPollDetailsDB.length) console.log('Problemas Will Robinson!');
+
+                            const tmpQuestionDB = await pool.query(query[6], tmpPollDetailsDB[0].idanswer);
+                            if (!tmpQuestionDB.length) console.log('2 - Problemas Will Robinson!');
+
+                            tmpPollDetailDB.idAnswer = tmpQuestionDB[0].idanswer;
+                            tmpPollDetailDB.answer = tmpQuestionDB[0].answer;
+                            tmpPollDetailDB.score = tmpQuestionDB[0].score;
+
+
+                            console.log(tmpPollDetailDB);
+
+                            tmpSubgroupDB.pollDetail.push(tmpPollDetailDB);
+
+
+                            // tmpSubgroupDB.questions.push(tmpQuestionDB);
+                            // idQuestions.push(tmpQuestionDB.idQuestion);
+                        }
+
+
+
+
+                        tmpGroupDB.subgroup.push(tmpSubgroupDB);
+
+                    }
+                    tmpEmptyPollDB.group.push(tmpGroupDB);
+                }
+                // pollsDB.push(tmpEmptyPollDB);
+            }
+            return res.status(200).send(tmpEmptyPollDB);
+        }
 
     } catch (err) {
         errorHandler(err, res);
