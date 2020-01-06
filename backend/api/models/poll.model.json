@@ -12,7 +12,13 @@
             "INSERT INTO poll_detail SET ?"
         ],
         "get": [
-            "",
+            "SELECT DISTINCT p.idempty_poll, p.idpoll, top.description AS 'type_of_poll_description' FROM poll p INNER JOIN type_of_poll top ON top.idtype_of_poll = p.idtype_of_poll WHERE p.erased = FALSE",
+            "SELECT ep.idempty_poll, ep.iddetail_type_of_procedure, ep.name, ep.description, ep.type, ep.create_date, ep.erased FROM empty_poll ep INNER JOIN detail_type_of_procedure dtop ON dtop.iddetail_type_of_procedure = ep.iddetail_type_of_procedure WHERE ep.idempty_poll = ? AND ep.erased = FALSE AND dtop.erased = FALSE",
+            "SELECT * FROM question_group WHERE idempty_poll = ? AND erased = FALSE",
+            "SELECT * FROM question_subgroup WHERE idquestion_group = ? AND erased = FALSE",
+            "SELECT * FROM question WHERE idquestion_subgroup = ? AND erased = FALSE ORDER BY question",
+            "SELECT DISTINCT * FROM poll_detail WHERE idquestion = ? AND idpoll = ?",
+            "SELECT DISTINCT * FROM answer WHERE idanswer = ? AND erased = FALSE",
             "",
             ""
         ],
