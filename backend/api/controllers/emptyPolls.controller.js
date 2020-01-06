@@ -5,10 +5,10 @@ const { DUPLICATE_ENTRY, NOT_SAVED, NOT_FOUND, DETAIL_TYPE_PROCEDURE_NOT_FOUND }
 
 
 module.exports = {
-    emptyPollsControllerPost:   core.middleware([core.logRequest, create]),
-    emptyPollsControllerGet:    core.middleware([core.logRequest, getAll]),
-    emptyPollsControllerGetId:  core.middleware([core.logRequest, get]),
-    emptyPollsControllerPut:    core.middleware([core.logRequest, update]),
+    emptyPollsControllerPost: core.middleware([core.logRequest, create]),
+    emptyPollsControllerGet: core.middleware([core.logRequest, getAll]),
+    emptyPollsControllerGetId: core.middleware([core.logRequest, get]),
+    emptyPollsControllerPut: core.middleware([core.logRequest, update]),
     emptyPollsControllerDelete: core.middleware([core.logRequest, deleteEmptyPoll])
 };
 
@@ -37,19 +37,19 @@ async function create(req, res) {
         name,
         description,
         type,
-        iddetail_type_of_procedure:idDetailTypeProcedure
+        iddetail_type_of_procedure: idDetailTypeProcedure
     };
     try {
         const detailTypeProcedureDB = await pool.query(query[0], idDetailTypeProcedure);
-        if(!detailTypeProcedureDB.length) throw DETAIL_TYPE_PROCEDURE_NOT_FOUND;
+        if (!detailTypeProcedureDB.length) throw DETAIL_TYPE_PROCEDURE_NOT_FOUND;
 
-        const emptyPollDB = await pool.query(query[1], [ name, description, type ]);
-        if(emptyPollDB.length) throw DUPLICATE_ENTRY;
+        const emptyPollDB = await pool.query(query[1], [name, description, type]);
+        if (emptyPollDB.length) throw DUPLICATE_ENTRY;
 
         const emptyPollSaved = await pool.query(query[2], newEmptyPoll);
-        if(!emptyPollSaved.affectedRows) throw NOT_SAVED;
+        if (!emptyPollSaved.affectedRows) throw NOT_SAVED;
 
-        res.status(201).send({message: "Se creó la Encuesta en Blanco"})
+        res.status(201).send({ message: "Se creó la Encuesta en Blanco" })
 
     } catch (err) {
         errorHandler(err, res);
@@ -64,7 +64,7 @@ async function getAll(req, res) {
         if (!tmpEmptyPollsDB.length) throw NOT_FOUND;
 
         for (const emptyPollDB of tmpEmptyPollsDB) {
-            
+
             const tmpEmptyPollDB = {
                 idEmptyPoll: emptyPollDB.idempty_poll,
                 name: emptyPollDB.name,
@@ -109,13 +109,13 @@ async function getAll(req, res) {
                     }
 
                     const idTypeOfAnswerDB = await pool.query(query[4], idQuestions);
-                    if(!idTypeOfAnswerDB.length) console.log('Mocaso idTypeOfAnswer');                    
-                    
+                    if (!idTypeOfAnswerDB.length) console.log('Mocaso idTypeOfAnswer');
+
                     let typeOfAnswerDB = await pool.query(query[5], idTypeOfAnswerDB[0].idtype_of_answer);
                     if (!typeOfAnswerDB.length) console.log('Mocaso TypeOfAnswer');
                     typeOfAnswerDB = typeOfAnswerDB[0];
 
-                    
+
                     const tmpTypeOfAnswerDB = {
                         idTypeOfAnswer: typeOfAnswerDB.idtype_of_answer,
                         name: typeOfAnswerDB.type_of_answer,
@@ -126,7 +126,7 @@ async function getAll(req, res) {
 
 
                     const tmpAnswersDB = await pool.query(query[6], tmpTypeOfAnswerDB.idTypeOfAnswer);
-                    if(!tmpAnswersDB.length) console.log('Bardo con Answers');
+                    if (!tmpAnswersDB.length) console.log('Bardo con Answers');
 
                     for (const answerDB of tmpAnswersDB) {
                         const tmpAnswerDB = {
@@ -147,9 +147,9 @@ async function getAll(req, res) {
             }
             emptyPollsDB.push(tmpEmptyPollDB);
         }
-        
+
         return res.status(200).send(emptyPollsDB);
-        
+
     } catch (err) {
         errorHandler(err, res);
     }
@@ -157,11 +157,96 @@ async function getAll(req, res) {
 async function get(req, res) {
     const query = sql.getId;
     const idEmptyPoll = req.swagger.params.idEmptyPoll.value;
+    const idQuestions = [];
     try {
-        const emptyPollDB = await pool.query(query[0], idEmptyPoll);
-        if(!emptyPollDB.length) throw NOT_FOUND;
+        const tmpEmptyPollsDB = await pool.query(query[0], idEmptyPoll);
+        if (!tmpEmptyPollsDB.length) throw NOT_FOUND;
+        
+        const emptyPollDB = tmpEmptyPollsDB[0];
 
-        return res.status(200).send(emptyPollDB[0]);
+
+        const tmpEmptyPollDB = {
+            idEmptyPoll: emptyPollDB.idempty_poll,
+            name: emptyPollDB.name,
+            type: emptyPollDB.type,
+            description: emptyPollDB.description,
+            group: []
+        };
+        const tmpGroupsDB = await pool.query(query[1], tmpEmptyPollDB.idEmptyPoll);
+        if (!tmpGroupsDB.length) console.log('mocaso') // throw NOT_FOUND;
+
+        for (const groupDB of tmpGroupsDB) {
+            const tmpGroupDB = {
+                idGroup: groupDB.idquestion_group,
+                name: groupDB.name,
+                description: groupDB.description,
+                subgroup: []
+            };
+
+            const tmpSubgroupsDB = await pool.query(query[2], tmpGroupDB.idGroup);
+            if (!tmpSubgroupsDB.length) console.log('mocaso subgrupo') // throw NOT_FOUND;
+
+            for (const subgroupDB of tmpSubgroupsDB) {
+                const tmpSubgroupDB = {
+                    idSubgroup: subgroupDB.idquestion_subgroup,
+                    name: subgroupDB.name,
+                    description: subgroupDB.description,
+                    maxScore: subgroupDB.max_score,
+                    typeOfAnswer: {},
+                    questions: []
+                };
+
+                const tmpQuestionsDB = await pool.query(query[3], tmpSubgroupDB.idSubgroup);
+                if (!tmpQuestionsDB.length) console.log('mocaso QUESION') // throw NOT_FOUND;
+                for (const questionDB of tmpQuestionsDB) {
+                    const tmpQuestionDB = {
+                        idQuestion: questionDB.idquestion,
+                        questionName: questionDB.name,
+                        question: questionDB.question
+                    };
+                    tmpSubgroupDB.questions.push(tmpQuestionDB);
+                    idQuestions.push(tmpQuestionDB.idQuestion);
+                }
+
+                const idTypeOfAnswerDB = await pool.query(query[4], idQuestions);
+                if (!idTypeOfAnswerDB.length) console.log('Mocaso idTypeOfAnswer');
+
+                let typeOfAnswerDB = await pool.query(query[5], idTypeOfAnswerDB[0].idtype_of_answer);
+                if (!typeOfAnswerDB.length) console.log('Mocaso TypeOfAnswer');
+                typeOfAnswerDB = typeOfAnswerDB[0];
+
+
+                const tmpTypeOfAnswerDB = {
+                    idTypeOfAnswer: typeOfAnswerDB.idtype_of_answer,
+                    name: typeOfAnswerDB.type_of_answer,
+                    description: typeOfAnswerDB.description,
+                    addable: (typeOfAnswerDB.addable == 1),
+                    answers: []
+                };
+
+
+                const tmpAnswersDB = await pool.query(query[6], tmpTypeOfAnswerDB.idTypeOfAnswer);
+                if (!tmpAnswersDB.length) console.log('Bardo con Answers');
+
+                for (const answerDB of tmpAnswersDB) {
+                    const tmpAnswerDB = {
+                        answer: answerDB.answer,
+                        score: answerDB.score
+                    };
+                    tmpTypeOfAnswerDB.answers.push(tmpAnswerDB);
+                }
+
+                tmpSubgroupDB.typeOfAnswer = tmpTypeOfAnswerDB;
+
+                // const tmpTypeOfAnswer = await pool.query(query[3], tmpSubgroupDB.idSubgroup)
+
+                tmpGroupDB.subgroup.push(tmpSubgroupDB);
+            }
+
+            tmpEmptyPollDB.group.push(tmpGroupDB);
+        }
+        return res.status(200).send(tmpEmptyPollDB);
+
     } catch (err) {
         errorHandler(err, res);
     }
@@ -171,7 +256,7 @@ async function update(req, res) {
     const idEmptyPoll = req.swagger.params.idEmptyPoll.value;
     const { name, description, type, idDetailTypeProcedure } = req.body;
     console.log('req.body', req.body);
-    
+
     const tmp = {
         name,
         description,
@@ -183,10 +268,10 @@ async function update(req, res) {
     try {
         const detailTypeProcedureDB = await pool.query(query[0], idDetailTypeProcedure);
         if (!detailTypeProcedureDB.length) throw DETAIL_TYPE_PROCEDURE_NOT_FOUND;
-        
+
         const emptyPollUpdated = await pool.query(query[1], [updateEmptyPoll, idEmptyPoll]);
-        if(!emptyPollUpdated.changedRows) throw NOT_FOUND;
-        
+        if (!emptyPollUpdated.changedRows) throw NOT_FOUND;
+
         return res.status(200).send({ message: 'Se Actualizó la Encuesta en Blanco' });
     } catch (err) {
         errorHandler(err, res);
