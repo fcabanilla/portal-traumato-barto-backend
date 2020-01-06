@@ -53,14 +53,15 @@ async function loginPost(req, res, next) {
             , email
             , sex
             , alternative_email
-            , erased
             , role
         FROM mydb.person p  
         INNER JOIN user u on u.idPerson = p.idperson
         WHERE u.username = ? AND u.erased = FALSE
     `;
     pool.query(sql, [user.username], (err, result ) => {
-        const userDB = result[0];
+        console.log('****** result', result);
+        
+        
         // console.log("Comparacion contrasena", bcrypt.compareSync(user.password, userDB.password));
         if (err) {
             console.log(err);
@@ -68,10 +69,14 @@ async function loginPost(req, res, next) {
                 console.log('Error en la consulta SQL, falta una tabla');
                 console.log("Detalle del error: ", err);
             }
-        } if (!userDB) {
+        } 
+        const userDB = result[0];
+        if (!userDB) {
             console.log('El usuario no existe');
             res.send(403);
         } else {
+
+            
 
             if (bcrypt.compareSync(user.password, userDB.password)) {
                 const tokenString = auth.issueToken(username, user.role);
