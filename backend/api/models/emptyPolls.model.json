@@ -7,7 +7,7 @@
             ""
         ],
         "get": [
-            "SELECT ep.idempty_poll, ep.iddetail_type_of_procedure, ep.name, ep.description, ep.type, ep.create_date, ep.erased FROM empty_poll ep INNER JOIN detail_type_of_procedure dtop ON dtop.iddetail_type_of_procedure = ep.iddetail_type_of_procedure WHERE ep.erased = FALSE AND dtop.erased = FALSE",
+            "SELECT ep.idempty_poll, ep.iddetail_type_of_procedure, ep.name, ep.description, ep.type, ep.create_date, ep.erased FROM empty_poll ep INNER JOIN detail_type_of_procedure dtop ON dtop.iddetail_type_of_procedure = ep.iddetail_type_of_procedure WHERE iddetail_type_of_procedure = ? AND ep.erased = FALSE AND dtop.erased = FALSE",
             "SELECT * FROM question_group WHERE idempty_poll = ? AND erased = FALSE",
             "SELECT * FROM question_subgroup WHERE idquestion_group = ? AND erased = FALSE",
             "SELECT * FROM question WHERE idquestion_subgroup = ? AND erased = FALSE ORDER BY question",
@@ -17,7 +17,7 @@
             ""
         ],
         "getId": [
-            "SELECT ep.idempty_poll, ep.iddetail_type_of_procedure, ep.name, ep.description, ep.type, ep.create_date, ep.erased FROM empty_poll ep INNER JOIN detail_type_of_procedure dtop ON dtop.iddetail_type_of_procedure = ep.iddetail_type_of_procedure WHERE ep.idempty_poll = ? AND ep.erased = FALSE AND dtop.erased = FALSE",
+            "SELECT ep.idempty_poll, ep.iddetail_type_of_procedure, ep.name, ep.description, ep.type, ep.create_date, ep.erased FROM empty_poll ep INNER JOIN detail_type_of_procedure dtop ON dtop.iddetail_type_of_procedure = ep.iddetail_type_of_procedure WHERE iddetail_type_of_procedure = ? AND ep.idempty_poll = ? AND ep.erased = FALSE AND dtop.erased = FALSE",
             "SELECT * FROM question_group WHERE idempty_poll = ? AND erased = FALSE",
             "SELECT * FROM question_subgroup WHERE idquestion_group = ? AND erased = FALSE",
             "SELECT * FROM question WHERE idquestion_subgroup = ? AND erased = FALSE ORDER BY question",
@@ -32,7 +32,7 @@
             ""
         ],
         "delete": [
-            "UPDATE empty_poll SET erased = TRUE WHERE idempty_poll = ? AND erased = FALSE",
+            "UPDATE empty_poll SET erased = TRUE WHERE iddetail_type_of_procedure = ? AND ep.idempty_poll = ? AND idempty_poll = ? AND erased = FALSE",
             "",
             ""
         ]

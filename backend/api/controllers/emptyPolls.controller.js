@@ -32,7 +32,9 @@ function errorHandler(err, res) {
 
 async function create(req, res) {
     const query = sql.post;
-    const { name, description, type, idDetailTypeProcedure = false } = req.body;
+    const idDetailTypeProcedure = req.swagger.params.idDetailTypeProcedure.value;
+
+    const { name, description, type = false } = req.body;
     const newEmptyPoll = {
         name,
         description,
@@ -57,10 +59,12 @@ async function create(req, res) {
 }
 async function getAll(req, res) {
     const query = sql.get;
+    const idDetailTypeProcedure = req.swagger.params.idDetailTypeProcedure.value;
+
     const emptyPollsDB = [];
     const idQuestions = [];
     try {
-        const tmpEmptyPollsDB = await pool.query(query[0]);
+        const tmpEmptyPollsDB = await pool.query(query[0], idDetailTypeProcedure);
         if (!tmpEmptyPollsDB.length) throw NOT_FOUND;
 
         for (const emptyPollDB of tmpEmptyPollsDB) {
@@ -157,9 +161,11 @@ async function getAll(req, res) {
 async function get(req, res) {
     const query = sql.getId;
     const idEmptyPoll = req.swagger.params.idEmptyPoll.value;
+    const idDetailTypeProcedure = req.swagger.params.idDetailTypeProcedure.value;
+
     const idQuestions = [];
     try {
-        const tmpEmptyPollsDB = await pool.query(query[0], idEmptyPoll);
+        const tmpEmptyPollsDB = await pool.query(query[0], [idEmptyPoll, idDetailTypeProcedure]);
         if (!tmpEmptyPollsDB.length) throw NOT_FOUND;
         
         const emptyPollDB = tmpEmptyPollsDB[0];
@@ -253,9 +259,9 @@ async function get(req, res) {
 }
 async function update(req, res) {
     const query = sql.put;
+    const idDetailTypeProcedure = req.swagger.params.idDetailTypeProcedure.value;
     const idEmptyPoll = req.swagger.params.idEmptyPoll.value;
-    const { name, description, type, idDetailTypeProcedure } = req.body;
-    console.log('req.body', req.body);
+    const { name, description, type } = req.body;
 
     const tmp = {
         name,
@@ -279,10 +285,11 @@ async function update(req, res) {
 }
 async function deleteEmptyPoll(req, res) {
     const query = sql.delete;
+    const idDetailTypeProcedure = req.swagger.params.idDetailTypeProcedure.value;
     const idEmptyPoll = req.swagger.params.idEmptyPoll.value;
 
     try {
-        const emptyPollDeleted = await pool.query(query[0], idEmptyPoll);
+        const emptyPollDeleted = await pool.query(query[0], [idEmptyPoll, idDetailTypeProcedure]);
         if (!emptyPollDeleted.changedRows) throw NOT_FOUND;
 
         return res.status(200).send({ message: 'Se eliminó la Encuesta en Blanco' });
