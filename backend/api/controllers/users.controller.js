@@ -41,19 +41,10 @@ async function loginPost(req, res, next) {
     const user = {
         username,
         password,
-        role: "ADMIN"
+        role: "fede"
     }
     const sql = `
-        SELECT
-              dni
-            , first_name
-            , last_name
-            , username
-            , password
-            , email
-            , sex
-            , alternative_email
-            , role
+        SELECT *
         FROM mydb.person p  
         INNER JOIN user u on u.idPerson = p.idperson
         WHERE u.username = ? AND u.erased = FALSE
@@ -75,11 +66,18 @@ async function loginPost(req, res, next) {
             console.log('El usuario no existe');
             res.send(403);
         } else {
-
+            const tokenPayload = {
+                iduser: userDB.iduser,
+                username: userDB.username,
+                role: user.role                
+            };
+            const str = ''
+            tokenPayload.fullname = str.concat(userDB.first_name, userDB.first_name);
+            
             
 
             if (bcrypt.compareSync(user.password, userDB.password)) {
-                const tokenString = auth.issueToken(username, user.role);
+                const tokenString = auth.issueToken(tokenPayload);
                 const response = { token: tokenString };
                 console.log({ token: tokenString });
                 res.writeHead(200, { "Content-Type": "application/json" });

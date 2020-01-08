@@ -1,5 +1,7 @@
 const core = require("./core.controller.js");
 const pool = require("../../database");
+var jwt = require("jsonwebtoken");
+var sharedSecret = "shh";
 
 module.exports = {
     proceduresControllerPost: core.middleware([core.logRequest, create]),
@@ -12,15 +14,19 @@ module.exports = {
     ])
 };
 
-function create(req, res) {
-    const { idDetailTypeProcedure, idPatient, idInstitution, description, idUser, idService} = req.body;
+async function create(req, res) {
+    const { idDetailTypeProcedure, idPatient, idInstitution, description, idService} = req.body;
+    let token = req.headers.authorization.split(' ')[1];
+    token = await jwt.verify(token, sharedSecret);
+
+
 
     const newProcedure = {
         iddetail_type_of_procedure: idDetailTypeProcedure,
         idPatient,
         idInstitution,
         idService,
-        idUser,
+        idUser: token.iduser,
         description
     };
     console.log(newProcedure);
@@ -102,7 +108,7 @@ function create(req, res) {
 }
 
 async function getAll(req, res) {
-    // PENDIENTE FORMATEAR EL OBJETO DE SALIDA
+    // PENDIENTE FORMATEAR EL OBJETO DE SALIDA    
     const sql = `
         SELECT DISTINCT
         p.idprocedure AS "procedureID"
@@ -146,6 +152,7 @@ async function getAll(req, res) {
     `;
 
     try {
+
         results = await pool.query(sql);
         if (!results.length) {
             res.status(404).send({ message: "No hay Procedimientos !!" });
@@ -153,7 +160,13 @@ async function getAll(req, res) {
             return res.status(200).send( results );
         }
     } catch (err) {
-        res.status(500).send({ message: "Error en la petición.", err });
+        // console.log( err.name, err.message);
+        if (err.name == 'JsonWebTokenError' && err.message == 'invalid token') {
+            res.status(500).send({ message: "Invalid Token" });
+        } else {
+            res.status(500).send({ message: "Error en la petición.", err });
+            
+        }
     }
 }
 
@@ -221,20 +234,23 @@ async function update(req, res) {
     // Corroborar si existe el tipo de procedimiento antes de asignarlo
     // const idTypeProcedure = req.swagger.params.idTypeProcedure.value;
     const idProcedure = req.swagger.params.idProcedure.value;
-    const { idDetailTypeProcedure, idPatient, idInstitution, description, idPoll, idUser, idService } = req.body;
+    const { idDetailTypeProcedure, idPatient, idInstitution, description, idPoll, idService } = req.body;
 
     const newProcedure = {
         iddetail_type_of_procedure: idDetailTypeProcedure,
         idPatient,
         idInstitution,
         idService,
-        idUser,
         idPoll,
         description
     };
     // const table_name = "procedimiento";
     const sql = `UPDATE procedimiento SET ? WHERE idprocedure = ?`;
     try {
+        let token = req.headers.authorization.split(' ')[1];
+        token = await jwt.verify(token, sharedSecret);
+
+        newProcedure.idUser = token.iduser;
         result = await pool.query(sql, [newProcedure, idProcedure]);
         if (!result.changedRows) {
             res.status(404).send({ message: 'No se encontro el Procedimiento.' });

@@ -1,6 +1,13 @@
 [
     {
         "idDetailTypeProcedure": "6ffd254b-2fa6-11ea-9402-ac220b26bfde",
+        "idPatient": "7982f0bd-3034-11ea-9402-ac220b26bfde",
+        "idInstitution": "3ee639e3-3030-11ea-9402-ac220b26bfde",
+        "idService": "a10ae542-3030-11ea-9402-ac220b26bfde",
+        "description": "TEST TOKEN"
+    },
+    {
+        "idDetailTypeProcedure": "6ffd254b-2fa6-11ea-9402-ac220b26bfde",
         "idPatient": "15a22b80-3034-11ea-9402-ac220b26bfde",
         "idInstitution": "3ee639e3-3030-11ea-9402-ac220b26bfde",
         "idService": "607c0304-3031-11ea-9402-ac220b26bfde",

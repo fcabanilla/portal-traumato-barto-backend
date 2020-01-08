@@ -34,7 +34,6 @@ async function create(req, res) {
     const query = sql.post;
     const { description, idEmptyPoll, typeOfPoll, pollDetails, idQuestion, idAnswer } = req.body;
 
-
     // const newPollDetail = {
     //     idQuestion,
     //     idAnswer
@@ -43,13 +42,17 @@ async function create(req, res) {
         description,
         idEmpty_Poll: idEmptyPoll,
         idProcedure,
-        idUser_Author: 'pendiente'
     };
 
     const newTypeOfPoll = {
         description: typeOfPoll
     };
     try {
+        let token = req.headers.authorization.split(' ')[1];
+        token = await jwt.verify(token, sharedSecret);
+        
+        newPoll.idUser_Author = token.iduser;
+
 
         const procedureDB = await pool.query(query[0], idProcedure);
         if (!procedureDB.length) throw PROCEDURE_NOT_FOUND;
@@ -291,6 +294,10 @@ async function get(req, res) {
 async function update(req, res) {
     const query = sql.put;
     try {
+        let token = req.headers.authorization.split(' ')[1];
+        token = await jwt.verify(token, sharedSecret);
+
+        newPoll.idUser_Author = token.iduser;
 
     } catch (err) {
         errorHandler(err, res);
