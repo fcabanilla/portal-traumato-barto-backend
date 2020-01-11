@@ -25,6 +25,9 @@ securityDefinitions:
   
          Bearer xxxxxx.yyyyyyy.zzzzzz
 
+
+
+
 consumes:
   - application/json
 produces:
@@ -237,12 +240,19 @@ paths:
     parameters:
       - name: idProcedure
         in: path
-        description: "ID of the Person"
+        description: "ID of the Procedure"
         required: true
         type: string
     post:
       tags:
         - Polls
+      security:
+        - Bearer: []
+      x-security-scopes:
+        - admin
+        - user
+        - dev
+        - fede
       operationId: pollsControllerPost
       summary: "Create Poll"
       description: "Create a new Poll"
@@ -284,7 +294,7 @@ paths:
         type: string
       - name: idProcedure
         in: path
-        description: "ID of the Person"
+        description: "ID of the Procedure"
         required: true
         type: string
     get:
@@ -309,6 +319,13 @@ paths:
       summary: "Update a poll"
       operationId: pollsControllerPut
       description: "Update only one poll"
+      security:
+        - Bearer: []
+      x-security-scopes:
+        - admin
+        - user
+        - dev
+        - fede
       parameters:
         - name: poll
           in: body

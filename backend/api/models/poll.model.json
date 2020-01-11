@@ -33,12 +33,18 @@
             ""
         ],
         "put": [
-            "",
-            "",
-            ""
+            "SELECT * FROM procedimiento WHERE idProcedure = ? AND erased = FALSE",
+            "SELECT DISTINCT q.idquestion, a.idanswer FROM question q INNER JOIN type_of_answer t ON t.idtype_of_answer = q.idtype_of_answer INNER JOIN answer a ON a.idtype_of_answer = t.idtype_of_answer WHERE q.idquestion = ? AND a.idanswer = ? AND q.erased = FALSE AND a.erased = FALSE",
+            "SELECT * FROM empty_poll WHERE idempty_poll = ? AND erased = FALSE",
+            "SELECT idtype_of_poll FROM mydb.type_of_poll WHERE ?",
+            "INSERT INTO type_of_poll SET ?",
+            "UPDATE poll SET ? WHERE idpoll = ? AND erased = FALSE",
+            "SELECT idPoll_detail FROM poll_detail WHERE idQuestion = ? AND idPoll = ? AND erased = FALSE",
+            "INSERT INTO poll_detail SET ?",
+            "UPDATE poll_detail SET ? WHERE idPoll = ? AND erased = FALSE AND idQuestion = ?"
         ],
         "delete": [
-            "",
+            "UPDATE poll SET erased = TRUE WHERE idPoll = ? AND idProcedure = ? AND erased = FALSE",
             "",
             ""
         ]

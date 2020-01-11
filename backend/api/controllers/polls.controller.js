@@ -1,6 +1,8 @@
 const core = require("./core.controller.js");
 const pool = require("../../database");
 const { query: sql } = require("../models/poll.model.json");
+var jwt = require("jsonwebtoken");
+var sharedSecret = "shh";
 const { DUPLICATE_ENTRY, NOT_SAVED, NOT_FOUND, PROCEDURE_NOT_FOUND, QUESTION_ANSWER_NOT_FOUND, EMPTY_POLL_NOT_FOUND } = require("../models/poll.error.model.json");
 
 module.exports = {
@@ -31,13 +33,10 @@ function errorHandler(err, res) {
 
 async function create(req, res) {
     const idProcedure = req.swagger.params.idProcedure.value;
+    
     const query = sql.post;
-    const { description, idEmptyPoll, typeOfPoll, pollDetails, idQuestion, idAnswer } = req.body;
+    const { description, idEmptyPoll, typeOfPoll, pollDetails } = req.body;
 
-    // const newPollDetail = {
-    //     idQuestion,
-    //     idAnswer
-    // };
     const newPoll = {
         description,
         idEmpty_Poll: idEmptyPoll,
@@ -104,9 +103,6 @@ async function getAll(req, res) {
         if (!tmpPollsDB.length) throw NOT_FOUND;
 
         for (const pollDB of tmpPollsDB) {
-
-
-
 
             const tmpEmptyPollsDB = await pool.query(query[1], pollDB.idempty_poll);
             if (!tmpEmptyPollsDB.length) throw NOT_FOUND;
@@ -293,11 +289,78 @@ async function get(req, res) {
 }
 async function update(req, res) {
     const query = sql.put;
+    const idPoll = req.swagger.params.idPoll.value;
+    const idProcedure = req.swagger.params.idProcedure.value;
+    const { description, idEmptyPoll, typeOfPoll, pollDetails } = req.body;
+
+    let newPoll = {
+        description,
+        idEmpty_Poll: idEmptyPoll,
+        idProcedure,
+    };
+    const newTypeOfPoll = {};
+
+    newPoll = onlyNotUndefined(newPoll);
+
     try {
         let token = req.headers.authorization.split(' ')[1];
         token = await jwt.verify(token, sharedSecret);
-
+        
         newPoll.idUser_Author = token.iduser;
+        if (typeOfPoll)
+        {
+            newTypeOfPoll.description= typeOfPoll;
+        }
+        console.log(newTypeOfPoll);
+        /* CHECK OF PROCEDURE */
+        const procedureDB = await pool.query(query[0], idProcedure);
+        if (!procedureDB.length) throw PROCEDURE_NOT_FOUND;
+        
+        /* CHECK OF EMPTY POLL */
+        if (newPoll.idEmpty_Poll) {
+            const emptyPollDB = await pool.query(query[2], idEmptyPoll);
+            if (!emptyPollDB.length) throw EMPTY_POLL_NOT_FOUND;            
+        }
+        newTypeOfPoll
+        /* CHECK OF TYPE OF POLL */
+        if (typeOfPoll) {
+            let typeOfPollDB = await pool.query(query[3], newTypeOfPoll);
+    
+            if (!typeOfPollDB.length) {
+                const typeOfPollSaved = await pool.query(query[4], newTypeOfPoll);
+                if (!typeOfPollSaved.affectedRows) throw NOT_SAVED;
+                typeOfPollDB = await pool.query(query[3], newTypeOfPoll);
+                if (!typeOfPollDB.length) throw NOT_FOUND;
+            }    
+            const { idtype_of_poll } = typeOfPollDB[0];
+            newPoll.idtype_of_poll = idtype_of_poll;
+        }
+
+        const pollUpdated = await pool.query(query[5], [newPoll, idPoll]);
+        if (!pollUpdated.affectedRows) throw NOT_SAVED;
+
+        /** REPASO EN POLL_DETAIL */
+
+
+        for (const pollDetail of pollDetails) {
+            pollDetail.idPoll = idPoll;
+            const { idAnswer, idQuestion } = pollDetail;
+            const pollDetailDB = await pool.query(query[6], [idAnswer, idQuestion, idPoll]);
+            if (!pollDetailDB.length) {
+                const pollDetailSaved = await pool.query(query[7], pollDetail);
+                if (!pollDetailSaved.affectedRows) throw NOT_SAVED;
+            }else{
+                const pollDetailUpdated = await pool.query(query[8], pollDetail);
+                if (!pollDetailUpdated.affectedRows) throw NOT_SAVED;
+            }
+        }
+        res.status(201).send({ message: "Se actualizo la Encuesta" });
+
+
+
+
+
+
 
     } catch (err) {
         errorHandler(err, res);
@@ -305,7 +368,12 @@ async function update(req, res) {
 }
 async function deletePoll(req, res) {
     const query = sql.delete;
+    const idPoll = req.swagger.params.idPoll.value;
+    const idProcedure = req.swagger.params.idProcedure.value;
     try {
+        const pollDeleted = await pool.query(query[0], [idPoll, idProcedure]);
+        if(!pollDeleted.changedRows) throw NOT_FOUND;
+        return res.status(200).send({ message: 'Se elimino la Encuesta' });
 
     } catch (err) {
         errorHandler(err, res);
