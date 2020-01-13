@@ -165,7 +165,7 @@ async function get(req, res) {
 
     const idQuestions = [];
     try {
-        const tmpEmptyPollsDB = await pool.query(query[0], [idEmptyPoll, idDetailTypeProcedure]);
+        const tmpEmptyPollsDB = await pool.query(query[0], [idDetailTypeProcedure, idEmptyPoll]);
         if (!tmpEmptyPollsDB.length) throw NOT_FOUND;
         
         const emptyPollDB = tmpEmptyPollsDB[0];
