@@ -2,7 +2,8 @@ swagger: "2.0"
 info:
   version: "1.0.0"
   title: Backend
-host: localhost:4000
+# host: localhost:4000
+host: back:4000
 basePath: /api
 schemes:
   - http
