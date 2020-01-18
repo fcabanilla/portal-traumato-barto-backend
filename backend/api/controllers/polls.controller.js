@@ -152,17 +152,15 @@ async function getAll(req, res) {
                             };
 
                             const tmpPollDetailsDB = await pool.query(query[5], [tmpPollDetailDB.idQuestion, tmpEmptyPollDB.idPoll ]);
-                            if(!tmpPollDetailsDB.length) console.log('Problemas Will Robinson!');
+                            
+                            if(!tmpPollDetailsDB.length) console.log('Problemas Will Robinson 1!');
 
                             const tmpQuestionDB = await pool.query(query[6], tmpPollDetailsDB[0].idanswer);
-                            if (!tmpQuestionDB.length) console.log('2 - Problemas Will Robinson!');
+                            if (!tmpQuestionDB.length) console.log('2 - Problemas Will Robinson 2!');
 
                             tmpPollDetailDB.idAnswer = tmpQuestionDB[0].idanswer;
                             tmpPollDetailDB.answer = tmpQuestionDB[0].answer;
                             tmpPollDetailDB.score = tmpQuestionDB[0].score;
-
-
-                            console.log(tmpPollDetailDB);
 
                             tmpSubgroupDB.pollDetail.push(tmpPollDetailDB);
 
@@ -260,18 +258,12 @@ async function get(req, res) {
                             tmpPollDetailDB.answer = tmpQuestionDB[0].answer;
                             tmpPollDetailDB.score = tmpQuestionDB[0].score;
 
-
-                            console.log(tmpPollDetailDB);
-
                             tmpSubgroupDB.pollDetail.push(tmpPollDetailDB);
 
 
                             // tmpSubgroupDB.questions.push(tmpQuestionDB);
                             // idQuestions.push(tmpQuestionDB.idQuestion);
                         }
-
-
-
 
                         tmpGroupDB.subgroup.push(tmpSubgroupDB);
 
@@ -311,7 +303,6 @@ async function update(req, res) {
         {
             newTypeOfPoll.description= typeOfPoll;
         }
-        console.log(newTypeOfPoll);
         /* CHECK OF PROCEDURE */
         const procedureDB = await pool.query(query[0], idProcedure);
         if (!procedureDB.length) throw PROCEDURE_NOT_FOUND;
