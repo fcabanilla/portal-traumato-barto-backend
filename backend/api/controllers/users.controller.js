@@ -17,13 +17,27 @@ module.exports = {
     usersControllerDelete: core.middleware([core.logRequest, deleteUser])
 }
 
-
 function onlyNotUndefined(tmp) {
     const notUndefinedObj = {};
     Object.keys(tmp).forEach(function (key) {
         if (!(tmp[key] === undefined)) notUndefinedObj[key] = tmp[key];
     });
     return notUndefinedObj;
+}
+function formatOutput(tmp) {
+    const { iduser: idUser, username, email, alternativeEmail, dni, first_name: firstName, last_name: lastName, birth_date: birthdate, sex } = tmp;
+    const formated = {
+        idUser,
+        username,
+        email,
+        alternativeEmail,
+        dni,
+        firstName,
+        lastName,
+        birthdate,
+        sex
+    };
+    return formated;
 }
 
 function errorHandler(err, res) {
@@ -45,7 +59,7 @@ async function loginPost(req, res, next) {
     }
     const sql = `
         SELECT *
-        FROM mydb.person p  
+        FROM person p  
         INNER JOIN user u on u.idPerson = p.idperson
         WHERE u.username = ? AND u.erased = FALSE
     `;
@@ -122,7 +136,7 @@ function create(req, res) {
                 console.log(`Duplicate entry`);
                 res.sendStatus(500);
             }
-            console.log('Primer error, no se inserto la persona', err);
+            console.log('Primer error, no se insertó la persona', err);
             res.sendStatus(500);
         } else {
             pool.query('SELECT idPerson FROM person WHERE dni = ?', [newPerson.dni], function (err, result, fields){
@@ -149,54 +163,45 @@ function create(req, res) {
     })    
 }
 
-function getAll(req, res) {
-    const sql = `
-        SELECT * FROM user u 
-        INNER JOIN person per ON per.idPerson = u.idPerson 
-        WHERE u.erased = FALSE
-    `;
-    pool.query(sql, (err, users) => {
-        if (err) {
-            res.status(500).send({ message: 'Error en la petición.' });
-        } else {
-            if (!users.length) {
-                res.status(404).send({ message: 'No hay Usuarios !!' });
-            } else {
-                return res.status(200).send( users );
-            }
+async function getAll(req, res) {
+    const query = sql.get;
+    const usersDB = [];
+
+    try {
+        const tmpUsersDB = await pool.query(query[0]);        
+        if(!tmpUsersDB.length) throw NOT_FOUND;
+        for (const userDB of tmpUsersDB) {
+            usersDB.push(formatOutput(userDB));
         }
-    });
+
+        return res.status(200).send( usersDB );
+    } catch (err) {
+        errorHandler(err, res);
+    }
 }
 
-function get(req, res) {
+async function get(req, res) {
     const idUser = req.swagger.params.idUser.value;
-    const sql = `
-        SELECT * FROM user u
-        INNER JOIN person per ON per.idPerson = u.idPerson 
-        WHERE u.idUser = ? AND u.erased = FALSE
-    `;
-    pool.query(sql, [idUser], (err, user) => {
-        if (err) {
-            res.status(500).send({ message: 'Error en la petición.' });
-        } else {
-            if (!user.length) {
-                res.status(404).send({ message: 'No se encuentra el Usuario !!' });
-            } else {
-                console.log({ user });
-                return res.status(200).send({ user });
-            }
-        }
-    });
+    const query = sql.getId;
+
+    try {
+        const tmpUserDB = await pool.query(query[0], [idUser]);
+        if (!tmpUserDB.length ) throw NOT_FOUND;
+        return res.status(200).send(formatOutput(tmpUserDB[0]) );
+    } catch (err) {
+        errorHandler(err, res);
+    }
 }
 
-function update(req, res) {
+async function update(req, res) {
     const idUser = req.swagger.params.idUser.value;
-    const { dni, firstname, lastname, birthdate, sex, username, password, email } = req.body;
-    
+    const { dni, firstname: firstName, lastname: lastName, birthdate, sex, username, password, email } = req.body;
+    const query = sql.put;
+
     const tmpPerson = {
         dni,
-        first_name: firstname,
-        last_name: lastname,
+        first_name: firstName,
+        last_name: lastName,
         birth_date: birthdate,
         sex
     };
@@ -208,49 +213,28 @@ function update(req, res) {
     if (!(password === undefined)) tmpUser.password = bcrypt.hashSync(password, salt);
 
     const newPerson = onlyNotUndefined(tmpPerson);
-    const newUser = onlyNotUndefined(tmpUser);
-
     console.log("newPerson", newPerson);
+    
+    const newUser = onlyNotUndefined(tmpUser);
     console.log("newUser", newUser);
 
-    const sql = `
-        SELECT * FROM user 
-        WHERE erased = FALSE AND idUser = ?
-    `;
-    pool.query(sql, [idUser],  (err, result) => {
-        if (err) {
-            console.log("err:", { err });
-            res.status(500).send({ message: 'Error en la petición.', err });
-        } else {
-            if (!result.length) {
-                res.status(404).send({ message: 'No se encuentra el Usuario !!' });
-            } else {
-                console.log(`result[0]`, result[0]);
-                newPerson.idPerson = result[0].idperson;
-                console.log(newPerson);
-                const sql = `UPDATE person set ? WHERE idPerson = ?`;
-                
-                pool.query(sql, [newPerson, newPerson.idPerson], (err) => {
-                    if (err) {
-                        console.log(`Err:`, { err });
-                        res.status(500).send({ message: 'Error en la petición.', err });
-                    } else {
-                        const sql = `UPDATE user set ? WHERE idUser = ?`;
+    try {
+        const usersDB = await pool.query(query[0], idUser);
+        if(!usersDB.length) throw NOT_FOUND;        
+        newPerson.idPerson = usersDB[0].idPerson;
 
-                        pool.query(sql, [newUser, idUser], (err) => {
-                            if (err) {
-                                console.log(`Err:`, { err });
-                                res.status(500).send({ message: 'Error en la petición.', err });
-                            } else {
-                                res.status(200).send({ message: 'Se actualizo el Usuario' });
-                            }
-                        });
+        personUpdated = await pool.query(query[1], [newPerson, newPerson.idPerson]);
+        if (!personUpdated.changedRows) throw NOT_SAVED;
+        
+        userUpdated = await pool.query(query[2], [newUser, idUser]);
+        if (!userUpdated.changedRows) throw NOT_SAVED;
+        
+        res.status(200).send({ message: 'Se actualizó el Usuario' });
 
-                    }
-                });
-            }
-        }
-    });
+    } catch (err) {
+        errorHandler(err, res);
+    }
+
 }
 
 async function deleteUser(req, res) {
@@ -274,36 +258,5 @@ async function deleteUser(req, res) {
     } catch (err) {
         errorHandler(err, res);
     }
-
-
-    
-    /*
-    const sql = `
-        SELECT * FROM user 
-        WHERE idUser = ? AND erased = FALSE
-    `;
-    pool.query(sql, [idUser], (err, result) => {
-        if (err) {
-            console.log("err:", { err });
-            res.status(500).send({ message: 'Error en la petición.', err });
-        } else {
-            if (!result.length) {
-                res.status(404).send({ message: 'No se encuentra el Usuario !!' });
-            } else {
-                const idPerson = result[0].idperson;
-                const sql = `UPDATE user set erased = TRUE WHERE idPerson = ?`;
-
-                pool.query(sql, [idPerson], (err) => {
-                    if (err) {
-                        console.log(`Err:`, { err });
-                        res.status(500).send({ message: 'Error en la petición.', err });
-                    } else {
-                        res.status(200).send({ message: 'El Usuario se elimino.' });
-                    }
-                });
-            }
-        }
-    });
-    */
 
 }
