@@ -119,7 +119,6 @@ async function getAll(req, res) {
                     if (!typeOfAnswerDB.length) console.log('Mocaso TypeOfAnswer');
                     typeOfAnswerDB = typeOfAnswerDB[0];
 
-
                     const tmpTypeOfAnswerDB = {
                         idTypeOfAnswer: typeOfAnswerDB.idtype_of_answer,
                         name: typeOfAnswerDB.type_of_answer,
@@ -128,12 +127,12 @@ async function getAll(req, res) {
                         answers: []
                     };
 
-
                     const tmpAnswersDB = await pool.query(query[6], tmpTypeOfAnswerDB.idTypeOfAnswer);
                     if (!tmpAnswersDB.length) console.log('Bardo con Answers');
 
                     for (const answerDB of tmpAnswersDB) {
                         const tmpAnswerDB = {
+                            idAnswer: answerDB.idanswer,
                             answer: answerDB.answer,
                             score: answerDB.score
                         };
@@ -236,6 +235,7 @@ async function get(req, res) {
 
                 for (const answerDB of tmpAnswersDB) {
                     const tmpAnswerDB = {
+                        idAnswer: answerDB.idanswer,
                         answer: answerDB.answer,
                         score: answerDB.score
                     };
@@ -243,8 +243,6 @@ async function get(req, res) {
                 }
 
                 tmpSubgroupDB.typeOfAnswer = tmpTypeOfAnswerDB;
-
-                // const tmpTypeOfAnswer = await pool.query(query[3], tmpSubgroupDB.idSubgroup)
 
                 tmpGroupDB.subgroup.push(tmpSubgroupDB);
             }
