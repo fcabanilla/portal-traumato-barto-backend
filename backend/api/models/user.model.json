@@ -6,17 +6,19 @@
             ""
         ],
         "get": [
-            "",
+            "SELECT * FROM user u INNER JOIN person per ON per.idPerson = u.idPerson WHERE u.erased = FALSE",
             "",
             ""
         ],
         "getId": [
-            "",
+            "SELECT * FROM user u INNER JOIN person per ON per.idPerson = u.idPerson WHERE u.idUser = ? AND u.erased = FALSE",
             "",
             ""
         ],
         "put": [
-            "",
+            "SELECT DISTINCT idPerson FROM user WHERE erased = FALSE AND idUser = ?",
+            "UPDATE person SET ? WHERE idPerson = ?",
+            "UPDATE user SET ? WHERE idUser = ?",
             "",
             ""
         ],
