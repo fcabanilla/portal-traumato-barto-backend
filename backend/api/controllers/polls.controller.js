@@ -249,10 +249,10 @@ async function get(req, res) {
                             };
 
                             const tmpPollDetailsDB = await pool.query(query[5], [tmpPollDetailDB.idQuestion, tmpEmptyPollDB.idPoll]);
-                            if (!tmpPollDetailsDB.length) console.log('Problemas Will Robinson!');
+                            if (!tmpPollDetailsDB.length) continue //console.log('Problemas Will Robinson!');
 
                             const tmpQuestionDB = await pool.query(query[6], tmpPollDetailsDB[0].idanswer);
-                            if (!tmpQuestionDB.length) console.log('2 - Problemas Will Robinson!');
+                            if (!tmpQuestionDB.length) continue //console.log('2 - Problemas Will Robinson!');
 
                             tmpPollDetailDB.idAnswer = tmpQuestionDB[0].idanswer;
                             tmpPollDetailDB.answer = tmpQuestionDB[0].answer;
