@@ -96,10 +96,11 @@ async function create(req, res) {
 }
 async function getAll(req, res) {
     const query = sql.get;
+    const idProcedure = req.swagger.params.idProcedure.value;
     const pollsDB = [];
     try {
 
-        const tmpPollsDB = await pool.query(query[0]);
+        const tmpPollsDB = await pool.query(query[0], idProcedure);
         if (!tmpPollsDB.length) throw NOT_FOUND;
 
         for (const pollDB of tmpPollsDB) {
@@ -112,8 +113,10 @@ async function getAll(req, res) {
 
                 const tmpEmptyPollDB = {
                     idPoll: pollDB.idpoll,
-                    typeOfPoll: pollDB.type_of_poll_description,
+                    idProcedure: idProcedure,
                     idEmptyPoll: emptyPollDB.idempty_poll,
+                    date: pollDB.date,
+                    typeOfPoll: pollDB.type_of_poll_description,
                     name: emptyPollDB.name,
                     type: emptyPollDB.type,
                     description: emptyPollDB.description,
@@ -189,18 +192,16 @@ async function getAll(req, res) {
 async function get(req, res) {
     const query = sql.getId;
     const idPoll = req.swagger.params.idPoll.value;
+    const idProcedure = req.swagger.params.idProcedure.value;
+
     let tmpEmptyPollDB = {};
 
     try {
 
-        const tmpPollsDB = await pool.query(query[0], idPoll);
+        const tmpPollsDB = await pool.query(query[0], [idProcedure, idPoll]);
         if (!tmpPollsDB.length) throw NOT_FOUND;
 
         for (const pollDB of tmpPollsDB) {
-
-
-
-
             const tmpEmptyPollsDB = await pool.query(query[1], pollDB.idempty_poll);
             if (!tmpEmptyPollsDB.length) throw NOT_FOUND;
 
@@ -209,8 +210,10 @@ async function get(req, res) {
 
                 tmpEmptyPollDB = {
                     idPoll: pollDB.idpoll,
-                    typeOfPoll: pollDB.type_of_poll_description,
+                    idProcedure: idProcedure,
                     idEmptyPoll: emptyPollDB.idempty_poll,
+                    date: pollDB.date,
+                    typeOfPoll: pollDB.type_of_poll_description,
                     name: emptyPollDB.name,
                     type: emptyPollDB.type,
                     description: emptyPollDB.description,
