@@ -9,6 +9,11 @@
         "description": "El Encuesta en Blanco no se ha guardado",
         "code": 409
     },
+    "EMPTY": {
+        "status": "EMPTY",
+        "description": "No hay Encuestas en Blanco",
+        "code": 200
+    },
     "NOT_FOUND": {
         "status": "NOT_FOUND",
         "description": "No se encontró el Encuesta en Blanco",

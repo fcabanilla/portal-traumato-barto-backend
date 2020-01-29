@@ -65,7 +65,7 @@ async function getAll(req, res) {
     const idQuestions = [];
     try {
         const tmpEmptyPollsDB = await pool.query(query[0], idDetailTypeProcedure);
-        if (!tmpEmptyPollsDB.length) throw NOT_FOUND;
+        if (!tmpEmptyPollsDB.length) throw EMPTY;
 
         for (const emptyPollDB of tmpEmptyPollsDB) {
 
