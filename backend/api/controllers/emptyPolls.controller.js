@@ -207,7 +207,7 @@ async function get(req, res) {
                 const tmpQuestionsDB = await pool.query(query[3], tmpSubgroupDB.idSubgroup);
                 if (!tmpQuestionsDB.length) console.log('mocaso QUESION') // throw NOT_FOUND;
                 for (const questionDB of tmpQuestionsDB) {
-                    const tmpQuestionDB = {
+                    var tmpQuestionDB = {
                         idQuestion: questionDB.idquestion,
                         questionName: questionDB.name,
                         question: questionDB.question
@@ -216,7 +216,7 @@ async function get(req, res) {
                     idQuestions.push(tmpQuestionDB.idQuestion);
                 }
 
-                const idTypeOfAnswerDB = await pool.query(query[4], idQuestions);
+                const idTypeOfAnswerDB = await pool.query(query[4], tmpQuestionDB.idQuestions);
                 if (!idTypeOfAnswerDB.length) console.log('Mocaso idTypeOfAnswer');
 
                 let typeOfAnswerDB = await pool.query(query[5], idTypeOfAnswerDB[0].idtype_of_answer);
