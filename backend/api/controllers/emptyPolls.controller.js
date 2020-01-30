@@ -163,8 +163,7 @@ async function getAll(req, res) {
 async function get(req, res) {
     const query = sql.getId;
     const idEmptyPoll = req.swagger.params.idEmptyPoll.value;
-    const idDetailTypeProcedure = req.swagger.params.idDetailTypeProcedure.value;
-
+    const idDetailTypeProcedure = req.swagger.params.idDetailTypeProcedure.value;    
     const idQuestions = [];
     try {
         const tmpEmptyPollsDB = await pool.query(query[0], [idDetailTypeProcedure, idEmptyPoll]);
@@ -214,9 +213,9 @@ async function get(req, res) {
                     };
                     tmpSubgroupDB.questions.push(tmpQuestionDB);
                     idQuestions.push(tmpQuestionDB.idQuestion);
-                }
+                }                
 
-                const idTypeOfAnswerDB = await pool.query(query[4], tmpQuestionDB.idQuestions);
+                const idTypeOfAnswerDB = await pool.query(query[4], tmpQuestionDB.idQuestion);
                 if (!idTypeOfAnswerDB.length) console.log('Mocaso idTypeOfAnswer');
 
                 let typeOfAnswerDB = await pool.query(query[5], idTypeOfAnswerDB[0].idtype_of_answer);
