@@ -18,5 +18,10 @@
         "status": "NOT_FOUND",
         "description": "No se encontró el Grupo",
         "code": 404
+    },
+    "EMPTY": {
+        "status": "EMPTY",
+        "description": "No se encontró el Grupo",
+        "code": 200
     }
 }
