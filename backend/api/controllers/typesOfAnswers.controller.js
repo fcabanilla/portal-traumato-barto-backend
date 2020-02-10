@@ -54,24 +54,31 @@ async function setAnswersErased(answersIDs, state = true) {
 }
 
 async function create(req, res) {
-    const { typeOfAnswer, description, answers, addable } = req.body;
+    const { typeOfAnswer, description, answers, addable = false } = req.body;
     const newTypeOfAnswer = {
         type_of_answer: typeOfAnswer,
         description,
         addable
     };
+    console.log("newTypeOfAnswer", newTypeOfAnswer);
+    
     const query = sql.post;
     const typeOfAnswerTN = 'type_of_answer';
     const answerTN = 'answer';
     try {
         let typeOfAnswerDB = await pool.query(query[0], [typeOfAnswer, description, addable]);
+        console.log("#######",typeOfAnswerDB);
+        
 
         if(typeOfAnswerDB.length) throw 'DUPLICATE_ENTRY';
-        for (const answer of answers) {
-            let answerDB = await pool.query(query[1], [answer.value, answer.score]);
-            if (answerDB.length) throw 'DUPLICATE_ENTRY';
+        if (answers) {
+            for (const answer of answers) {
+                let answerDB = await pool.query(query[1], [answer.value, answer.score]);
+                if (answerDB.length) throw 'DUPLICATE_ENTRY';
+            }            
         }
         const typeOfAnswerInserted = await pool.query(query[2], [typeOfAnswerTN, newTypeOfAnswer]);    
+        console.log("**********typeOfAnswerInserted", typeOfAnswerInserted);
 
         if (!typeOfAnswerInserted.affectedRows) {
             res
@@ -80,19 +87,30 @@ async function create(req, res) {
         } else {
             console.log("Affected " + typeOfAnswerInserted.affectedRows + " rows");
             typeOfAnswerDB = await pool.query(query[0], [typeOfAnswer, description, addable]);
+
+
+            // if(typeOfAnswerDB.length) throw 'DUPLICATE_ENTRY';
             typeOfAnswerDB = typeOfAnswerDB[0];
             
-            for (const answer of answers) {                
-                answer.idType_Of_Answer = typeOfAnswerDB.idtype_of_answer;                
-                const answerInserted = await pool.query(query[2], [answerTN, answer]);
-                if (!answerInserted.affectedRows) {
-                    res
-                        .status(404)
-                        .send({ message: "La Respuesta no se ha guardado." });
-                } else {
-                    console.log("Affected " + answerInserted.affectedRows + " rows");
-                }
+            console.log("**********", answers);
+            
+            
+
+            if (answers) {
+                for (const answer of answers) {                
+                    answer.idType_Of_Answer = typeOfAnswerDB.idtype_of_answer;                
+                    const answerInserted = await pool.query(query[2], [answerTN, answer]);
+                    if (!answerInserted.affectedRows) {
+                        res
+                            .status(404)
+                            .send({ message: "La Respuesta no se ha guardado." });
+                    } else {
+                        console.log("Affected " + answerInserted.affectedRows + " rows");
+                    }
+                }                
             }
+
+            res.status(200).send({ message: "Se creo el tipo de respuesta" });
             
         }
     } catch (err) {
@@ -107,7 +125,7 @@ async function create(req, res) {
             res.status(500).send({ message: "Error en la petición" });
         }
     }
-    res.status(200).send({ message: "Se creo el tipo de respuesta" });
+    
 }
 async function getAll(req, res) {
     const query = sql.get;
