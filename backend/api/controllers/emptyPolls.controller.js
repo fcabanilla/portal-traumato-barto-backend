@@ -1,7 +1,7 @@
 const core = require("./core.controller.js");
 const pool = require("../../database");
 const { query: sql } = require("../models/emptyPolls.model.json");
-const { DUPLICATE_ENTRY, NOT_SAVED, NOT_FOUND, DETAIL_TYPE_PROCEDURE_NOT_FOUND } = require("../models/emptyPolls.error.model.json");
+const { DUPLICATE_ENTRY, NOT_SAVED, NOT_FOUND, DETAIL_TYPE_PROCEDURE_NOT_FOUND, EMPTY } = require("../models/emptyPolls.error.model.json");
 
 
 module.exports = {
@@ -65,7 +65,7 @@ async function getAll(req, res) {
     const idQuestions = [];
     try {
         const tmpEmptyPollsDB = await pool.query(query[0], idDetailTypeProcedure);
-        if (!tmpEmptyPollsDB.length) throw NOT_FOUND;
+        if (!tmpEmptyPollsDB.length) throw EMPTY;
 
         for (const emptyPollDB of tmpEmptyPollsDB) {
 
@@ -103,7 +103,7 @@ async function getAll(req, res) {
                     const tmpQuestionsDB = await pool.query(query[3], tmpSubgroupDB.idSubgroup);
                     if (!tmpQuestionsDB.length) console.log('mocaso QUESION') // throw NOT_FOUND;
                     for (const questionDB of tmpQuestionsDB) {
-                        const tmpQuestionDB = {
+                        var tmpQuestionDB = {
                             idQuestion: questionDB.idquestion,
                             questionName: questionDB.name,
                             question: questionDB.question
@@ -112,7 +112,10 @@ async function getAll(req, res) {
                         idQuestions.push(tmpQuestionDB.idQuestion);
                     }
 
-                    const idTypeOfAnswerDB = await pool.query(query[4], idQuestions);
+                    const idTypeOfAnswerDB = await pool.query(query[4], tmpQuestionDB.idQuestion);
+                    console.log('tmpSubgroupDB:', tmpSubgroupDB );
+                    console.log('idTypeOfAnswerDB:', idTypeOfAnswerDB );
+                    
                     if (!idTypeOfAnswerDB.length) console.log('Mocaso idTypeOfAnswer');
 
                     let typeOfAnswerDB = await pool.query(query[5], idTypeOfAnswerDB[0].idtype_of_answer);
@@ -160,8 +163,7 @@ async function getAll(req, res) {
 async function get(req, res) {
     const query = sql.getId;
     const idEmptyPoll = req.swagger.params.idEmptyPoll.value;
-    const idDetailTypeProcedure = req.swagger.params.idDetailTypeProcedure.value;
-
+    const idDetailTypeProcedure = req.swagger.params.idDetailTypeProcedure.value;    
     const idQuestions = [];
     try {
         const tmpEmptyPollsDB = await pool.query(query[0], [idDetailTypeProcedure, idEmptyPoll]);
@@ -204,16 +206,16 @@ async function get(req, res) {
                 const tmpQuestionsDB = await pool.query(query[3], tmpSubgroupDB.idSubgroup);
                 if (!tmpQuestionsDB.length) console.log('mocaso QUESION') // throw NOT_FOUND;
                 for (const questionDB of tmpQuestionsDB) {
-                    const tmpQuestionDB = {
+                    var tmpQuestionDB = {
                         idQuestion: questionDB.idquestion,
                         questionName: questionDB.name,
                         question: questionDB.question
                     };
                     tmpSubgroupDB.questions.push(tmpQuestionDB);
                     idQuestions.push(tmpQuestionDB.idQuestion);
-                }
+                }                
 
-                const idTypeOfAnswerDB = await pool.query(query[4], idQuestions);
+                const idTypeOfAnswerDB = await pool.query(query[4], tmpQuestionDB.idQuestion);
                 if (!idTypeOfAnswerDB.length) console.log('Mocaso idTypeOfAnswer');
 
                 let typeOfAnswerDB = await pool.query(query[5], idTypeOfAnswerDB[0].idtype_of_answer);
