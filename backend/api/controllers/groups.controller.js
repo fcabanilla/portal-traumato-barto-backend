@@ -120,7 +120,7 @@ async function deleteGroup(req, res) {
     const query = sql.delete;
     try {
         const groupDeleted = await pool.query(query[0], idGroup);
-        if (!groupUpdated.changedRows) throw {
+        if (!groupDeleted.changedRows) throw {
             status: "NOT_FOUND",
             description: "No se encontró el Grupo",
             code: 404
