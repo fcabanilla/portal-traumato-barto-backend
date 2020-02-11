@@ -204,7 +204,7 @@ async function get(req, res) {
                 };
 
                 const tmpQuestionsDB = await pool.query(query[3], tmpSubgroupDB.idSubgroup);
-                if (!tmpQuestionsDB.length) console.log('mocaso QUESION') // throw NOT_FOUND;
+                if (!tmpQuestionsDB.length) continue // console.log('mocaso QUESION') // throw NOT_FOUND;
                 for (const questionDB of tmpQuestionsDB) {
                     var tmpQuestionDB = {
                         idQuestion: questionDB.idquestion,
