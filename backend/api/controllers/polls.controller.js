@@ -98,13 +98,14 @@ async function getAll(req, res) {
     const query = sql.get;
     const idProcedure = req.swagger.params.idProcedure.value;
     const pollsDB = [];
+    // let totalScore;
     try {
 
         const tmpPollsDB = await pool.query(query[0], idProcedure);
         if (!tmpPollsDB.length) throw NOT_FOUND;
 
         for (const pollDB of tmpPollsDB) {
-
+            let totalScore = 0;
             const tmpEmptyPollsDB = await pool.query(query[1], pollDB.idempty_poll);
             if (!tmpEmptyPollsDB.length) throw NOT_FOUND;
 
@@ -147,6 +148,7 @@ async function getAll(req, res) {
 
                         const tmpQuestionsDB = await pool.query(query[4], tmpSubgroupDB.idSubgroup);
                         if (!tmpQuestionsDB.length) console.log('mocaso QUESION') // throw NOT_FOUND;
+                        
                         for (const questionDB of tmpQuestionsDB) {
                             const tmpPollDetailDB = {
                                 idQuestion: questionDB.idquestion,
@@ -166,19 +168,17 @@ async function getAll(req, res) {
                             tmpPollDetailDB.score = tmpQuestionDB[0].score;
 
                             tmpSubgroupDB.pollDetail.push(tmpPollDetailDB);
+                            totalScore = totalScore + tmpPollDetailDB.score;
 
 
                             // tmpSubgroupDB.questions.push(tmpQuestionDB);
                             // idQuestions.push(tmpQuestionDB.idQuestion);
                         }
-
-
-
-
                         tmpGroupDB.subgroup.push(tmpSubgroupDB);
 
                     }
                     tmpEmptyPollDB.group.push(tmpGroupDB);
+                    tmpEmptyPollDB.totalScore = totalScore;
                 }
                 pollsDB.push(tmpEmptyPollDB);
             }
