@@ -134,7 +134,7 @@ async function getAll(req, res) {
     try {
         const typesOfAnswersIDsDB = await pool.query(query[0]);
         if (!typesOfAnswersIDsDB.length) {
-            res.status(404).send({ message: "No hay Tipos de Respuesta !!" });
+            res.status(200).send({ message: "No hay Tipos de Respuesta !!" });
         } else {
 
             for (let typeOfAnswerIDDB of typesOfAnswersIDsDB) {                
@@ -164,7 +164,7 @@ async function getAll(req, res) {
                 throw {
                     status: "NOT_FOUND",
                     description: "No hay Tipos de Respuesta !!",
-                    code: 404
+                    code: 200
                 };
             } else {
                 console.log(typeOfAnswer);

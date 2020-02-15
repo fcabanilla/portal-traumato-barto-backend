@@ -160,7 +160,7 @@ function getAll(req, res) {
             res.status(500).send({ message: 'Error en la petición.' });
         } else {
             if (!users.length) {
-                res.status(404).send({ message: 'No hay Usuarios !!' });
+                res.status(200).send({ message: 'No hay Usuarios !!' });
             } else {
                 return res.status(200).send( users );
             }

@@ -1,7 +1,7 @@
 const core = require("./core.controller.js");
 const pool = require("../../database");
 const { query: sql } = require("../models/emptyPolls.model.json");
-const { DUPLICATE_ENTRY, NOT_SAVED, NOT_FOUND, DETAIL_TYPE_PROCEDURE_NOT_FOUND, EMPTY } = require("../models/emptyPolls.error.model.json");
+const { DUPLICATE_ENTRY, NOT_SAVED, NOT_FOUND, DETAIL_TYPE_PROCEDURE_NOT_FOUND, EMPTY, NOT_FOUND_GET_ALL } = require("../models/emptyPolls.error.model.json");
 
 
 module.exports = {

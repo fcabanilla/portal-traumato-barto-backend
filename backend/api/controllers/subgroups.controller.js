@@ -65,7 +65,7 @@ async function getAll(req, res) {
         if (!subgroupsDB.length) throw {
             status: "NOT_FOUND",
             description: "No hay Sub-Grupos !!",
-            code: 404
+            code: 200
         };
         return res.status(200).send(subgroupsDB);
     } catch (err) {

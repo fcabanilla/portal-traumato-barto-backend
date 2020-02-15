@@ -80,7 +80,7 @@ async function getAll(req, res) {
         if (!questionsDB.length) throw {
             status: "NOT_FOUND",
             description: "No se encontraron Preguntas !!",
-            code: 404
+            code: 200
         };
         return res.status(200).send(questionsDB);
     } catch (err) {

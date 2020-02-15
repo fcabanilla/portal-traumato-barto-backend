@@ -1,7 +1,7 @@
 const core = require("./core.controller.js");
 const pool = require("../../database");
 const { query: sql } = require("../models/groups.model.json");
-const { DUPLICATE_ENTRY, NOT_SAVED, NOT_FOUND, EMPTY_POLL_NOT_FOUND } = require("../models/groups.error.model.json");
+const { DUPLICATE_ENTRY, NOT_SAVED, NOT_FOUND, EMPTY_POLL_NOT_FOUND, NOT_FOUND_GET_ALL } = require("../models/groups.error.model.json");
 
 module.exports = {
     groupsControllerPost: core.middleware([core.logRequest, create]),
@@ -63,7 +63,7 @@ async function getAll(req, res) {
     try {
         const groupsDB = await pool.query(query[0], idEmptyPoll);
         
-        if (!groupsDB.length) throw NOT_FOUND;
+        if (!groupsDB.length) throw NOT_FOUND_GET_ALL;
 
         console.log(groupsDB);
         return res.status(200).send(groupsDB);

@@ -89,7 +89,7 @@ function getAll(req, res) {
             res.status(500).send({ message: 'Error en la petición.' });
         } else {
             if (!services.length) {
-                res.status(404).send({ message: 'No hay Servicios para la institucion, o la institution no existe !!' });
+                res.status(200).send({ message: 'No hay Servicios para la institucion, o la institution no existe !!' });
             } else {
                 return res.status(200).send( services );
             }

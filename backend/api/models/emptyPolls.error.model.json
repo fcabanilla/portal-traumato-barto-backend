@@ -19,6 +19,11 @@
         "description": "No se encontró el Encuesta en Blanco",
         "code": 404
     },
+    "NOT_FOUND_GET_ALL": {
+        "status": "NOT_FOUND",
+        "description": "No se encontró el Encuestas en Blanco",
+        "code": 200
+    },
     "DETAIL_TYPE_PROCEDURE_NOT_FOUND": {
         "status": "DETAIL_TYPE_PROCEDURE_NOT_FOUND",
         "description": "No se encontró el el Detalle de Procedimiento para la Encuesta en Blanco",

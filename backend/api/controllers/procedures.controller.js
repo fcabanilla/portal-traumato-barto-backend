@@ -2,6 +2,8 @@ const core = require("./core.controller.js");
 const pool = require("../../database");
 var jwt = require("jsonwebtoken");
 var sharedSecret = "shh";
+const { query: sql } = require("../models/procedures.model.json");
+
 
 module.exports = {
     proceduresControllerPost: core.middleware([core.logRequest, create]),
@@ -109,58 +111,16 @@ async function create(req, res) {
 
 async function getAll(req, res) {
     // PENDIENTE FORMATEAR EL OBJETO DE SALIDA    
-    const sql = `
-        SELECT DISTINCT
-        p.idprocedure AS "procedureID"
-        , p.description AS "procedureDescription"
-        , p.date AS "procedureDate"
-        , i.name AS "institutionName"
-        , i.display_name AS "institutionDisplayName"
-        , i.country AS "institutionCountry"
-        , i.state AS "institutionState"
-        , i.city AS "institutionCity"
-        , i.direction AS "institutionDirection"
-        , i.type_of_establishment AS "institutionTypeOfEstablishment"
-        , i.description AS "institutionDescription"
-        , s.service_name AS "serviceName"
-        , s.description AS "serviceDescription"
-        , s.service_code AS "serviceCode"
-        , s.owner AS "serviceOwner"
-        , per.dni AS "patientDNI"
-        , per.first_name AS "patientFirstname"
-        , per.last_name AS "patientLastname"
-        , per.birth_date AS "patientBirthdate"
-        , per.sex AS "patientSex"
-        , pa.email AS "patientEmail"
-        , pa.notes AS "patientNotes"
-        , top.description AS "typeOfProcedureDescription"
-        , dtop.description AS "detailTypeOfProcedureDescription"
-        , dtop.detail AS "detailTypeOfProcedureDetail"
-        FROM procedimiento p
-        INNER JOIN institution i ON i.idinstitution = p.idinstitution
-        INNER JOIN service s ON s.idservice = p.idservice
-        INNER JOIN patient pa ON pa.idpatient = p.idpatient
-        INNER JOIN person per ON per.idperson = pa.idperson
-        INNER JOIN detail_type_of_procedure dtop ON dtop.iddetail_type_of_procedure = p.iddetail_type_of_procedure
-        INNER JOIN type_of_procedure top ON top.idtype_of_procedure = dtop.idtype_of_procedure
-        WHERE pa.erased = FALSE 
-            AND top.erased = FALSE 
-            AND dtop.erased = FALSE 
-            AND i.erased = FALSE
-            AND s.erased = FALSE
-            AND p.erased = FALSE
-    `;
+    const query = sql.get;
 
     try {
-
-        results = await pool.query(sql);
+        results = await pool.query(query[0]);
         if (!results.length) {
-            res.status(404).send({ message: "No hay Procedimientos !!" });
+            res.status(200).send({ message: "No hay Procedimientos !!" });
         } else {
             return res.status(200).send( results );
         }
     } catch (err) {
-        // console.log( err.name, err.message);
         if (err.name == 'JsonWebTokenError' && err.message == 'invalid token') {
             res.status(500).send({ message: "Invalid Token" });
         } else {
@@ -173,55 +133,14 @@ async function getAll(req, res) {
 async function get(req, res) {
     // PENDIENTE FORMATEAR EL OBJETO DE SALIDA
     const idProcedure = req.swagger.params.idProcedure.value;
-    const sql = `
-        SELECT DISTINCT
-        p.idprocedure AS "procedureID"
-        , p.description AS "procedureDescription"
-        , p.date AS "procedureDate"
-        , i.name AS "institutionName"
-        , i.display_name AS "institutionDisplayName"
-        , i.country AS "institutionCountry"
-        , i.state AS "institutionState"
-        , i.city AS "institutionCity"
-        , i.direction AS "institutionDirection"
-        , i.type_of_establishment AS "institutionTypeOfEstablishment"
-        , i.description AS "institutionDescription"
-        , s.service_name AS "serviceName"
-        , s.description AS "serviceDescription"
-        , s.service_code AS "serviceCode"
-        , s.owner AS "serviceOwner"
-        , per.dni AS "patientDNI"
-        , per.first_name AS "patientFirstname"
-        , per.last_name AS "patientLastname"
-        , per.birth_date AS "patientBirthdate"
-        , per.sex AS "patientSex"
-        , pa.email AS "patientEmail"
-        , pa.notes AS "patientNotes"
-        , top.description AS "typeOfProcedureDescription"
-        , dtop.description AS "detailTypeOfProcedureDescription"
-        , dtop.detail AS "detailTypeOfProcedureDetail"
-        FROM procedimiento p
-        INNER JOIN institution i ON i.idinstitution = p.idinstitution
-        INNER JOIN service s ON s.idservice = p.idservice
-        INNER JOIN patient pa ON pa.idpatient = p.idpatient
-        INNER JOIN person per ON per.idperson = pa.idperson
-        INNER JOIN detail_type_of_procedure dtop ON dtop.iddetail_type_of_procedure = p.iddetail_type_of_procedure
-        INNER JOIN type_of_procedure top ON top.idtype_of_procedure = dtop.idtype_of_procedure
-        WHERE pa.erased = FALSE 
-            AND top.erased = FALSE 
-            AND dtop.erased = FALSE 
-            AND i.erased = FALSE
-            AND s.erased = FALSE
-            AND p.erased = FALSE
-            AND p.idprocedure = ?
-    `;
+    const query = sql.getId;
     try {
-        results = await pool.query(sql, idProcedure);
+        results = await pool.query(query[0], idProcedure);
         const procedure = results[0];
         if (!results.length) {
             res.status(404).send({ message: "No se encontro el procedimiento." });
         } else {
-            return res.status(200).send({ procedure });
+            return res.status(200).send( procedure );
         }
     } catch (err) {
         res.status(500).send({ message: "Error en la petición.", err });
@@ -232,7 +151,6 @@ async function get(req, res) {
 async function update(req, res) {
     // No actualizar a los que fueron borrados
     // Corroborar si existe el tipo de procedimiento antes de asignarlo
-    // const idTypeProcedure = req.swagger.params.idTypeProcedure.value;
     const idProcedure = req.swagger.params.idProcedure.value;
     const { idDetailTypeProcedure, idPatient, idInstitution, description, idPoll, idService } = req.body;
 

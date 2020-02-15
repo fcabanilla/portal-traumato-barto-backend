@@ -102,12 +102,12 @@ async function getAll(req, res) {
     try {
 
         const tmpPollsDB = await pool.query(query[0], idProcedure);
-        if (!tmpPollsDB.length) throw NOT_FOUND;
+        if (!tmpPollsDB.length) throw NOT_FOUND_GET_ALL;
 
         for (const pollDB of tmpPollsDB) {
             let totalScore = 0;
             const tmpEmptyPollsDB = await pool.query(query[1], pollDB.idempty_poll);
-            if (!tmpEmptyPollsDB.length) throw NOT_FOUND;
+            if (!tmpEmptyPollsDB.length) throw NOT_FOUND_GET_ALL;
 
 
             for (const emptyPollDB of tmpEmptyPollsDB) {
@@ -169,10 +169,6 @@ async function getAll(req, res) {
 
                             tmpSubgroupDB.pollDetail.push(tmpPollDetailDB);
                             totalScore = totalScore + tmpPollDetailDB.score;
-
-
-                            // tmpSubgroupDB.questions.push(tmpQuestionDB);
-                            // idQuestions.push(tmpQuestionDB.idQuestion);
                         }
                         tmpGroupDB.subgroup.push(tmpSubgroupDB);
 

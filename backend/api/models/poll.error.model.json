@@ -28,5 +28,10 @@
         "status": "NOT_FOUND",
         "description": "No se encontró la Encuesta",
         "code": 404
+    },
+    "NOT_FOUND_GET_ALL": {
+        "status": "NOT_FOUND",
+        "description": "No se encontró la Encuesta",
+        "code": 200
     }
 }

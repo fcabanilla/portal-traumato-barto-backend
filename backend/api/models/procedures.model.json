@@ -1,0 +1,29 @@
+{
+    "query": {
+        "post": [
+            "SELECT DISTINCT p.idprocedure AS 'procedureID' , p.description AS 'procedureDescription' , p.date AS 'procedureDate' , i.name AS 'institutionName' , i.display_name AS 'institutionDisplayName' , i.country AS 'institutionCountry' , i.state AS 'institutionState' , i.city AS 'institutionCity' , i.direction AS 'institutionDirection' , i.type_of_establishment AS 'institutionTypeOfEstablishment' , i.description AS 'institutionDescription' , s.service_name AS 'serviceName' , s.description AS 'serviceDescription' , s.service_code AS 'serviceCode' , s.owner AS 'serviceOwner' , per.dni AS 'patientDNI' , per.first_name AS 'patientFirstname' , per.last_name AS 'patientLastname' , per.birth_date AS 'patientBirthdate' , per.sex AS 'patientSex' , pa.email AS 'patientEmail' , pa.notes AS 'patientNotes' , top.description AS 'typeOfProcedureDescription' , dtop.description AS 'detailTypeOfProcedureDescription' , dtop.detail AS 'detailTypeOfProcedureDetail' FROM procedimiento p INNER JOIN institution i ON i.idinstitution = p.idinstitution INNER JOIN service s ON s.idservice = p.idservice INNER JOIN patient pa ON pa.idpatient = p.idpatient INNER JOIN person per ON per.idperson = pa.idperson INNER JOIN detail_type_of_procedure dtop ON dtop.iddetail_type_of_procedure = p.iddetail_type_of_procedure INNER JOIN type_of_procedure top ON top.idtype_of_procedure = dtop.idtype_of_procedure WHERE pa.erased = FALSE AND top.erased = FALSE AND dtop.erased = FALSE AND i.erased = FALSE AND s.erased = FALSE AND p.erased = FALSE",
+            "",
+            ""
+        ],
+        "get": [
+            "SELECT DISTINCT p.idprocedure AS 'procedureID' , p.description AS 'procedureDescription' , p.date AS 'procedureDate' , i.name AS 'institutionName' , i.display_name AS 'institutionDisplayName' , i.country AS 'institutionCountry' , i.state AS 'institutionState' , i.city AS 'institutionCity' , i.direction AS 'institutionDirection' , i.type_of_establishment AS 'institutionTypeOfEstablishment' , i.description AS 'institutionDescription' , s.service_name AS 'serviceName' , s.description AS 'serviceDescription' , s.service_code AS 'serviceCode' , s.owner AS 'serviceOwner' , per.dni AS 'patientDNI' , per.first_name AS 'patientFirstname' , per.last_name AS 'patientLastname' , per.birth_date AS 'patientBirthdate' , per.sex AS 'patientSex' , pa.email AS 'patientEmail' , pa.notes AS 'patientNotes' , top.description AS 'typeOfProcedureDescription' , dtop.description AS 'detailTypeOfProcedureDescription' , dtop.detail AS 'detailTypeOfProcedureDetail' FROM procedimiento p INNER JOIN institution i ON i.idinstitution = p.idinstitution INNER JOIN service s ON s.idservice = p.idservice INNER JOIN patient pa ON pa.idpatient = p.idpatient INNER JOIN person per ON per.idperson = pa.idperson INNER JOIN detail_type_of_procedure dtop ON dtop.iddetail_type_of_procedure = p.iddetail_type_of_procedure INNER JOIN type_of_procedure top ON top.idtype_of_procedure = dtop.idtype_of_procedure WHERE pa.erased = FALSE AND top.erased = FALSE AND dtop.erased = FALSE AND i.erased = FALSE AND s.erased = FALSE AND p.erased = FALSE",
+            "",
+            ""
+        ],
+        "getId": [
+            "SELECT DISTINCT p.idprocedure AS 'procedureID' , p.description AS 'procedureDescription' , p.date AS 'procedureDate' , i.name AS 'institutionName' , i.display_name AS 'institutionDisplayName' , i.country AS 'institutionCountry' , i.state AS 'institutionState' , i.city AS 'institutionCity' , i.direction AS 'institutionDirection' , i.type_of_establishment AS 'institutionTypeOfEstablishment' , i.description AS 'institutionDescription' , s.service_name AS 'serviceName' , s.description AS 'serviceDescription' , s.service_code AS 'serviceCode' , s.owner AS 'serviceOwner' , per.dni AS 'patientDNI' , per.first_name AS 'patientFirstname' , per.last_name AS 'patientLastname' , per.birth_date AS 'patientBirthdate' , per.sex AS 'patientSex' , pa.email AS 'patientEmail' , pa.notes AS 'patientNotes' , top.description AS 'typeOfProcedureDescription' , dtop.description AS 'detailTypeOfProcedureDescription' , dtop.detail AS 'detailTypeOfProcedureDetail' FROM procedimiento p INNER JOIN institution i ON i.idinstitution = p.idinstitution INNER JOIN service s ON s.idservice = p.idservice INNER JOIN patient pa ON pa.idpatient = p.idpatient INNER JOIN person per ON per.idperson = pa.idperson INNER JOIN detail_type_of_procedure dtop ON dtop.iddetail_type_of_procedure = p.iddetail_type_of_procedure INNER JOIN type_of_procedure top ON top.idtype_of_procedure = dtop.idtype_of_procedure WHERE pa.erased = FALSE AND top.erased = FALSE AND dtop.erased = FALSE AND i.erased = FALSE AND s.erased = FALSE AND p.erased = FALSE AND p.idprocedure = ?",
+            "",
+            ""
+        ],
+        "put": [
+            "UPDATE procedimiento SET ? WHERE idprocedure = ?",
+            "",
+            ""
+        ],
+        "delete": [
+            "",
+            "",
+            ""
+        ]
+    }
+}
