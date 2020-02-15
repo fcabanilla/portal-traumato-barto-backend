@@ -17,7 +17,8 @@ module.exports = {
 };
 
 async function create(req, res) {
-    const { idDetailTypeProcedure, idPatient, idInstitution, description, idService} = req.body;
+    const idDetailTypeProcedure = req.swagger.params.idDetailTypeProcedure.value;
+    const { idPatient, idInstitution, description, idService} = req.body;
     let token = req.headers.authorization.split(' ')[1];
     token = await jwt.verify(token, sharedSecret);
 
@@ -110,11 +111,13 @@ async function create(req, res) {
 }
 
 async function getAll(req, res) {
-    // PENDIENTE FORMATEAR EL OBJETO DE SALIDA    
+    // PENDIENTE FORMATEAR EL OBJETO DE SALIDA
+    const idDetailTypeProcedure = req.swagger.params.idDetailTypeProcedure.value;
+
     const query = sql.get;
 
     try {
-        results = await pool.query(query[0]);
+        results = await pool.query(query[0], idDetailTypeProcedure);
         if (!results.length) {
             res.status(200).send({ message: "No hay Procedimientos !!" });
         } else {
@@ -133,9 +136,10 @@ async function getAll(req, res) {
 async function get(req, res) {
     // PENDIENTE FORMATEAR EL OBJETO DE SALIDA
     const idProcedure = req.swagger.params.idProcedure.value;
+    const idDetailTypeProcedure = req.swagger.params.idDetailTypeProcedure.value;
     const query = sql.getId;
     try {
-        results = await pool.query(query[0], idProcedure);
+        results = await pool.query(query[0], [idProcedure, idDetailTypeProcedure]);
         const procedure = results[0];
         if (!results.length) {
             res.status(404).send({ message: "No se encontro el procedimiento." });
@@ -152,7 +156,9 @@ async function update(req, res) {
     // No actualizar a los que fueron borrados
     // Corroborar si existe el tipo de procedimiento antes de asignarlo
     const idProcedure = req.swagger.params.idProcedure.value;
-    const { idDetailTypeProcedure, idPatient, idInstitution, description, idPoll, idService } = req.body;
+    const idDetailTypeProcedure = req.swagger.params.idDetailTypeProcedure.value;
+
+    const { idPatient, idInstitution, description, idPoll, idService } = req.body;
 
     const newProcedure = {
         iddetail_type_of_procedure: idDetailTypeProcedure,
@@ -187,9 +193,11 @@ async function deleteProcedure(req, res) {
     // Corroborar si existe el tipo de procedimiento antes de asignarlo
     // const idTypeProcedure = req.swagger.params.idTypeProcedure.value;
     const idProcedure = req.swagger.params.idProcedure.value;
-    const sql = `UPDATE procedimiento SET ERASED = TRUE WHERE idprocedure = ?`;
+    const idDetailTypeProcedure = req.swagger.params.idDetailTypeProcedure.value;
+
+    const sql = `UPDATE procedimiento SET ERASED = TRUE WHERE idprocedure = ? AND dtop.iddetail_type_of_procedure = ?`;
     try {
-        result = await pool.query(sql, [idProcedure]);
+        result = await pool.query(sql, [idProcedure, idDetailTypeProcedure]);
         if (!result.changedRows) {
             res.status(404).send({ message: 'No se encontro el procedimiento.' });
         } else {
