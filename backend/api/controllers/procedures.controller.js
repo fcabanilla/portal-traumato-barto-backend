@@ -195,7 +195,7 @@ async function deleteProcedure(req, res) {
     const idProcedure = req.swagger.params.idProcedure.value;
     const idDetailTypeProcedure = req.swagger.params.idDetailTypeProcedure.value;
 
-    const sql = `UPDATE procedimiento SET ERASED = TRUE WHERE idprocedure = ? AND dtop.iddetail_type_of_procedure = ?`;
+    const sql = `UPDATE procedimiento SET ERASED = TRUE WHERE idprocedure = ? AND iddetail_type_of_procedure = ?`;
     try {
         result = await pool.query(sql, [idProcedure, idDetailTypeProcedure]);
         if (!result.changedRows) {
