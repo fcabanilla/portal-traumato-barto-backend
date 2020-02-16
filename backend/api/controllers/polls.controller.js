@@ -3,7 +3,7 @@ const pool = require("../../database");
 const { query: sql } = require("../models/poll.model.json");
 var jwt = require("jsonwebtoken");
 var sharedSecret = "shh";
-const { DUPLICATE_ENTRY, NOT_SAVED, NOT_FOUND, PROCEDURE_NOT_FOUND, QUESTION_ANSWER_NOT_FOUND, EMPTY_POLL_NOT_FOUND } = require("../models/poll.error.model.json");
+const { DUPLICATE_ENTRY, NOT_SAVED, NOT_FOUND, PROCEDURE_NOT_FOUND, QUESTION_ANSWER_NOT_FOUND, EMPTY_POLL_NOT_FOUND, NOT_FOUND_GET_ALL } = require("../models/poll.error.model.json");
 
 module.exports = {
     pollsControllerPost: core.middleware([core.logRequest, create]),
