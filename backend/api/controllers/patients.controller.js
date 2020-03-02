@@ -111,7 +111,7 @@ function get(req, res) {
 
 function update(req, res) {
     const idPatient = req.swagger.params.idpatient.value;
-    const { dni, firstname, lastname, birthdate, sex, notes, email } = req.body;
+    const { dni, firstname, lastname, birthdate, sex, notes, email, weight, size } = req.body;
     pool.query(`SELECT * FROM patient WHERE erased = FALSE AND idPatient = ?`, [idPatient], function (err, result, fields) {
         if (err) {
             console.log("err:", { err });
