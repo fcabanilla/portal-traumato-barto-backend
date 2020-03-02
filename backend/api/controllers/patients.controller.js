@@ -136,7 +136,6 @@ function update(req, res) {
                         res.status(500).send({ message: 'Error en la petición.', err });
                     } else {
                         let newPatient = {
-                            idPerson: null,
                             notes,
                             email,
                             erased: false,
