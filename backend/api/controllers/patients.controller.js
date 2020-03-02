@@ -11,8 +11,16 @@ module.exports = {
     patientsControllerPut: core.middleware([core.logRequest, update]),
 }
 
+function onlyNotUndefined(tmp) {
+    const notUndefinedObj = {};
+    Object.keys(tmp).forEach(function (key) {
+        if (!(tmp[key] === undefined)) notUndefinedObj[key] = tmp[key];
+    });
+    return notUndefinedObj;
+}
+
 function create(req, res) {
-    const { dni, firstname, lastname, birthdate, sex, notes, email } = req.body;
+    const { dni, firstname, lastname, birthdate, sex, notes, email, weight, size } = req.body;
     const newPerson = {
         idPerson: null,
         dni,
@@ -21,13 +29,17 @@ function create(req, res) {
         birth_date: birthdate,
         sex
     };
-    const newPatient = {
+    let newPatient = {
         idPerson: null,
         notes,
         email,
-        erased: false
+        erased: false,
+        weight,
+        size
     };
-    console.log(newPatient);
+    // console.log(newPatient);
+
+    newPatient = onlyNotUndefined(newPatient);
 
     pool.query('INSERT INTO person set ?', [newPerson], function (err, result, fields) {
         if (err) {
@@ -123,13 +135,17 @@ function update(req, res) {
                         console.log(`Err:`, { err });
                         res.status(500).send({ message: 'Error en la petición.', err });
                     } else {
-
-                        const newPatient = {
-                            idPerson: result[0].idperson,
+                        let newPatient = {
+                            idPerson: null,
                             notes,
                             email,
-                            erased: false
+                            erased: false,
+                            weight,
+                            size
                         };
+                        // console.log(newPatient);
+
+                        newPatient = onlyNotUndefined(newPatient);
                         pool.query(`UPDATE patient set ? WHERE idPatient = ?`, [newPatient, idPatient], function (err, patientUpdated, fields) {
                             if (err) {
                                 console.log(`Err:`, { err });
