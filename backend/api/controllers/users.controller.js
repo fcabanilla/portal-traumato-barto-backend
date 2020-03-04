@@ -4,7 +4,7 @@ const pool = require('../../database');
 const bcrypt = require('bcryptjs');
 const salt = bcrypt.genSaltSync(10);
 const { query: sql } = require("../models/user.model.json");
-const { DUPLICATE_ENTRY, NOT_SAVED, NOT_FOUND, PERSON_NOT_FOUND } = require("../models/user.error.model.json");
+const { DUPLICATE_ENTRY, NOT_SAVED, NOT_FOUND, PERSON_NOT_FOUND, ROLE_NOT_FOUND } = require("../models/user.error.model.json");
 
 
 module.exports = {
@@ -38,18 +38,55 @@ function errorHandler(err, res) {
 
 async function loginPost(req, res, next) {
     const { username, password } = req.body;
+    const query = sql.login;
     const user = {
         username,
-        password,
-        role: "fede"
+        password
     }
-    const sql = `
-        SELECT *
-        FROM mydb.person p  
-        INNER JOIN user u on u.idPerson = p.idperson
-        WHERE u.username = ? AND u.erased = FALSE
-    `;
-    pool.query(sql, [user.username], (err, result ) => {
+    // const sql = `
+    //     SELECT *
+    //     FROM mydb.person p  
+    //     INNER JOIN user u on u.idPerson = p.idperson
+    //     WHERE u.username = ? AND u.erased = FALSE
+    // `;
+
+    try {
+        const roleDB = (await pool.query(query[0], username))[0];
+        // if (!roleDB.length) throw ROLE_NOT_FOUND;
+        // console.log('Role', roleDB[0].role );
+        console.log('Role', roleDB );
+
+        userDB = (await pool.query(query[1], username))[0];
+        if(!userDB) ;//throw PERSON_NOT_FOUND;
+        console.log({ userDB });
+
+        const tokenPayload = {
+            idUser: userDB.iduser,
+            username: userDB.username,
+            role: roleDB.role
+        };
+        console.log({ tokenPayload });
+        
+
+        const str = ''
+        tokenPayload.fullname = str.concat(userDB.first_name, userDB.first_name);
+
+        if (bcrypt.compareSync(user.password, userDB.password)) {
+            const tokenString = auth.issueToken(tokenPayload);
+            const response = { token: tokenString };
+            console.log({ token: tokenString });
+            res.writeHead(200, { "Content-Type": "application/json" });
+            return res.end(JSON.stringify(response));
+        } else {
+            const response = { message: "Error: Credentials incorrect" };
+            res.writeHead(403, { "Content-Type": "application/json" });
+            return res.end(JSON.stringify(response));
+        }
+    } catch (err) {
+        errorHandler(err, res);
+        
+    }/*
+    pool.query(query, [user.username], (err, result ) => {
         console.log('****** result', result);
         
         
@@ -73,9 +110,6 @@ async function loginPost(req, res, next) {
             };
             const str = ''
             tokenPayload.fullname = str.concat(userDB.first_name, userDB.first_name);
-            
-            
-
             if (bcrypt.compareSync(user.password, userDB.password)) {
                 const tokenString = auth.issueToken(tokenPayload);
                 const response = { token: tokenString };
@@ -89,12 +123,9 @@ async function loginPost(req, res, next) {
             }
         }
         // console.log({fields :fields});
-    });
+    });*/
 
     // console.log("User: ", user);
-
-
-
 };
 
 function create(req, res) {

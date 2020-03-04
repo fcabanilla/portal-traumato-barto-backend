@@ -1,5 +1,10 @@
 {
     "query": {
+        "login": [
+            "select u.username AS username, u.idrole AS idRole, r.description AS role FROM user u INNER JOIN role r ON r.idrole = u.idrole WHERE u.username = ?;",
+            "SELECT * FROM mydb.person p INNER JOIN user u on u.idPerson = p.idperson WHERE u.username = ? AND u.erased = FALSE",
+            ""
+        ],
         "post": [
             "",
             "",
