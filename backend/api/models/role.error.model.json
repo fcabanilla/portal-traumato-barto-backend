@@ -1,9 +1,4 @@
 {
-    "DUPLICATE_ROLE": {
-        "status": "DUPLICATE_ROLE",
-        "description": "El Rol ya existe",
-        "code": 409
-    },
     "DUPLICATE_ENTRY": {
         "status": "DUPLICATE_ENTRY",
         "description": "El Grupo ya existe",
@@ -18,10 +13,5 @@
         "status": "NOT_FOUND",
         "description": "No se encontró el Grupo",
         "code": 404
-    },
-    "NOT_FOUND_GET_ALL": {
-        "status": "NOT_FOUND_GET_ALL",
-        "description": "No se encontró ningun Grupo",
-        "code": 200
     }
 }

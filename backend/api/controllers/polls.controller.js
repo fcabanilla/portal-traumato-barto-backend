@@ -12,7 +12,6 @@ module.exports = {
     pollsControllerPut: core.middleware([core.logRequest, update]),
     pollsControllerDelete: core.middleware([core.logRequest, deletePoll])
 };
-
 function onlyNotUndefined(tmp) {
     const notUndefinedObj = {};
     Object.keys(tmp).forEach(function (key) {
@@ -20,7 +19,6 @@ function onlyNotUndefined(tmp) {
     });
     return notUndefinedObj;
 }
-
 function errorHandler(err, res) {
     if (err.status != undefined) {
         console.log(err.description);

@@ -147,6 +147,97 @@ paths:
           description: "Access Denied"
           schema:
             $ref: "#/definitions/Error"
+  /roles:
+    x-swagger-router-controller: roles.controller
+    post:
+      tags:
+        - Roles
+      operationId: rolesControllerPost
+      description: "Create User"
+      parameters:
+        - name: authentication
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        "201":
+          description: "Created"
+        "403":
+          description: "Access Denied"
+    get:
+      tags:
+        - Roles
+      operationId: rolesControllerGet
+      summary: "Get All The Roles"
+      description: "Get all the Roles"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: '#/definitions/User'
+        403:
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+  /roles/{idRole}:
+    x-swagger-router-controller: roles.controller
+    parameters:
+      - name: idRole
+        in: path
+        description: "ID of the Role"
+        required: true
+        type: string
+    get:
+      tags:
+        - Roles
+      operationId: rolesControllerGetId
+      summary: "Get an Role"
+      description: "Get only one Role"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: '#/definitions/Role'
+        403:
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+    
+    put:
+      tags:
+        - Roles
+      operationId: rolesControllerPut
+      summary: "Update an Role"
+      description: "Update only one Role"
+      parameters:
+        - name: Role
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Role'
+      responses:
+        200:
+          description: "Success"
+        403:
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+    
+    delete:
+      tags:
+        - Roles
+      operationId: rolesControllerDelete
+      summary: "Delete an Role"
+      description: "Delete only one Role"
+      responses:
+        200:
+          description: "Success"
+        403:
+          description: "Access Denied"
+          schema:
+            $ref: '#/definitions/Error'
+
   /typesOfAnswers:
     x-swagger-router-controller: typesOfAnswers.controller
     post:

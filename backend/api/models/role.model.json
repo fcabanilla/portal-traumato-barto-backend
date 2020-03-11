@@ -1,0 +1,29 @@
+{
+    "query": {
+        "post": [
+            "SELECT * FROM role r WHERE r.name = ?",
+            "INSERT INTO role SET ?",
+            ""
+        ],
+        "get": [
+            "SELECT * FROM role r WHERE erased = FALSE",
+            "",
+            ""
+        ],
+        "getId": [
+            "",
+            "",
+            ""
+        ],
+        "put": [
+            "",
+            "",
+            ""
+        ],
+        "delete": [
+            "",
+            "",
+            ""
+        ]
+    }
+}

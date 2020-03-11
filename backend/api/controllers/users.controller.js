@@ -57,7 +57,7 @@ async function loginPost(req, res, next) {
         console.log('Role', roleDB );
 
         userDB = (await pool.query(query[1], username))[0];
-        if(!userDB) ;//throw PERSON_NOT_FOUND;
+        if(!userDB) throw PERSON_NOT_FOUND;
         console.log({ userDB });
 
         const tokenPayload = {
