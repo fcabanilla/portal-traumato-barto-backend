@@ -21,7 +21,7 @@
             ""
         ],
         "delete": [
-            "",
+            "UPDATE role SET erased = TRUE WHERE idRole = ?",
             "",
             ""
         ]

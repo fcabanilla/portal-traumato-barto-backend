@@ -110,8 +110,11 @@ async function update(req, res) {
 }
 async function deleteRole(req, res) {
     const query = sql.delete;
+    const idRole = req.swagger.params.idRole.value;
     try {
-        
+        const roleSaved = await pool.query(query[0], idRole);
+        if (!roleSaved.affectedRows) throw NOT_UPDATED;
+        res.status(201).send({ message: "Se eliminó el rol" });
     } catch (err) {
         errorHandler(err, res);
     }
