@@ -11,7 +11,7 @@
             ""
         ],
         "getId": [
-            "",
+            "SELECT * FROM role r WHERE idrole = ? AND erased = FALSE",
             "",
             ""
         ],

@@ -74,8 +74,16 @@ async function getAll(req, res) {
 }
 async function get(req, res) {
     const query = sql.getId;
+    const idRole = req.swagger.params.idRole.value;
+
     try {
-        
+        const tmpRoleDB = await pool.query(query[0], idRole);
+        console.log('*********', tmpRoleDB);
+
+        if (!tmpRoleDB.length) throw NOT_FOUND;
+
+        return res.status(200).send(tmpRoleDB);
+
     } catch (err) {
         errorHandler(err, res);
     }
