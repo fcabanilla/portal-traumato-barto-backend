@@ -16,7 +16,7 @@
             ""
         ],
         "put": [
-            "",
+            "UPDATE role SET ? WHERE idRole = ?",
             "",
             ""
         ],

@@ -90,8 +90,20 @@ async function get(req, res) {
 }
 async function update(req, res) {
     const query = sql.put;
+    const idRole = req.swagger.params.idRole.value;
+    const { role, roleDescription, idPermissions = 0, specialPermission = null } = req.body;
+
+    let newRole = {
+        idpermissions: idPermissions,
+        name: role,
+        description: roleDescription,
+        special_permission: specialPermission
+    };
+    newRole = onlyNotUndefined(newRole);
     try {
-        
+        const roleSaved = await pool.query(query[0], [ newRole, idRole ]);
+        if (!roleSaved.affectedRows) throw NOT_UPDATED;
+        res.status(201).send({ message: "Se actualizó el rol" });
     } catch (err) {
         errorHandler(err, res);
     }
