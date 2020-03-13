@@ -128,8 +128,10 @@ async function loginPost(req, res, next) {
     // console.log("User: ", user);
 };
 
-function create(req, res) {
-    const { /*idPerson,*/ dni, firstname, lastname, birthdate, sex, username, password, email} = req.body;
+async function create(req, res) {
+    const { /*idPerson,*/ idRole, dni, firstname, lastname, birthdate, sex, username, password, email} = req.body;
+    const query = sql.post;
+
     const newPerson = {
         idPerson: null,
         dni,
@@ -138,15 +140,55 @@ function create(req, res) {
         birth_date: birthdate,
         sex
     };
-    const newUser = {
+    let newUser = {
         idPerson: null,
         username,
         password: bcrypt.hashSync(password, salt),
         email,
         erased: false  
     };
-    console.log(newUser);  
+    console.log(newUser);
+
+
+    try {
+        const tmpRoleDB = (await pool.query(query[0], idRole))[0];
+        if(!tmpRoleDB) console.log("No se encontró ROLE");
+        console.log({ tmpRoleDB });
+        
+        
+        newUser.idRole = tmpRoleDB.idrole;
+        newUser.role = tmpRoleDB.name;
+
+        console.log("NEW USER*************", newUser);
+        
+
+        const personSaved = await pool.query(query[1], newPerson);
+        if(!personSaved.affectedRows) console.log("No se guardó la persona");
+        console.log({ personSaved });
+        
+
+        const tmpPersonDB = await pool.query(query[2], newPerson.dni);
+        if(!tmpPersonDB.length) console.log("No se encontró la persona");
+        console.log({ tmpPersonDB });
+        
+        
+        newUser.idPerson = tmpPersonDB[0].idPerson;
+
+        const userSaved = await pool.query(query[3], newUser);
+        if(!userSaved.affectedRows) console.log("No se guardó el usuario");
+        console.log({ userSaved });
+        
+
+        
+        res.sendStatus(200);
+
+    } catch (err) {
+        console.log(err);        
+    }
     
+
+/*
+
     pool.query('INSERT INTO person set ?', [newPerson], function(err, result, fields) {
         if (err) {
             if (err === 'ER_DUP_ENTRY') {
@@ -178,6 +220,7 @@ function create(req, res) {
             });
         }
     })    
+    */
 }
 
 function getAll(req, res) {

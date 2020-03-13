@@ -6,7 +6,10 @@
             ""
         ],
         "post": [
-            "",
+            "SELECT * FROM role WHERE idRole = ? AND erased = false",
+            "INSERT INTO person set ?",
+            "SELECT idPerson FROM person WHERE dni = ?",
+            "INSERT INTO user SET ?",
             "",
             ""
         ],
