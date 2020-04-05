@@ -227,7 +227,7 @@ function get(req, res) {
     });
 }
 
-function update(req, res) {
+async function update(req, res) {
     const idUser = req.swagger.params.idUser.value;
     const { dni, firstname, lastname, birthdate, sex, username, password, email } = req.body;
     const query = sql.post;
