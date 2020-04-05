@@ -24,9 +24,10 @@
             ""
         ],
         "put": [
-            "",
-            "",
-            ""
+            "SELECT * FROM role WHERE idRole = ? AND erased = false",
+            "SELECT * FROM user WHERE erased = FALSE AND idUser = ?",
+            "UPDATE person set ? WHERE idPerson = ?",
+            "UPDATE user set ? WHERE idUser = ?"
         ],
         "delete": [
             "SELECT idperson FROM user WHERE iduser = ? AND erased = FALSE",

@@ -230,7 +230,11 @@ function get(req, res) {
 async function update(req, res) {
     const idUser = req.swagger.params.idUser.value;
     const { dni, firstname, lastname, birthdate, sex, username, password, email, idRole } = req.body;
-    const query = sql.post;
+    // const query = sql.post;
+    const query = sql.put;
+
+    console.log(query);
+    
     
     const tmpPerson = {
         dni,
@@ -249,21 +253,35 @@ async function update(req, res) {
     const newPerson = onlyNotUndefined(tmpPerson);
     const newUser = onlyNotUndefined(tmpUser);
 
-    console.log("newPerson", newPerson);
-    console.log("newUser", newUser);
+    try {
+        if (idRole) {
+            const tmpRoleDB = (await pool.query(query[0], idRole))[0];
+            if (!tmpRoleDB) console.log("No se encontró ROLE"); //throw ROLE_NOT_FOUND;    
+            newUser.idRole = tmpRoleDB.idrole;
+            newUser.role = tmpRoleDB.name;
+        }
+        
 
-    const sql_1 = `
-        SELECT * FROM user 
-        WHERE erased = FALSE AND idUser = ?
-    `;
+        const tmpUserDB = (await pool.query(query[1], idUser))[0];
+        if(!tmpUserDB) console.log("No se encontró el usuario"); //throw USER_NOT_FOUND;
+        newPerson.idPerson = tmpUserDB.idperson;
+        console.log(newPerson);
 
-    const tmpRoleDB = (await pool.query(query[0], idRole))[0];
-    if (!tmpRoleDB) console.log("No se encontró ROLE");
-    console.log({ tmpRoleDB });
+        const updatedPerson = await pool.query(query[2], [newPerson, newPerson.idPerson]);
+        if(!updatedPerson.affectedRows) console.log("No se actualizo la Persona"); //throw PERSON_NOT_UPDATED
+        
+        const updatedUser = await pool.query(query[3], [newUser, idUser]);
+        if (!updatedUser.affectedRows) console.log("No se actualizo el Usuario"); //throw USER_NOT_UPDATED
+        
+        res.status(200).send({ message: 'Se actualizo el Usuario' });
+        
+    } catch (err) {
+        console.log(err);
+        
+    }
+/*
+    console.log("**************************************",{ tmpRoleDB });
 
-
-    newUser.idRole = tmpRoleDB.idrole;
-    newUser.role = tmpRoleDB.name;
 
     console.log("NEW USER*************", newUser);
 
@@ -292,7 +310,6 @@ async function update(req, res) {
                                 console.log(`Err:`, { err });
                                 res.status(500).send({ message: 'Error en la petición.', err });
                             } else {
-                                res.status(200).send({ message: 'Se actualizo el Usuario' });
                             }
                         });
 
@@ -300,7 +317,7 @@ async function update(req, res) {
                 });
             }
         }
-    });
+    });*/
 }
 
 async function deleteUser(req, res) {
