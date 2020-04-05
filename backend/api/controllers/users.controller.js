@@ -185,42 +185,6 @@ async function create(req, res) {
     } catch (err) {
         console.log(err);        
     }
-    
-
-/*
-
-    pool.query('INSERT INTO person set ?', [newPerson], function(err, result, fields) {
-        if (err) {
-            if (err === 'ER_DUP_ENTRY') {
-                console.log(`Duplicate entry`);
-                res.sendStatus(500);
-            }
-            console.log('Primer error, no se inserto la persona', err);
-            res.sendStatus(500);
-        } else {
-            pool.query('SELECT idPerson FROM person WHERE dni = ?', [newPerson.dni], function (err, result, fields){
-                if (err){
-                    if (err === 'ER_DUP_ENTRY') {
-                        console.log(`Duplicate entry`);
-                        res.sendStatus(500);
-                    }
-                    console.log('Segundo error, no se pudo seleccionar el uuid', err);
-                    res.sendStatus(500)
-                }
-                newUser.idPerson = result[0].idPerson;
-                pool.query('INSERT INTO user SET ?', [newUser], function (err, result, fields) {
-                    if (err) {
-                        console.log('Tercer error, no se pudo hacer insert del usuario');
-                        console.log("Err: ", err);
-                        res.sendStatus(500);
-                    } else {
-                        res.sendStatus(200);
-                    }                    
-                });
-            });
-        }
-    })    
-    */
 }
 
 function getAll(req, res) {
@@ -266,6 +230,7 @@ function get(req, res) {
 function update(req, res) {
     const idUser = req.swagger.params.idUser.value;
     const { dni, firstname, lastname, birthdate, sex, username, password, email } = req.body;
+    const query = sql.post;
     
     const tmpPerson = {
         dni,
@@ -291,6 +256,17 @@ function update(req, res) {
         SELECT * FROM user 
         WHERE erased = FALSE AND idUser = ?
     `;
+
+    const tmpRoleDB = (await pool.query(query[0], idRole))[0];
+    if (!tmpRoleDB) console.log("No se encontró ROLE");
+    console.log({ tmpRoleDB });
+
+
+    newUser.idRole = tmpRoleDB.idrole;
+    newUser.role = tmpRoleDB.name;
+
+    console.log("NEW USER*************", newUser);
+
     pool.query(sql, [idUser],  (err, result) => {
         if (err) {
             console.log("err:", { err });
