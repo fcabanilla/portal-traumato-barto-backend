@@ -229,7 +229,7 @@ function get(req, res) {
 
 async function update(req, res) {
     const idUser = req.swagger.params.idUser.value;
-    const { dni, firstname, lastname, birthdate, sex, username, password, email } = req.body;
+    const { dni, firstname, lastname, birthdate, sex, username, password, email, idRole } = req.body;
     const query = sql.post;
     
     const tmpPerson = {
@@ -252,7 +252,7 @@ async function update(req, res) {
     console.log("newPerson", newPerson);
     console.log("newUser", newUser);
 
-    const sql = `
+    const sql_1 = `
         SELECT * FROM user 
         WHERE erased = FALSE AND idUser = ?
     `;
@@ -267,7 +267,7 @@ async function update(req, res) {
 
     console.log("NEW USER*************", newUser);
 
-    pool.query(sql, [idUser],  (err, result) => {
+    pool.query(sql_1, [idUser],  (err, result) => {
         if (err) {
             console.log("err:", { err });
             res.status(500).send({ message: 'Error en la petición.', err });
