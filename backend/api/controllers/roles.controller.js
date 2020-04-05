@@ -1,7 +1,7 @@
 const core = require("./core.controller.js");
 const pool = require("../../database");
 const { query: sql } = require("../models/role.model.json");
-const { DUPLICATE_ROLE, DUPLICATE_ENTRY, NOT_SAVED, NOT_FOUND, NOT_FOUND_GET_ALL } = require("../models/role.error.model.json");
+const { DUPLICATE_ROLE, NOT_UPDATED, DUPLICATE_ENTRY, NOT_SAVED, NOT_FOUND, NOT_FOUND_GET_ALL } = require("../models/role.error.model.json");
 
 module.exports = {
     rolesControllerPost:    core.middleware([core.logRequest, create]),
@@ -89,17 +89,41 @@ async function get(req, res) {
     }
 }
 async function update(req, res) {
+    /*
+      {
+    "idrole": "d0d67616-64ba-11ea-97e8-f8da0c66fd91",
+    "idpermissions": "0",
+    "description": "Role for Developers",
+    "name": "DEV",
+    "special_permission": null,
+    "erased": 0
+  }
+    */ 
     const query = sql.put;
     const idRole = req.swagger.params.idRole.value;
-    const { role, roleDescription, idPermissions = 0, specialPermission = null } = req.body;
-
+    const { name, description, idPermissions = 0, specialPermission = null } = req.body;
+    // const { role, roleDescription, idPermissions = 0, specialPermission = null } = req.body;
+    console.log("*******ID ROLE*********", idRole);
+    
+    /*
     let newRole = {
         idpermissions: idPermissions,
         name: role,
         description: roleDescription,
         special_permission: specialPermission
     };
+    */
+    
+    let newRole = {
+        idpermissions: idPermissions,
+        name,
+        description,
+        special_permission: specialPermission
+    };
+
+    console.log("*******NEW ROLE*********", newRole);
     newRole = onlyNotUndefined(newRole);
+    console.log("*******NEW ROLE After*********", newRole);
     try {
         const roleSaved = await pool.query(query[0], [ newRole, idRole ]);
         if (!roleSaved.affectedRows) throw NOT_UPDATED;

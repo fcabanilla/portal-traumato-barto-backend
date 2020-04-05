@@ -29,7 +29,7 @@ async function create(req, res) {
         idPatient,
         idInstitution,
         idService,
-        idUser: token.iduser,
+        idUser: token.idUser,
         description
     };
     console.log(newProcedure);

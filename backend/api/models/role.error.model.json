@@ -11,7 +11,17 @@
     },
     "NOT_FOUND": {
         "status": "NOT_FOUND",
-        "description": "No se encontró el Grupo",
+        "description": "No se encontró el Rol",
         "code": 404
+    },
+    "NOT_FOUND_GET_ALL": {
+        "status": "NOT_FOUND_GET_ALL",
+        "description": "No se encontró ningun Rol",
+        "code": 200
+    },
+    "NOT_UPDATED": {
+        "status": "NOT_UPDATED",
+        "description": "No se encontró actualizó Rol",
+        "code": 200
     }
 }
