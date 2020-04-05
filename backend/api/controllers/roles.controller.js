@@ -64,7 +64,7 @@ async function getAll(req, res) {
         const tmpRolesDB = await pool.query(query[0]);
         console.log('*********', tmpRolesDB);
         
-        if(!tmpRolesDB.length) throw NOT_FOUND_GET_ALL;
+        if(!tmpRolesDB.length) //throw NOT_FOUND_GET_ALL;
         
         return res.status(200).send(tmpRolesDB);
 
@@ -80,7 +80,7 @@ async function get(req, res) {
         const tmpRoleDB = await pool.query(query[0], idRole);
         console.log('*********', tmpRoleDB);
 
-        if (!tmpRoleDB.length) throw NOT_FOUND;
+        if (!tmpRoleDB.length) //throw NOT_FOUND;
 
         return res.status(200).send(tmpRoleDB);
 
