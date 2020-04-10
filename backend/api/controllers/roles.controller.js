@@ -101,25 +101,25 @@ async function update(req, res) {
     */ 
     const query = sql.put;
     const idRole = req.swagger.params.idRole.value;
-    const { name, description, idPermissions = 0, specialPermission = null } = req.body;
-    // const { role, roleDescription, idPermissions = 0, specialPermission = null } = req.body;
+    // const { name, description, idPermissions = 0, specialPermission = null } = req.body;
+    const { role, roleDescription, idPermissions = 0, specialPermission = null } = req.body;
     console.log("*******ID ROLE*********", idRole);
     
-    /*
+    
     let newRole = {
         idpermissions: idPermissions,
         name: role,
         description: roleDescription,
         special_permission: specialPermission
     };
-    */
     
-    let newRole = {
-        idpermissions: idPermissions,
-        name,
-        description,
-        special_permission: specialPermission
-    };
+    
+    // let newRole = {
+    //     idpermissions: idPermissions,
+    //     name,
+    //     description,
+    //     special_permission: specialPermission
+    // };
 
     console.log("*******NEW ROLE*********", newRole);
     newRole = onlyNotUndefined(newRole);
