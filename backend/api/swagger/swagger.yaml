@@ -338,13 +338,7 @@ paths:
     post:
       tags:
         - Polls
-      security:
-        - Bearer: []
-      x-security-scopes:
-        - admin
-        - user
-        - dev
-        - fede
+
       operationId: pollsControllerPost
       summary: "Create Poll"
       description: "Create a new Poll"

@@ -45,10 +45,17 @@ async function create(req, res) {
         description: typeOfPoll
     };
     try {
+
+        let header = req.headers.authorization;
+        console.log("********!! HEADERS !!********", header);
+         
         let token = req.headers.authorization.split(' ')[1];
         token = await jwt.verify(token, sharedSecret);
         
-        newPoll.idUser_Author = token.iduser;
+        console.log({token});
+        
+        newPoll.idUser_Author = token.idUser;
+
 
 
         const procedureDB = await pool.query(query[0], idProcedure);
